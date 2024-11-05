@@ -1,0 +1,18 @@
+{
+  "name": "샀다치고 가계부!",
+  "short_name": "샀다치고",
+  "description": "샀다치고 가계부!",
+  "theme_color": "#ffc211",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "scope": "./",
+  "start_url": "./",
+  "icons": [
+    {
+      "src": "./icons/symbol.svg",
+      "sizes": "72x72 96x96 128x128 144x144 152x152 192x192 384x384 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable any"
+    }
+  ]
+}

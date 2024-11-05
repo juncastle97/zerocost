@@ -1,0 +1,6 @@
+.page {
+  background-color: blue;
+  @include respondTo(small) {
+    background-color: red;
+  }
+}
