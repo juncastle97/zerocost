@@ -1,0 +1,82 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/pretendard/1.3.7/static/pretendard-dynamic-subset.css");
+
+@font-face {
+  font-family: "UhBeeSe_hyun";
+  src: url("https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LeeSeoyun";
+  src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2202-2@1.0/LeeSeoyun.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+$font-main: "UhBeeSe_hyun", sans-serif;
+
+@mixin heading($size, $weight: 700) {
+  font-family: "UhBeeSe_hyun";
+  font-size: $size + px;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: normal;
+  color: #000;
+}
+
+@mixin h1 {
+  @include heading(80);
+}
+
+@mixin h2 {
+  @include heading(54);
+}
+
+@mixin h3 {
+  @include heading(40);
+}
+
+@mixin h4 {
+  @include heading(32);
+}
+
+@mixin h5 {
+  @include heading(24);
+}
+
+@mixin h6 {
+  @include heading(20);
+}
+
+@mixin subtitle {
+  @include heading(18, 400);
+}
+
+@mixin body($size, $weight: 400) {
+  font-family: "LeeSeoyun";
+  font-size: $size + px;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: 160%;
+  color: #000;
+}
+
+@mixin body1 {
+  @include body(18);
+}
+
+@mixin body2 {
+  @include body(16);
+}
+
+@mixin small {
+  font-family: "LeeSeoyun";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  color: #000;
+}
