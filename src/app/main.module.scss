@@ -1,6 +1,12 @@
 .page {
-  background-color: blue;
+  background-color: $orange-50;
   @include respondTo(small) {
-    background-color: red;
+    background-color: $orange-500;
   }
+  @include h1;
+}
+
+.text {
+  background-color: $orange-200;
+  @include body1
 }
