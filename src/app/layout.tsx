@@ -1,7 +1,11 @@
 "use client";
+import "@/styles/base/index.scss";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
+
+import Gnb from "@/components/Gnb";
 
 export default function RootLayout({
   children,
@@ -15,7 +19,18 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <QueryClientProvider client={queryClient}>
-          {children}
+          <div
+            style={{
+              width: "100%",
+              maxWidth: "60rem",
+              height: "100vh",
+              backgroundColor: "black",
+              margin: "0 auto",
+            }}
+          >
+            <Gnb />
+            {children}
+          </div>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>
