@@ -64,6 +64,22 @@ ol {
 #mainSlide .swiper-slide-active {
   opacity: 1;
 }
+#main .swiper-button-next {
+  left: 50%;
+  top: 20%;
+  transform: translateX(-50%) rotate(180deg);
+  &::after {
+    display: none;
+  }
+}
+#main .swiper-button-prev {
+  left: 50%;
+  top: 90%;
+  transform: translateX(-50%);
+  &::after {
+    display: none;
+  }
+}
 
 // input:-webkit-autofill,
 // input:-webkit-autofill:hover,
