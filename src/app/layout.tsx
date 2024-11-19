@@ -26,6 +26,7 @@ export default function RootLayout({
               height: "100vh",
               backgroundColor: "black",
               margin: "0 auto",
+              overflow: "hidden",
             }}
           >
             <Gnb />

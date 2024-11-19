@@ -53,6 +53,18 @@ ol {
   list-style: none;
 }
 
+#mainSlide {
+  height: 30rem;
+  overflow: visible;
+}
+#mainSlide .swiper-slide {
+  opacity: 0.7;
+  margin-bottom: 0 !important;
+}
+#mainSlide .swiper-slide-active {
+  opacity: 1;
+}
+
 // input:-webkit-autofill,
 // input:-webkit-autofill:hover,
 // input:-webkit-autofill:focus,
