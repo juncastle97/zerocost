@@ -4,7 +4,7 @@ import styles from "./main.module.scss";
 
 const cn = classNames.bind(styles);
 
-export default function Home() {
+export default function Main() {
   return (
     <>
       <div className={cn("page")}>test</div>
