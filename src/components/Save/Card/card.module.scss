@@ -1,0 +1,46 @@
+.cardWrap {
+  display: flex;
+  width: 100%;
+}
+
+.cardWrap2 {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.time {
+  @include body3;
+  width: 8.1rem;
+  color: $orange-200;
+}
+
+.textWrap {
+  .category,
+  .money {
+    @include body2;
+  }
+}
+
+.editWrap {
+  display: flex;
+}
+
+.cardEdit,
+.cardDelete {
+  @include body2;
+  width: 5.2rem;
+  height: 5.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cardEdit {
+  background-color: $gray-500;
+}
+
+.cardDelete {
+  background-color: $red-400;
+}
