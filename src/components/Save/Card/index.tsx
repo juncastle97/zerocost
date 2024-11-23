@@ -3,6 +3,7 @@ import "swiper/css/pagination";
 
 import classNames from "classnames/bind";
 import Image from "next/image";
+import { useState } from "react";
 import { Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -10,11 +11,19 @@ import styles from "./card.module.scss";
 
 const cn = classNames.bind(styles);
 
+import EditModal from "../EditModal";
+
 interface ListCardProps {
   category: string;
 }
 
 export default function Card({ category }: ListCardProps) {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditModalOpen(true);
+  };
+
   return (
     <div>
       <div className={cn("cardWrap")}>
@@ -36,10 +45,19 @@ export default function Card({ category }: ListCardProps) {
           </div>
         </div>
         <div className={cn("editWrap")}>
-          <div className={cn("cardEdit")}>수정</div>
+          <button className={cn("cardEdit")} onClick={handleEditClick}>
+            수정
+          </button>
           <div className={cn("cardDelete")}>삭제</div>
         </div>
       </div>
+
+      {isEditModalOpen && (
+        <EditModal
+          onClose={() => setIsEditModalOpen(false)}
+          category={category}
+        />
+      )}
     </div>
   );
 }
