@@ -5,7 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { useState } from "react";
 
-import Gnb from "@/components/Gnb";
+import Gnb from "@/components/commons/Gnb";
 
 export default function RootLayout({
   children,
@@ -32,6 +32,7 @@ export default function RootLayout({
             <Gnb />
             {children}
           </div>
+          <div id="portal-root"></div>
           <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
       </body>

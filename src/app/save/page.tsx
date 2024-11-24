@@ -8,9 +8,9 @@ const cn = classNames.bind(styles);
 
 import { useState } from "react";
 
-import CalendarView from "@/components/Save/CalendarView";
-import SaveGnb from "@/components/Save/Gnb";
-import Listview from "@/components/Save/ListView";
+import CalendarView from "@/components/Page/Save/CalendarView";
+import SaveGnb from "@/components/Page/Save/Gnb";
+import Listview from "@/components/Page/Save/ListView";
 
 export default function SavePage() {
   const [isCalendarView, setIsCalendarView] = useState(true);

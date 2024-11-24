@@ -9,26 +9,13 @@ import Main1 from "@/components/Page/Main";
 
 import End from "@/components/Page/Main/End";
 import Main2 from "@/components/Page/Main/Main2";
-import { loginState } from "@/lib/atoms/login";
 import { countMain } from "@/lib/atoms/main";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
 import styles from "./main.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function Main() {
   const [mainOrder, setMainOrder] = useAtom(countMain);
-
-  const [login, setLogin] = useAtom(loginState);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (login === false) {
-      router.push("login");
-    }
-  }, [login]);
 
   const renderComponent = (key: number) => {
     switch (key) {
