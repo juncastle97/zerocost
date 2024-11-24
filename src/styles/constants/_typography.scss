@@ -24,7 +24,6 @@ $font-main: "UhBeeSe_hyun", sans-serif;
   font-style: normal;
   font-weight: $weight;
   line-height: normal;
-  color: #000;
 }
 
 @mixin h1 {
@@ -51,17 +50,20 @@ $font-main: "UhBeeSe_hyun", sans-serif;
   @include heading(20);
 }
 
-@mixin subtitle {
+@mixin subtitle1 {
   @include heading(18, 400);
 }
 
-@mixin body($size, $weight: 400) {
+@mixin subtitle2 {
+  @include heading(14, 400);
+}
+
+@mixin body($size, $height: 160%) {
   font-family: "LeeSeoyun";
   font-size: $size + px;
   font-style: normal;
-  font-weight: $weight;
-  line-height: 160%;
-  color: #000;
+  font-weight: 400;
+  line-height: $height;
 }
 
 @mixin body1 {
@@ -72,11 +74,35 @@ $font-main: "UhBeeSe_hyun", sans-serif;
   @include body(16);
 }
 
-@mixin small {
+@mixin body3 {
+  @include body(14, normal);
+  letter-spacing: -0.35px;
+}
+
+@mixin button($size) {
+  font-family: "LeeSeoyun";
+  font-size: $size + px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+@mixin button1 {
+  @include button(18);
+}
+
+@mixin button2 {
+  @include button(16);
+}
+
+@mixin button3 {
+  @include button(12);
+}
+
+@mixin caption {
   font-family: "LeeSeoyun";
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: normal;
-  color: #000;
+  line-height: 130%;
 }
