@@ -12,10 +12,10 @@ export default function Listview() {
   return (
     <div className={cn("listWrap")}>
       <div className={cn("saveMoney")}>
-        <span>여태 지킨 돈</span>
+        <span>이번 달 지킨 돈</span>
         <span>0000원</span>
       </div>
-      <div>날짜</div>
+      <div className={cn("date")}>날짜</div>
       <Card category={"dessert"} />
     </div>
     // <div className={cn("empty")}>
