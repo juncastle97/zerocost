@@ -54,6 +54,16 @@ ol {
   list-style: none;
 }
 
+#mainSlide2 {
+  height: 19.7rem;
+}
+#mainSlide2 .swiper-slide {
+  opacity: 0.7;
+  margin-bottom: 0 !important;
+}
+#mainSlide2 .swiper-slide-active {
+  opacity: 1;
+}
 #mainSlide {
   height: 30rem;
   overflow: visible;
@@ -67,7 +77,7 @@ ol {
 }
 #main .swiper-button-next {
   left: 50%;
-  top: 20%;
+  top: 15%;
   transform: translateX(-50%) rotate(180deg);
   &::after {
     display: none;
@@ -75,7 +85,7 @@ ol {
 }
 #main .swiper-button-prev {
   left: 50%;
-  top: 90%;
+  top: 85%;
   transform: translateX(-50%);
   &::after {
     display: none;
