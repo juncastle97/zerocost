@@ -1,11 +1,11 @@
 import classNames from "classnames/bind";
 
+import Image from "next/image";
 import styles from "./categorySelector.module.scss";
 
 const cn = classNames.bind(styles);
-import Image from "next/image";
 
-import Button from "@/components/Button";
+import Button from "@/components/commons/Button";
 
 const category = [
   "alcohol",
