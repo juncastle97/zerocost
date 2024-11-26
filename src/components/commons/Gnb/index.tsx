@@ -9,20 +9,20 @@ import setting from "@/../public/icons/ic-setting.svg";
 import { loginState } from "@/lib/atoms/login";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
-import style from "./gnb.module.scss";
+import styles from "./gnb.module.scss";
 
-const cn = classNames.bind(style);
+const cn = classNames.bind(styles);
 
 export default function Gnb() {
   const [login, setLogin] = useAtom(loginState);
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (login === false) {
-      router.push("login");
-    }
-  }, [login]);
+  // useEffect(() => {
+  //   if (login === false) {
+  //     router.push("login");
+  //   }
+  // }, [login]);
 
   const [gnbMore, setGnbMore] = useState();
   return (
