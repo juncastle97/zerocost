@@ -28,11 +28,17 @@ export default function Login() {
         </div>
 
         <div className={cn("loginBox")}>
-          <div className={cn("loginBtn")}>
+          <div
+            className={cn("loginBtn")}
+            onClick={() => router.push("/loginNick")}
+          >
             <Image src={kakao} alt="kakao login" width={24} height={24} />
             <p>카카오 시작하기</p>
           </div>
-          <div className={cn("loginBtn")}>
+          <div
+            className={cn("loginBtn")}
+            onClick={() => router.push("/loginNick")}
+          >
             <Image src={google} alt="google login" width={24} height={24} />
             <p>구글로 시작하기</p>
           </div>
