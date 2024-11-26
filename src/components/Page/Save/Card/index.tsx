@@ -2,6 +2,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import { useState } from "react";
 import { Pagination } from "swiper";
@@ -11,7 +12,11 @@ import styles from "./card.module.scss";
 
 const cn = classNames.bind(styles);
 
+import CheckBox from "@/components/commons/CheckBox";
+import { listEditState } from "@/lib/atoms/list";
+
 import EditModal from "../EditModal";
+
 
 interface ListCardProps {
   category: string;
@@ -19,6 +24,7 @@ interface ListCardProps {
 
 export default function Card({ category }: ListCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isEdit] = useAtom(listEditState);
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
@@ -28,7 +34,10 @@ export default function Card({ category }: ListCardProps) {
     <div>
       <div className={cn("cardWrap")}>
         <div className={cn("cardWrap2")}>
-          <div className={cn("time")}>오전 12:12</div>
+          <div className={cn("timeWrap")}>
+            {isEdit && <CheckBox />}
+            <div className={cn("time")}>오전 12:12</div>
+          </div>
           <div className={cn("cardWrap3")}>
             <div className={cn("textWrap")}>
               <div className={cn("category")}>디저트 먹었다치고</div>
@@ -56,6 +65,7 @@ export default function Card({ category }: ListCardProps) {
         <EditModal
           onClose={() => setIsEditModalOpen(false)}
           category={category}
+          money={10000}
         />
       )}
     </div>
