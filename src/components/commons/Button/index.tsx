@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 
 import styles from "./button.module.scss";
 
-const cx = classNames.bind(styles);
+const cn = classNames.bind(styles);
 
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
@@ -24,7 +24,7 @@ export const Button = ({
 }: ButtonProps) => {
   return (
     <button
-      className={cx("button", variant, className)}
+      className={cn("button", variant, className)}
       style={{ width: width ? `${width}px` : "100%" }}
       disabled={disabled}
       {...props}

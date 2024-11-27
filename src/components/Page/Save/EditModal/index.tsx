@@ -4,24 +4,50 @@ import styles from "./editModal.module.scss";
 
 const cn = classNames.bind(styles);
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
+import Button from "@/components/commons/Button";
+import { categoryNameMap } from "@/constants/category";
+
+import AmountInput from "../AmountInput";
 import CategorySelector from "../CategorySelector";
 
 interface EditModalProps {
   onClose: () => void;
   category: string;
+  money: number;
 }
 
-export default function EditModal({ onClose, category }: EditModalProps) {
+export default function EditModal({
+  onClose,
+  category,
+  money,
+}: EditModalProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [isEditingCategory, setIsEditingCategory] = useState(false);
+  const [amount, setAmount] = useState(money);
+  const [isFocused, setIsFocused] = useState(false);
+  const [isEditingAmount, setIsEditingAmount] = useState(false);
+  const amountInputRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
     setIsClosing(true);
     setTimeout(() => {
       onClose();
     }, 300);
+  };
+
+  const handleNextClick = () => {
+    if (!isEditingAmount) {
+      setIsEditingAmount(true);
+      setIsEditingCategory(false);
+      setIsFocused(false);
+      setTimeout(() => {
+        amountInputRef.current?.focus();
+      }, 0);
+    } else {
+      handleClose();
+    }
   };
 
   return (
@@ -40,17 +66,32 @@ export default function EditModal({ onClose, category }: EditModalProps) {
             />
             <p>
               <span
-                className={cn("underline")}
-                onClick={() => setIsEditingCategory(true)}
+                className={cn("underline", { focused: isFocused })}
+                onClick={() => {
+                  setIsEditingCategory(true);
+                  setIsEditingAmount(false);
+                }}
+                onFocus={() => setIsFocused(true)}
+                tabIndex={0}
               >
-                {category}
+                {categoryNameMap[category]}
               </span>
               먹었다치고
             </p>
           </div>
           <div className={cn("categoryMoney", { hidden: isEditingCategory })}>
-            <span className={cn("underline")}>00000</span> 원 지켰다
+            <AmountInput
+              value={amount}
+              onChange={(newValue) => setAmount(newValue)}
+              inputRef={amountInputRef}
+            />
+            <span>원 지켰다</span>
           </div>
+          {(isFocused || isEditingAmount) && (
+            <Button className={cn("button")} onClick={handleNextClick}>
+              {isEditingAmount ? "완료" : "다음"}
+            </Button>
+          )}
         </div>
         <div className={cn("categorySelector", { hidden: isEditingCategory })}>
           <CategorySelector />

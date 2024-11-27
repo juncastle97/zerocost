@@ -12,11 +12,29 @@
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  width: 100%;
+  width: fit-content;
   height: 100%;
 }
 
 .icon {
   margin: 0.8rem;
   cursor: pointer;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.cancel {
+  @include body4;
+  color: $gray-50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+  cursor: pointer;
+
+  &.hidden {
+    display: none;
+  }
 }

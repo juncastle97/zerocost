@@ -1,9 +1,9 @@
 import classNames from "classnames/bind";
 import { ReactNode } from "react";
-import style from "./modal.module.scss";
+import styles from "./modal.module.scss";
 import Portal from "./potal";
 
-const cn = classNames.bind(style);
+const cn = classNames.bind(styles);
 
 interface YesNoModalProps {
   back: () => void;

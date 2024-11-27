@@ -1,47 +1,11 @@
-import classNames from "classnames/bind";
-
 import Image from "next/image";
+
 import styles from "./categorySelector.module.scss";
 
 const cn = classNames.bind(styles);
+import classNames from "classnames/bind";
 
-import Button from "@/components/commons/Button";
-
-const category = [
-  "alcohol",
-  "chicken",
-  "closet",
-  "coffee",
-  "cosmetic",
-  "dessert",
-  "drink",
-  "fandom",
-  "game",
-  "hair",
-  "meal",
-  "movie",
-  "smoke",
-  "taxi",
-  "travel",
-];
-
-const categoryNameMap: { [key: string]: string } = {
-  alcohol: "술",
-  chicken: "야식",
-  closet: "쇼핑",
-  coffee: "커피",
-  cosmetic: "화장품",
-  dessert: "디저트",
-  drink: "음료",
-  fandom: "덕질",
-  game: "취미",
-  hair: "미용",
-  meal: "밥",
-  movie: "영화",
-  smoke: "담배",
-  taxi: "차비",
-  travel: "여행",
-};
+import { category, categoryNameMap } from "@/constants/category";
 
 export default function CategorySelector() {
   return (
@@ -61,7 +25,6 @@ export default function CategorySelector() {
           </button>
         ))}
       </div>
-      <Button className={cn("button")}>다음</Button>
     </div>
   );
 }
