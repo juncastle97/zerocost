@@ -1,0 +1,93 @@
+.container {
+  @include body5;
+  width: 100%;
+  padding: 0 2.4rem;
+  color: $white;
+  margin-top: 3.2rem;
+}
+
+.calendar {
+  width: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+
+  button {
+    width: 2.4rem;
+    height: 2.4rem;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  h2 {
+    @include body2;
+    color: $white;
+  }
+}
+
+.weekdays {
+  display: flex;
+  width: 100%;
+  margin-bottom: 1.2rem;
+
+  .weekday {
+    flex: 1;
+    text-align: center;
+    color: $gray-300;
+
+    &.sunday {
+      color: $red-300;
+    }
+
+    &.saturday {
+      color: $blue-300;
+    }
+  }
+}
+
+.dates {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 0.8rem;
+
+  .date {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.current {
+      color: $white;
+
+      &.sunday {
+        color: $red-300;
+      }
+
+      &.saturday {
+        color: $blue-300;
+      }
+    }
+
+    &.other {
+      color: $gray-600;
+
+      &.sunday {
+        color: rgba($red-300, 0.6);
+      }
+
+      &.saturday {
+        color: rgba($blue-300, 0.6);
+      }
+    }
+  }
+}
