@@ -11,15 +11,20 @@
 }
 
 .header {
+  position: fixed;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 0.4rem;
   margin-bottom: 2rem;
+  z-index: 100;
+  top: 0.3rem;
+  left: 50%;
+  transform: translateX(-50%);
 
   button {
     width: 2.4rem;
     height: 2.4rem;
-    color: $white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -28,9 +33,13 @@
     cursor: pointer;
   }
 
-  h2 {
-    @include body2;
-    color: $white;
+  p {
+    @include h6;
+    min-width: 4.2rem;
+    color: $orange-400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -43,14 +52,6 @@
     flex: 1;
     text-align: center;
     color: $gray-300;
-
-    &.sunday {
-      color: $red-300;
-    }
-
-    &.saturday {
-      color: $blue-300;
-    }
   }
 }
 
@@ -58,13 +59,14 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(5, 1fr);
-  gap: 0.8rem;
 
   .date {
-    aspect-ratio: 1;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 1.6rem 6rem 1.6rem;
+    min-height: 7.4rem;
+    cursor: pointer;
 
     &.current {
       color: $white;
@@ -79,14 +81,14 @@
     }
 
     &.other {
-      color: $gray-600;
+      color: $gray-700;
 
       &.sunday {
-        color: rgba($red-300, 0.6);
+        color: rgba($red-300, 0.4);
       }
 
       &.saturday {
-        color: rgba($blue-300, 0.6);
+        color: rgba($blue-300, 0.4);
       }
     }
   }
