@@ -1,5 +1,6 @@
 "use client";
 import "@/styles/base/index.scss";
+import Script from "next/script";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -17,6 +18,13 @@ export default function RootLayout({
 
   return (
     <html lang="en">
+      <head>
+        <Script
+          src="https://cdn.swygbro.com/public/widget/swyg-widget.js"
+          strategy="beforeInteractive"
+          defer
+        />
+      </head>
       <body>
         <QueryClientProvider client={queryClient}>
           <div
