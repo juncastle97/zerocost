@@ -63,52 +63,12 @@
   margin-top: 1.9rem;
 }
 
-.content {
-  @include h6;
-  position: relative;
-  color: $gray-200;
+.plus {
+  @include button2;
   display: flex;
-  flex-direction: column;
-  gap: 1.2rem;
   justify-content: center;
   align-items: center;
-  margin-top: 14rem;
-
-  &.editing {
-    margin-top: 3rem;
-  }
-}
-
-.categoryText {
-  display: flex;
-  align-items: center;
-}
-
-.categoryMoney {
-  display: block;
-
-  &.hidden {
-    display: none;
-  }
-}
-
-.underline {
-  text-decoration: underline;
-  text-underline-offset: 0.8rem;
-  cursor: pointer;
-  margin-right: 0.8rem;
-}
-
-.underline.focused {
-  color: $white;
-}
-
-.categorySelector {
-  display: none;
-
-  &.hidden {
-    display: block;
-  }
+  gap: 0.8rem;
 }
 
 .button {
