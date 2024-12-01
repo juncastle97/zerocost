@@ -60,6 +60,8 @@ ol {
 #mainSlide2 .swiper-slide {
   opacity: 0.7;
   margin-bottom: 0 !important;
+  align-items: center;
+  display: flex;
 }
 #mainSlide2 .swiper-slide-active {
   opacity: 1;

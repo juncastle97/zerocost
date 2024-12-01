@@ -1,3 +1,3 @@
-import { atom } from "jotai";
+import { atomWithStorage } from "jotai/utils";
 
-export const loginState = atom(false);
+export const loginState = atomWithStorage("login", "");

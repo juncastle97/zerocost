@@ -3,6 +3,7 @@ import { Navigation, Pagination } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import logo from "@/../public/icons/ic-logo.svg";
+import saveBtn from "@/../public/images/button.svg";
 import { countMain, mainChoice } from "@/lib/atoms/main";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -68,7 +69,7 @@ export default function Main1() {
         <p className={cn("countNum")}>원</p>
       </div>
       <h2 className={cn("subTitle")} onClick={handleChoice}>
-        지키기
+        <Image src={saveBtn} alt="지키기" width={200} height={100} />
       </h2>
       <div className={cn("back")} onClick={() => setMainOrder(0)}>
         {"<- "}뒤로가기
