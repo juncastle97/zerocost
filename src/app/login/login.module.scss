@@ -23,12 +23,11 @@
     font-size: 1.8rem;
     font-weight: 400;
     line-height: 160%;
+    font-family: LeeSeoyun;
   }
   & > h1 {
     color: $orange-400;
 
-    /* H5 */
-    font-family: "UhBee Se_hyun";
     font-size: 2.4rem;
     font-weight: 700;
   }
@@ -55,6 +54,10 @@
   color: #fff;
   font-size: 1.8rem;
   cursor: pointer;
+  font-family: LeeSeoyun;
+  & > p {
+    font-family: LeeSeoyun;
+  }
 }
 .guest {
   cursor: pointer;
@@ -63,6 +66,7 @@
   font-size: 1.6rem;
   line-height: 160%; /* 25.6px */
   border-bottom: 1px solid $gray-50;
+  font-family: LeeSeoyun;
 }
 .agreeWrap {
   margin-top: 3rem;
@@ -72,8 +76,10 @@
   font-size: 1.2rem;
   line-height: 130%;
   text-align: center;
+  font-family: LeeSeoyun;
 
   & > span {
     border-bottom: 1px solid $gray-300;
+    font-family: LeeSeoyun;
   }
 }

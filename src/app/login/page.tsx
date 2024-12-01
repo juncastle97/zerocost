@@ -28,11 +28,17 @@ export default function Login() {
         </div>
 
         <div className={cn("loginBox")}>
-          <div className={cn("loginBtn")}>
+          <div
+            className={cn("loginBtn")}
+            onClick={() => router.push("/loginNick")}
+          >
             <Image src={kakao} alt="kakao login" width={24} height={24} />
             <p>카카오 시작하기</p>
           </div>
-          <div className={cn("loginBtn")}>
+          <div
+            className={cn("loginBtn")}
+            onClick={() => router.push("/loginNick")}
+          >
             <Image src={google} alt="google login" width={24} height={24} />
             <p>구글로 시작하기</p>
           </div>
@@ -61,7 +67,9 @@ export default function Login() {
             setLogin(true);
           }}
         >
-          게스트 이용 시 기록들은 저장되지 않습니다.
+          게스트 이용 시 기록들은 저장되지 않으며
+          <br />
+          일정 기간 미접속 시 삭제될 수 있습니다.
           <br />
           계속 진행하시겠습니까?
         </YesNoModal>
