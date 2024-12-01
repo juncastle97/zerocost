@@ -7,9 +7,9 @@ import pig from "@/../public/icons/ic-logo.svg";
 import setting from "@/../public/icons/ic-setting.svg";
 
 import { useRouter } from "next/navigation";
-import style from "./gnb.module.scss";
+import styles from "./gnb.module.scss";
 
-const cn = classNames.bind(style);
+const cn = classNames.bind(styles);
 
 export default function Gnb() {
   const loginState = localStorage.getItem("loginState");
@@ -22,6 +22,7 @@ export default function Gnb() {
       router.push("/login");
     }
   }, [loginState]);
+
 
   return (
     <div className={cn("gnbWrap")}>

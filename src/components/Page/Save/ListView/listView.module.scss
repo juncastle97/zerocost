@@ -13,7 +13,7 @@
 }
 
 .date {
-  @include body2;
+  @include body4;
   color: $orange-400;
   width: 100%;
   background-color: $gray-800;
@@ -35,6 +35,6 @@
 }
 
 .emptyState {
-  @include body1;
+  @include body3;
   color: $white;
 }

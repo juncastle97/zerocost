@@ -58,7 +58,7 @@ $font-main: "UhBeeSe_hyun", sans-serif;
   @include heading(14, 400);
 }
 
-@mixin body($size, $height: 160%) {
+@mixin body($size, $height: 140%) {
   font-family: "LeeSeoyun";
   font-size: $size + px;
   font-style: normal;
@@ -67,14 +67,22 @@ $font-main: "UhBeeSe_hyun", sans-serif;
 }
 
 @mixin body1 {
-  @include body(18);
+  @include body(24);
 }
 
 @mixin body2 {
-  @include body(16);
+  @include body(20);
 }
 
 @mixin body3 {
+  @include body(18, 160%);
+}
+
+@mixin body4 {
+  @include body(16);
+}
+
+@mixin body5 {
   @include body(14, normal);
   letter-spacing: -0.35px;
 }
@@ -105,4 +113,29 @@ $font-main: "UhBeeSe_hyun", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: 130%;
+}
+
+@mixin manager($size, $weight: 400, $spacing: -0.28) {
+  font-family: "Roboto";
+  font-size: $size + px;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: normal;
+  letter-spacing: $spacing + px;
+}
+
+@mixin managerBody {
+  @include manager(14);
+}
+
+@mixin managerBodyBold {
+  @include manager(14, 700);
+}
+
+@mixin managerCaption {
+  @include manager(12, 400, -0.24);
+}
+
+@mixin managerSubtitle {
+  @include manager(15, 400, -0.3);
 }
