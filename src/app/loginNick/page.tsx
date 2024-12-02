@@ -30,7 +30,8 @@ export default function Login() {
     clearErrors,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = (data: any) => {
+
     console.log(data);
   };
 

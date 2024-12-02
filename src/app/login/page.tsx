@@ -63,8 +63,8 @@ export default function Login() {
         <YesNoModal
           back={() => setModal(false)}
           confirm={() => {
+            setLogin("guest");
             router.push("/");
-            setLogin(true);
           }}
         >
           게스트 이용 시 기록들은 저장되지 않으며

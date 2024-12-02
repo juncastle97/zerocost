@@ -1,10 +1,10 @@
 import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import pig from "@/../public/icons/ic-logo.svg";
-import setting from "@/../public/icons/ic-setting.svg";
+import user from "@/../public/icons/icon_user.svg";
 
 import { useRouter } from "next/navigation";
 import styles from "./gnb.module.scss";
@@ -31,7 +31,11 @@ export default function Gnb() {
       </Link>
       <div>{gnbMore}</div>
 
-      <Image src={setting} alt={"메뉴"} width={30} height={30} />
+      {window.location.pathname !== "/mypage" && (
+        <Link href={"/mypage"}>
+          <Image src={user} alt={"메뉴"} width={30} height={30} />
+        </Link>
+      )}
     </div>
   );
 }
