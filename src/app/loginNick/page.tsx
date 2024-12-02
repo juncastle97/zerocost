@@ -31,6 +31,7 @@ export default function Login() {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data: any) => {
+
     console.log(data);
   };
 

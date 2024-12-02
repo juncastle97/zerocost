@@ -6,24 +6,24 @@ import { useState } from "react";
 import pig from "@/../public/icons/ic-logo.svg";
 import user from "@/../public/icons/icon_user.svg";
 
-import { loginState } from "@/lib/atoms/login";
-import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import styles from "./gnb.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function Gnb() {
-  const [login, setLogin] = useAtom(loginState);
+  const loginState = localStorage.getItem("loginState");
+  const [gnbMore, setGnbMore] = useState();
 
   const router = useRouter();
-  // useEffect(() => {
-  //   if (login === false) {
-  //     router.push("login");
-  //   }
-  // }, [login]);
 
-  const [gnbMore, setGnbMore] = useState();
+  useEffect(() => {
+    if (loginState === "false" || loginState === null) {
+      router.push("/login");
+    }
+  }, [loginState]);
+
+
   return (
     <div className={cn("gnbWrap")}>
       <Link href={"/"}>
