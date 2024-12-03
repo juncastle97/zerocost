@@ -4,7 +4,7 @@ import styles from "./listView.module.scss";
 
 const cn = classNames.bind(styles);
 
-import Image from "next/image";
+// import Image from "next/image";
 
 import Card from "../Card";
 

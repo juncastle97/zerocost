@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { Navigation, Pagination } from "swiper";
+import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import logo from "@/../public/icons/ic-logo.svg";
@@ -13,8 +13,8 @@ import styles from "./Main.module.scss";
 const cn = classNames.bind(styles);
 
 export default function Main1() {
-  const [mainOrder, setMainOrder] = useAtom(countMain);
-  const [choice, setChoice] = useAtom(mainChoice);
+  const [, setMainOrder] = useAtom(countMain);
+  const [, setChoice] = useAtom(mainChoice);
   const [num, setNum] = useState<number[]>([]);
   const numBox = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   console.log(num.join(""));
@@ -26,7 +26,7 @@ export default function Main1() {
     setMainOrder(2);
   };
 
-  const handleSlideChange = (swiper: any, index: number) => {
+  const handleSlideChange = (swiper, index: number) => {
     setNum((prev) => {
       const updatedNum = [...prev];
       updatedNum[index] = numBox[swiper.realIndex];

@@ -13,7 +13,7 @@ import AmountInput from "../AmountInput";
 
 interface SaveContentProps {
   onClose: () => void;
-  category?: string;
+  category: string;
   money: number;
 }
 

@@ -1,4 +1,5 @@
 "use client";
+
 import "swiper/css"; // Import Swiper styles
 import "swiper/css/navigation"; // Import Swiper navigation styles
 
@@ -15,7 +16,7 @@ import styles from "./main.module.scss";
 const cn = classNames.bind(styles);
 
 export default function Main() {
-  const [mainOrder, setMainOrder] = useAtom(countMain);
+  const [mainOrder] = useAtom(countMain);
 
   const renderComponent = (key: number) => {
     switch (key) {

@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import { listEditState } from "@/lib/atoms/list";
 
 export default function DeleteSaveButton() {
-  const [isEdit, setIsEdit] = useAtom(listEditState);
+  const [, setIsEdit] = useAtom(listEditState);
 
   const handleDeleteClick = () => {
     setIsEdit(false);

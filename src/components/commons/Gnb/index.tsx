@@ -6,16 +6,16 @@ import { useState } from "react";
 import pig from "@/../public/icons/ic-logo.svg";
 import user from "@/../public/icons/icon_user.svg";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 import styles from "./gnb.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function Gnb() {
-  const loginState = localStorage.getItem("loginState");
-  const [gnbMore, setGnbMore] = useState();
+  // const loginState = localStorage.getItem("loginState");
+  const [gnbMore] = useState();
 
-  const router = useRouter();
+  // const router = useRouter();
 
   // useEffect(() => {
   //   if (loginState === "false" || loginState === null) {

@@ -8,7 +8,7 @@ import styles from "./Main.module.scss";
 const cn = classNames.bind(styles);
 
 export default function End() {
-  const [mainOrder, setMainOrder] = useAtom(countMain);
+  const [, setMainOrder] = useAtom(countMain);
 
   return (
     <>

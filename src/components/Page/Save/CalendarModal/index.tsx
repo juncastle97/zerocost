@@ -22,7 +22,7 @@ interface CalendarModalProps {
 
 export default function CalendarModal({ date, onClose }: CalendarModalProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [category, setCategory] = useState("coffee");
+  const [category] = useState("coffee");
   const [amount, setAmount] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
   const [isEditingCategory, setIsEditingCategory] = useState(false);
@@ -56,10 +56,10 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
     setIsButtonClicked(true);
   };
 
-  const handleCategorySelect = (selectedCategory: string) => {
-    setCategory(selectedCategory);
-    setIsEditingCategory(false);
-  };
+  // const handleCategorySelect = (selectedCategory: string) => {
+  //   setCategory(selectedCategory);
+  //   setIsEditingCategory(false);
+  // };
 
   return (
     <div>
@@ -147,7 +147,7 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
             <div
               className={cn("categorySelector", { hidden: isEditingCategory })}
             >
-              <CategorySelector onSelect={handleCategorySelect} />
+              <CategorySelector />
             </div>
           </>
         )}

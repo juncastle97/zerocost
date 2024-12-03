@@ -15,7 +15,7 @@ const cn = classNames.bind(styles);
 
 export default function Login() {
   const [modal, setModal] = useState(false);
-  const [login, setLogin] = useAtom(loginState);
+  const [, setLogin] = useAtom(loginState);
   const router = useRouter();
 
   return (
