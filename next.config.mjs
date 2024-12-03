@@ -9,6 +9,7 @@ const nextConfig = {
     additionalData: '@import "@/styles/main.scss";',
   },
   images: {
+    domains: ["zerocost-image-bucket.s3.ap-northeast-2.amazonaws.com"],
     remotePatterns: [
       {
         protocol: "https",

@@ -17,12 +17,11 @@ export default function Gnb() {
 
   const router = useRouter();
 
-  useEffect(() => {
-    if (loginState === "false" || loginState === null) {
-      router.push("/login");
-    }
-  }, [loginState]);
-
+  // useEffect(() => {
+  //   if (loginState === "false" || loginState === null) {
+  //     router.push("/login");
+  //   }
+  // }, [loginState]);
 
   return (
     <div className={cn("gnbWrap")}>
