@@ -5,8 +5,6 @@ import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useState } from "react";
-import { Pagination } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
 
 import styles from "./card.module.scss";
 

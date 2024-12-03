@@ -9,9 +9,9 @@ import { useState } from "react";
 import styles from "./mypage.module.scss";
 
 const cn = classNames.bind(styles);
-export default function Guest({ setLoginUser }: any) {
-  const [date, setDate] = useState<number>(0);
-  const [price, setPrice] = useState<number>(0);
+export default function Guest({ setLoginUser }) {
+  const [date] = useState<number>(0);
+  const [price] = useState<number>(0);
   const [logout, setLogOut] = useState<boolean>(false);
   const [accountDelete, setAccountDelete] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);

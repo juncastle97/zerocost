@@ -1,6 +1,7 @@
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { Navigation, Pagination } from "swiper";
+
+import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import arrowOn from "@/../public/icons/arrowOn.svg";
@@ -13,8 +14,8 @@ import styles from "./Main.module.scss";
 const cn = classNames.bind(styles);
 
 export default function Main1() {
-  const [mainOrder, setMainOrder] = useAtom(countMain);
-  const [choice, setChoice] = useAtom(mainChoice);
+  const [, setMainOrder] = useAtom(countMain);
+  const [, setChoice] = useAtom(mainChoice);
   const handleChoice = (item: string) => {
     setChoice((prevChoice) => ({
       ...prevChoice,

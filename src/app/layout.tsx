@@ -17,6 +17,7 @@ export default function RootLayout({
   const [queryClient] = useState(() => new QueryClient());
   const pathname = usePathname();
   const isAdminPage = pathname?.startsWith("/admin");
+  const isBadgePage = pathname?.startsWith("/mypage/badge");
 
   return (
     <html lang="en">
@@ -33,13 +34,13 @@ export default function RootLayout({
             style={{
               width: "100%",
               maxWidth: isAdminPage ? "none" : "60rem",
-              height: "100vh",
+              minHeight: "100vh",
               backgroundColor: isAdminPage ? "white" : "black",
               margin: "0 auto",
-              overflow: "hidden",
+              // overflow: "hidden",
             }}
           >
-            {!isAdminPage && <Gnb />}
+            {!isAdminPage && !isBadgePage && <Gnb />}
             {children}
           </div>
           <div id="portal-root"></div>
