@@ -1,4 +1,5 @@
 "use client";
+
 import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,26 +7,36 @@ import { useEffect, useState } from "react";
 
 import pig from "@/../public/icons/ic-logo.svg";
 import user from "@/../public/icons/icon_user.svg";
+import { useRouter } from "next/navigation";
 import styles from "./gnb.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function Gnb() {
-  const [isMypage, setIsMypage] = useState(false);
+  const [currentPath, setCurrentPath] = useState<string>("");
+  const [gnbMore] = useState();
+  const router = useRouter();
 
   useEffect(() => {
-    // 클라이언트 환경에서만 실행
+    const loginState = localStorage.getItem("login");
     if (typeof window !== "undefined") {
-      setIsMypage(window.location.pathname === "/mypage");
+      setCurrentPath(window.location.pathname);
     }
-  }, []);
+
+    if (loginState === "false" || loginState === null) {
+      router.push("/login");
+    }
+  }, [router]);
 
   return (
     <div className={cn("gnbWrap")}>
       <Link href={"/"}>
         <Image src={pig} alt={"로고"} width={40} height={40} />
       </Link>
-      {!isMypage && (
+      <div>{gnbMore}</div>
+
+      {/* 현재 경로가 "/mypage"가 아니면 렌더링 */}
+      {currentPath !== "/mypage" && (
         <Link href={"/mypage"}>
           <Image src={user} alt={"메뉴"} width={30} height={30} />
         </Link>

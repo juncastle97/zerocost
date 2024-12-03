@@ -3,12 +3,21 @@ import classNames from "classnames/bind";
 import { countMain } from "@/lib/atoms/main";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useAtom } from "jotai";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import styles from "./Main.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function End() {
   const [, setMainOrder] = useAtom(countMain);
+  const router = useRouter();
+
+  useEffect(() => {
+    setTimeout(() => {
+      router.push("/mypage");
+    }, 5000);
+  }, []);
 
   return (
     <>

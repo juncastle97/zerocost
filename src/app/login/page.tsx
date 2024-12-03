@@ -3,7 +3,9 @@ import logo from "@/../public/icons/ic-logo.svg";
 import google from "@/../public/icons/icon_google.svg";
 import kakao from "@/../public/icons/icon_kakaotalk.svg";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
-import { loginState } from "@/lib/atoms/login";
+import { loginGuest } from "@/lib/apis/login";
+import { loginData, loginState } from "@/lib/atoms/login";
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -16,7 +18,17 @@ const cn = classNames.bind(styles);
 export default function Login() {
   const [modal, setModal] = useState(false);
   const [, setLogin] = useAtom(loginState);
+  const [, setLoginData] = useAtom(loginData);
   const router = useRouter();
+
+  const { mutate: postGuest } = useMutation({
+    mutationKey: ["postGuest"],
+    mutationFn: loginGuest,
+    onSuccess: (res) => {
+      setLoginData(res);
+      console.log(res);
+    },
+  });
 
   return (
     <>
@@ -63,6 +75,7 @@ export default function Login() {
         <YesNoModal
           back={() => setModal(false)}
           confirm={() => {
+            postGuest();
             setLogin("guest");
             router.push("/");
           }}
