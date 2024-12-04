@@ -34,10 +34,10 @@ export default function RootLayout({
             style={{
               width: "100%",
               maxWidth: isAdminPage ? "none" : "60rem",
-              minHeight: "100vh",
+              height: "100vh",
               backgroundColor: isAdminPage ? "white" : "black",
               margin: "0 auto",
-              // overflow: "hidden",
+              overflow: "hidden",
             }}
           >
             {!isAdminPage && !isBadgePage && <Gnb />}

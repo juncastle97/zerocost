@@ -11,7 +11,7 @@ import ListCard from "@/components/Page/Admin/ListCard";
 
 export default function List() {
   const router = useRouter();
-  const dummyData = Array(7).fill(null);
+  const dummyData = Array(20).fill(null);
 
   const handleAddClick = () => {
     router.push("/admin/add");
@@ -22,9 +22,11 @@ export default function List() {
       <button className={cn("button")} onClick={handleAddClick}>
         배지 추가
       </button>
-      {dummyData.map((_, index) => (
-        <ListCard key={index} />
-      ))}
+      <div className={cn("scroll")}>
+        {dummyData.map((_, index) => (
+          <ListCard key={index} />
+        ))}
+      </div>
     </div>
   );
 }

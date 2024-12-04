@@ -17,6 +17,12 @@ export default function Listview() {
       </div>
       <div className={cn("date")}>날짜</div>
       <Card category={"coffee"} />
+      <Card category={"coffee"} />
+      <Card category={"coffee"} />
+      <Card category={"coffee"} />
+      <Card category={"coffee"} />
+      <Card category={"coffee"} />
+      <Card category={"coffee"} />
     </div>
     // <div className={cn("empty")}>
     //   <Image
