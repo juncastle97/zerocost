@@ -4,38 +4,59 @@
     {
       "memberId": 1,
       "savingId": 1,
-      "savingYmd": "2024-12-05T09:10:00.000Z",
+      "savingYmd": "2024-12-04T08:00:00.000Z",
       "amount": 8000,
       "categoryName": "coffee"
     },
     {
       "memberId": 1,
       "savingId": 2,
-      "savingYmd": "2024-12-05T12:30:00.000Z",
+      "savingYmd": "2024-12-03T10:30:00.000Z",
       "amount": 15000,
       "categoryName": "meal"
     },
     {
       "memberId": 1,
       "savingId": 3,
-      "savingYmd": "2024-12-05T15:00:00.000Z",
+      "savingYmd": "2024-12-02T15:00:00.000Z",
       "amount": 5000,
       "categoryName": "dessert"
     },
     {
       "memberId": 1,
       "savingId": 4,
-      "savingYmd": "2024-12-05T18:00:00.000Z",
+      "savingYmd": "2024-12-01T18:00:00.000Z",
       "amount": 120000,
       "categoryName": "shopping"
     },
     {
       "memberId": 1,
       "savingId": 5,
-      "savingYmd": "2024-12-05T21:00:00.000Z",
+      "savingYmd": "2024-12-04T21:00:00.000Z",
       "amount": 12000,
       "categoryName": "movie"
+    },
+    {
+      "memberId": 1,
+      "savingId": 6,
+      "savingYmd": "2024-12-04T09:15:00.000Z",
+      "amount": 10000,
+      "categoryName": "game"
+    },
+    {
+      "memberId": 1,
+      "savingId": 7,
+      "savingYmd": "2024-12-03T14:00:00.000Z",
+      "amount": 18000,
+      "categoryName": "smoke"
+    },
+    {
+      "memberId": 1,
+      "savingId": 8,
+      "savingYmd": "2024-12-02T11:30:00.000Z",
+      "amount": 25000,
+      "categoryName": "taxi"
     }
   ],
-  "totalAmount": 160000
+  "totalAmount": 190000
 }
