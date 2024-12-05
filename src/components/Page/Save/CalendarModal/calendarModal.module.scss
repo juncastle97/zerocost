@@ -179,11 +179,16 @@
 
 .cardWrap {
   display: flex;
-  width: 100%;
-  justify-content: space-between;
   flex-direction: column;
-  position: relative;
-  z-index: 100;
+  gap: 1.2rem;
+  overflow-y: auto;
+  max-height: calc(9 * (6rem + 1.2rem));
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .card {

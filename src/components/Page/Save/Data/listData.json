@@ -1,0 +1,41 @@
+{
+  "memberId": 1,
+  "items": [
+    {
+      "memberId": 1,
+      "savingId": 1,
+      "savingYmd": "2024-12-05T09:10:00.000Z",
+      "amount": 8000,
+      "categoryName": "coffee"
+    },
+    {
+      "memberId": 1,
+      "savingId": 2,
+      "savingYmd": "2024-12-05T12:30:00.000Z",
+      "amount": 15000,
+      "categoryName": "meal"
+    },
+    {
+      "memberId": 1,
+      "savingId": 3,
+      "savingYmd": "2024-12-05T15:00:00.000Z",
+      "amount": 5000,
+      "categoryName": "dessert"
+    },
+    {
+      "memberId": 1,
+      "savingId": 4,
+      "savingYmd": "2024-12-05T18:00:00.000Z",
+      "amount": 120000,
+      "categoryName": "shopping"
+    },
+    {
+      "memberId": 1,
+      "savingId": 5,
+      "savingYmd": "2024-12-05T21:00:00.000Z",
+      "amount": 12000,
+      "categoryName": "movie"
+    }
+  ],
+  "totalAmount": 160000
+}
