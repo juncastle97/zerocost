@@ -5,8 +5,8 @@
   padding: 2.4rem;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   width: 100%;
+  height: calc(100vh - 30rem);
   max-width: 97.7rem;
   margin: 0 auto;
 }
@@ -19,4 +19,19 @@
   border: none;
   font-size: 1.6rem;
   cursor: pointer;
+}
+
+.scroll {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+  overflow-y: auto;
+  max-height: 60rem;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }

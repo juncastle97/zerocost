@@ -1,5 +1,14 @@
 .container {
   margin: 0 2.4rem;
+  overflow-y: auto;
+  max-height: 100vh;
+  padding-bottom: 4rem;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .total {

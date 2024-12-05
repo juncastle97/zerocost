@@ -13,6 +13,7 @@
     "simple-import-sort/exports": "error", // export 정렬 규칙 추가
     "import/order": "off", // import/order 비활성화, simple-import-sort 사용
     "import/newline-after-import": "error", // import 이후 빈 줄 추가 규칙
-    "import/no-duplicates": "error" // 중복 import 방지
+    "import/no-duplicates": "error", // 중복 import 방지
+    "@typescript-eslint/no-explicit-any": "off" // any 타입 이용 규칙 제외
   }
 }

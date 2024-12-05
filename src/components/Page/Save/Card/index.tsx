@@ -14,13 +14,26 @@ import CheckBox from "@/components/commons/CheckBox";
 import { listEditState } from "@/lib/atoms/list";
 
 import EditModal from "../EditModal";
+import {
+  categoryActionMap,
+  categoryNameReverseMap,
+} from "@/constants/category";
+import { formatToKoreanCurrency } from "@/constants/formattedAmount";
+import { formatTimeToAmPm } from "@/constants/date";
 
 interface ListCardProps {
   category: string;
+  amount: number;
+  date: string;
   className?: string;
 }
 
-export default function Card({ category, className }: ListCardProps) {
+export default function Card({
+  category,
+  amount,
+  date,
+  className,
+}: ListCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEdit] = useAtom(listEditState);
 
@@ -34,12 +47,16 @@ export default function Card({ category, className }: ListCardProps) {
         <div className={cn("cardWrap2")}>
           <div className={cn("timeWrap")}>
             {isEdit && <CheckBox />}
-            <div className={cn("time")}>오전 12:12</div>
+            <div className={cn("time")}>{formatTimeToAmPm(date)}</div>
           </div>
           <div className={cn("cardWrap3")}>
             <div className={cn("textWrap")}>
-              <div className={cn("category")}>디저트 먹었다치고</div>
-              <div className={cn("money")}>1110000원 지켰다</div>
+              <div className={cn("category")}>
+                {categoryNameReverseMap[category]} {categoryActionMap[category]}
+              </div>
+              <div className={cn("money")}>
+                {formatToKoreanCurrency(amount)}원 지켰다
+              </div>
             </div>
             <div className={cn("categoryIcon")}>
               <Image
@@ -63,7 +80,8 @@ export default function Card({ category, className }: ListCardProps) {
         <EditModal
           onClose={() => setIsEditModalOpen(false)}
           category={category}
-          money={10000}
+          money={amount}
+          date={date}
         />
       )}
     </div>
