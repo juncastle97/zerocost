@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import styles from "./login.module.scss";
@@ -26,7 +27,7 @@ export default function Login() {
     mutationFn: loginGuest,
     onSuccess: (res) => {
       setLoginData(res);
-      console.log(res);
+      document.cookie = `memberKeyId=${res.memberKeyId}; path=/; max-age=3600; secure; samesite=strict`;
     },
   });
 
@@ -45,14 +46,20 @@ export default function Login() {
             onClick={() => router.push("/loginNick")}
           >
             <Image src={kakao} alt="kakao login" width={24} height={24} />
-            <p>카카오 시작하기</p>
+            <Link
+              href={
+                "https://kauth.kakao.com/oauth/authorize?client_id=489a2f33bf9d90c59950291ca077adc9&redirect_uri=http://3.39.123.15:8090/api/auth/kakao-login&response_type=code"
+              }
+            >
+              카카오 시작하기
+            </Link>
           </div>
           <div
             className={cn("loginBtn")}
             onClick={() => router.push("/loginNick")}
           >
             <Image src={google} alt="google login" width={24} height={24} />
-            <p>구글로 시작하기</p>
+            <Link href={""}>구글로 시작하기</Link>
           </div>
           <div
             className={cn("guest")}
