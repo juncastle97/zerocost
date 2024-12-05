@@ -103,6 +103,7 @@ export default function Calendar() {
       {isModalOpen && selectedDate && (
         <CalendarModal
           date={selectedDate}
+          day={parseInt(format(selectedDate, "d"))}
           onClose={() => {
             setIsModalOpen(false);
             setSelectedDate(null);

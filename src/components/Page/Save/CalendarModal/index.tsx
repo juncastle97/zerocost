@@ -14,13 +14,20 @@ import { categoryActionMap, categoryNameMap } from "@/constants/category";
 
 import AmountInput from "../AmountInput";
 import Card from "../Card";
+import calendarData from "../Data/calendarData.json";
+import { formatToKoreanCurrency } from "@/constants/formattedAmount";
 
 interface CalendarModalProps {
   date: Date;
+  day: number;
   onClose: () => void;
 }
 
-export default function CalendarModal({ date, onClose }: CalendarModalProps) {
+export default function CalendarModal({
+  date,
+  day,
+  onClose,
+}: CalendarModalProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [category] = useState("coffee");
   const [amount, setAmount] = useState(0);
@@ -30,7 +37,9 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
   const [isEditingAmount, setIsEditingAmount] = useState(false);
   const amountInputRef = useRef<HTMLInputElement>(null);
 
-  const isData = true;
+  const selectedDay = calendarData.days.find((dayData) => dayData.day === day);
+  const selectedDayData = selectedDay?.items || [];
+  const selectedDayTotalAmount = selectedDay?.dayTotalAmount || 0;
 
   const handleNextClick = () => {
     if (!isEditingAmount) {
@@ -80,18 +89,21 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
           </div>
         </div>
         {!isButtonClicked ? (
-          isData ? (
+          selectedDayData.length > 0 ? (
             <>
               <div className={cn("total")}>
-                <div>총 N건</div>
-                <div>+ 0000원</div>
+                <div>총 {selectedDayData.length}건</div>
+                <div>+ {formatToKoreanCurrency(selectedDayTotalAmount)}원</div>
               </div>
               <div className={cn("cardWrap")}>
-                {[
-                  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
-                  19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31,
-                ].map((item) => (
-                  <Card key={item} category={category} className={cn("card")} />
+                {selectedDayData.map((item) => (
+                  <Card
+                    key={item.savingId}
+                    category={item.categoryName}
+                    amount={item.amount}
+                    date={item.savingYmd}
+                    className={cn("card")}
+                  />
                 ))}
               </div>
             </>

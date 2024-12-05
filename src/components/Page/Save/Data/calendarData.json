@@ -1,0 +1,229 @@
+{
+  "year": 2024,
+  "month": 11,
+  "days": [
+    {
+      "day": 2,
+      "dayTotalAmount": 15000,
+      "categorySummaries": [
+        {
+          "categoryName": "movie",
+          "categoryTotalAmount": 15000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 101,
+          "savingYmd": "2024-11-02T10:00:00",
+          "amount": 15000,
+          "categoryName": "movie"
+        }
+      ]
+    },
+    {
+      "day": 5,
+      "dayTotalAmount": 25000,
+      "categorySummaries": [
+        {
+          "categoryName": "meal",
+          "categoryTotalAmount": 15000
+        },
+        {
+          "categoryName": "chicken",
+          "categoryTotalAmount": 10000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 102,
+          "savingYmd": "2024-11-05T12:30:00",
+          "amount": 15000,
+          "categoryName": "meal"
+        },
+        {
+          "memberId": 17,
+          "savingId": 103,
+          "savingYmd": "2024-11-05T15:45:00",
+          "amount": 10000,
+          "categoryName": "chicken"
+        }
+      ]
+    },
+    {
+      "day": 8,
+      "dayTotalAmount": 40000,
+      "categorySummaries": [
+        {
+          "categoryName": "shopping",
+          "categoryTotalAmount": 40000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 104,
+          "savingYmd": "2024-11-08T14:20:00",
+          "amount": 40000,
+          "categoryName": "shopping"
+        }
+      ]
+    },
+    {
+      "day": 10,
+      "dayTotalAmount": 60000,
+      "categorySummaries": [
+        {
+          "categoryName": "dessert",
+          "categoryTotalAmount": 30000
+        },
+        {
+          "categoryName": "meal",
+          "categoryTotalAmount": 30000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 105,
+          "savingYmd": "2024-11-10T08:30:00",
+          "amount": 30000,
+          "categoryName": "dessert"
+        },
+        {
+          "memberId": 17,
+          "savingId": 106,
+          "savingYmd": "2024-11-10T18:45:00",
+          "amount": 30000,
+          "categoryName": "meal"
+        }
+      ]
+    },
+    {
+      "day": 12,
+      "dayTotalAmount": 80000,
+      "categorySummaries": [
+        {
+          "categoryName": "travel",
+          "categoryTotalAmount": 80000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 107,
+          "savingYmd": "2024-11-12T16:00:00",
+          "amount": 80000,
+          "categoryName": "travel"
+        }
+      ]
+    },
+    {
+      "day": 15,
+      "dayTotalAmount": 55000,
+      "categorySummaries": [
+        {
+          "categoryName": "taxi",
+          "categoryTotalAmount": 55000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 108,
+          "savingYmd": "2024-11-15T20:15:00",
+          "amount": 55000,
+          "categoryName": "taxi"
+        }
+      ]
+    },
+    {
+      "day": 18,
+      "dayTotalAmount": 22000,
+      "categorySummaries": [
+        {
+          "categoryName": "fandom",
+          "categoryTotalAmount": 12000
+        },
+        {
+          "categoryName": "dessert",
+          "categoryTotalAmount": 10000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 109,
+          "savingYmd": "2024-11-18T09:45:00",
+          "amount": 12000,
+          "categoryName": "fandom"
+        },
+        {
+          "memberId": 17,
+          "savingId": 110,
+          "savingYmd": "2024-11-18T14:30:00",
+          "amount": 10000,
+          "categoryName": "dessert"
+        }
+      ]
+    },
+    {
+      "day": 22,
+      "dayTotalAmount": 48000,
+      "categorySummaries": [
+        {
+          "categoryName": "shopping",
+          "categoryTotalAmount": 48000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 111,
+          "savingYmd": "2024-11-22T13:15:00",
+          "amount": 48000,
+          "categoryName": "shopping"
+        }
+      ]
+    },
+    {
+      "day": 25,
+      "dayTotalAmount": 37000,
+      "categorySummaries": [
+        {
+          "categoryName": "meal",
+          "categoryTotalAmount": 37000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 112,
+          "savingYmd": "2024-11-25T19:00:00",
+          "amount": 37000,
+          "categoryName": "meal"
+        }
+      ]
+    },
+    {
+      "day": 28,
+      "dayTotalAmount": 15000,
+      "categorySummaries": [
+        {
+          "categoryName": "game",
+          "categoryTotalAmount": 15000
+        }
+      ],
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 113,
+          "savingYmd": "2024-11-28T07:00:00",
+          "amount": 15000,
+          "categoryName": "game"
+        }
+      ]
+    }
+  ]
+}
