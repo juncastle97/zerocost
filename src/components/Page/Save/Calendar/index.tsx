@@ -8,14 +8,16 @@ import {
   subMonths,
 } from "date-fns";
 
-const cn = classNames.bind(styles);
-
 import classNames from "classnames/bind";
 import Image from "next/image";
 import { useState } from "react";
 
 import CalendarModal from "../CalendarModal";
+import CalendarItem from "../CalendarItem";
 import styles from "./calendar.module.scss";
+import calendarData from "../Data/calendarData.json";
+
+const cn = classNames.bind(styles);
 
 export default function Calendar() {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
@@ -30,8 +32,8 @@ export default function Calendar() {
   const startOfCurrentMonth = startOfMonth(currentDate);
   const endOfCurrentMonth = endOfMonth(currentDate);
 
-  const startDate = addDays(startOfCurrentMonth, -getDay(startOfCurrentMonth)); // 달력 시작일 계산
-  const days = Array.from({ length: 35 }, (_, i) => addDays(startDate, i)); // 35칸 생성
+  const startDate = addDays(startOfCurrentMonth, -getDay(startOfCurrentMonth));
+  const days = Array.from({ length: 35 }, (_, i) => addDays(startDate, i));
 
   const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const handleNextMonth = () => {
@@ -78,6 +80,11 @@ export default function Calendar() {
             const isCurrentMonth =
               day >= startOfCurrentMonth && day <= endOfCurrentMonth;
             const dayOfWeek = getDay(day);
+            const dayNumber = parseInt(format(day, "d"));
+            const dayData = calendarData.days.find(
+              (item) => item.day === dayNumber
+            );
+
             return (
               <div
                 key={day.toISOString()}
@@ -94,7 +101,14 @@ export default function Calendar() {
                   }
                 }}
               >
-                {format(day, "d")}
+                {dayData && isCurrentMonth ? (
+                  <CalendarItem
+                    day={dayNumber}
+                    categorySummaries={dayData.categorySummaries}
+                  />
+                ) : (
+                  format(day, "d")
+                )}
               </div>
             );
           })}
