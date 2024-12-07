@@ -2,6 +2,27 @@
   display: flex;
   width: 100%;
   position: relative;
+  margin-bottom: 1.6rem;
+  transition: all 0.25s ease;
+  user-select: none; // 드래그 시 텍스트 선택 방지
+  cursor: grab;
+
+  &.swiped {
+    .timeWrap {
+      opacity: 0;
+      transform: translateX(-10px);
+      display: none;
+    }
+
+    .editWrap {
+      display: flex;
+      opacity: 1;
+    }
+
+    .cardWrap3 {
+      margin-left: 1rem;
+    }
+  }
 }
 
 .cardWrap2 {
@@ -12,13 +33,16 @@
 .cardWrap3 {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 100%;
   margin-right: 2rem;
 }
 
 .timeWrap {
   display: flex;
   gap: 0.2rem;
+  opacity: 1;
+  transform: translateX(0);
+  transition: all 0.25s ease;
 }
 
 .time {
@@ -45,9 +69,9 @@
 }
 
 .editWrap {
-  // position: absolute;
-  display: flex;
-  // right: -13rem;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
 
 .cardEdit,

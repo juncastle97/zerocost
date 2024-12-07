@@ -18,6 +18,7 @@ interface EditModalProps {
   category: string;
   money: number;
   date: string;
+  time: string;
 }
 
 export default function EditModal({
@@ -25,6 +26,7 @@ export default function EditModal({
   category,
   money,
   date,
+  time,
 }: EditModalProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [isEditingCategory, setIsEditingCategory] = useState(false);
@@ -58,7 +60,7 @@ export default function EditModal({
       <div className={cn("modalBack")} onClick={handleClose}></div>
       <div className={cn("modalWrap", { closing: isClosing })}>
         <div className={cn("bar")}></div>
-        <div className={cn("time")}>{formatToCustomDate(date)}</div>
+        <div className={cn("time")}>{formatToCustomDate(date, time)}</div>
         <div className={cn("content", { editing: isEditingCategory })}>
           <div className={cn("categoryText")}>
             <Image

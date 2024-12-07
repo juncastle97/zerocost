@@ -1,32 +1,27 @@
-export function formatTimeToAmPm(dateString: string): string {
-  const date = new Date(dateString);
-  const formatter = new Intl.DateTimeFormat("ko-KR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
+export function formatTimeToAmPm(timeString: string): string {
+  // HH:mm:ss 형식의 시간 문자열을 파싱
+  const [hours, minutes] = timeString.split(":").map(Number);
 
-  return formatter.format(date);
+  // 12시간제로 변환
+  const period = hours >= 12 ? "오후" : "오전";
+  const hour12 = hours % 12 || 12;
+
+  return `${period} ${hour12}:${minutes.toString().padStart(2, "0")}`;
 }
 
-export function formatToCustomDate(dateString: string): string {
-  const date = new Date(dateString);
+export function formatToCustomDate(
+  dateString: string,
+  timeString: string
+): string {
+  const [year, month, day] = dateString.split("-").map(Number);
+  const date = new Date(year, month - 1, day);
 
-  // 각 부분을 개별적으로 포맷팅
-  const month = new Intl.DateTimeFormat("ko-KR", { month: "numeric" }).format(
-    date
-  );
-  const day = new Intl.DateTimeFormat("ko-KR", { day: "numeric" }).format(date);
   const weekday = new Intl.DateTimeFormat("ko-KR", { weekday: "short" }).format(
     date
   );
-  const time = new Intl.DateTimeFormat("ko-KR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  }).format(date);
+  const formattedTime = formatTimeToAmPm(timeString);
 
-  return `${month} ${day} (${weekday}) ${time}`;
+  return `${month}월 ${day}일 (${weekday}) ${formattedTime}`;
 }
 
 export function formatDateSection(dateString: string): string {
@@ -34,7 +29,8 @@ export function formatDateSection(dateString: string): string {
   const yesterday = new Date(today);
   yesterday.setDate(yesterday.getDate() - 1);
 
-  const targetDate = new Date(dateString);
+  const [year, month, day] = dateString.split("-").map(Number);
+  const targetDate = new Date(year, month - 1, day);
 
   // 날짜만 비교하기 위해 시간을 00:00:00으로 설정
   const normalizeDate = (date: Date) => {
@@ -58,35 +54,40 @@ export function formatDateSection(dateString: string): string {
   }
 }
 
-export function groupByDate(
-  items: Array<{ savingYmd: string; [key: string]: any }>
-) {
-  // 먼저 전체 아이템을 시간순으로 정렬 (최신순)
-  const sortedItems = [...items].sort((a, b) => {
-    return new Date(b.savingYmd).getTime() - new Date(a.savingYmd).getTime();
+export function groupByDate(data: {
+  dailyGroups: Array<{
+    day: number;
+    items: Array<{ savingYmd: string; savingTime: string; [key: string]: any }>;
+  }>;
+}) {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const groupedData = data.dailyGroups.map((group) => {
+    const groupDate = new Date(group.items[0].savingYmd);
+    let label: string;
+
+    if (groupDate.toDateString() === today.toDateString()) {
+      label = "오늘";
+    } else if (groupDate.toDateString() === yesterday.toDateString()) {
+      label = "어제";
+    } else {
+      const year = groupDate.getFullYear().toString().slice(-2);
+      const month = groupDate.getMonth() + 1;
+      const day = groupDate.getDate();
+      label = `${year}년 ${month}월 ${day}일`;
+    }
+
+    return { label, items: group.items };
   });
 
-  // 정렬된 아이템을 날짜별로 그룹화
-  const groups = sortedItems.reduce(
-    (acc, item) => {
-      const dateSection = formatDateSection(item.savingYmd);
-      if (!acc[dateSection]) {
-        acc[dateSection] = [];
-      }
-      acc[dateSection].push(item);
-      return acc;
-    },
-    {} as { [key: string]: typeof items }
-  );
-
-  // 날짜 섹션을 '오늘', '어제', 기타 날짜 순으로 정렬
-  const sortedGroups = Object.entries(groups).sort(([dateA], [dateB]) => {
-    if (dateA === "오늘") return -1;
-    if (dateB === "오늘") return 1;
-    if (dateA === "어제") return -1;
-    if (dateB === "어제") return 1;
+  // "오늘", "어제"가 최상위에 오도록 정렬
+  return groupedData.sort((a, b) => {
+    if (a.label === "오늘") return -1;
+    if (b.label === "오늘") return 1;
+    if (a.label === "어제") return -1;
+    if (b.label === "어제") return 1;
     return 0;
   });
-
-  return sortedGroups;
 }

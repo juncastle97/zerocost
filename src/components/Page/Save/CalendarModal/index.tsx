@@ -102,6 +102,7 @@ export default function CalendarModal({
                     category={item.categoryName}
                     amount={item.amount}
                     date={item.savingYmd}
+                    time={item.savingTime}
                     className={cn("card")}
                   />
                 ))}

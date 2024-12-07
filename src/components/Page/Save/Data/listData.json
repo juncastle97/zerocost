@@ -1,62 +1,74 @@
 {
-  "memberId": 1,
-  "items": [
+  "memberId": 17,
+  "totalAmount": 127960,
+  "dailyGroups": [
     {
-      "memberId": 1,
-      "savingId": 1,
-      "savingYmd": "2024-12-04T08:00:00.000Z",
-      "amount": 8000,
-      "categoryName": "coffee"
+      "day": 7,
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 48,
+          "savingYmd": "2024-12-07",
+          "savingTime": "13:01:00",
+          "amount": 17000,
+          "categoryName": "coffee"
+        }
+      ]
     },
     {
-      "memberId": 1,
-      "savingId": 2,
-      "savingYmd": "2024-12-03T10:30:00.000Z",
-      "amount": 15000,
-      "categoryName": "meal"
+      "day": 6,
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 48,
+          "savingYmd": "2024-12-06",
+          "savingTime": "13:01:00",
+          "amount": 27000,
+          "categoryName": "fandom"
+        }
+      ]
     },
     {
-      "memberId": 1,
-      "savingId": 3,
-      "savingYmd": "2024-12-02T15:00:00.000Z",
-      "amount": 5000,
-      "categoryName": "dessert"
+      "day": 4,
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 48,
+          "savingYmd": "2024-12-04",
+          "savingTime": "13:01:00",
+          "amount": 7000,
+          "categoryName": "meal"
+        }
+      ]
     },
     {
-      "memberId": 1,
-      "savingId": 4,
-      "savingYmd": "2024-12-01T18:00:00.000Z",
-      "amount": 120000,
-      "categoryName": "shopping"
-    },
-    {
-      "memberId": 1,
-      "savingId": 5,
-      "savingYmd": "2024-12-04T21:00:00.000Z",
-      "amount": 12000,
-      "categoryName": "movie"
-    },
-    {
-      "memberId": 1,
-      "savingId": 6,
-      "savingYmd": "2024-12-04T09:15:00.000Z",
-      "amount": 10000,
-      "categoryName": "game"
-    },
-    {
-      "memberId": 1,
-      "savingId": 7,
-      "savingYmd": "2024-12-03T14:00:00.000Z",
-      "amount": 18000,
-      "categoryName": "smoke"
-    },
-    {
-      "memberId": 1,
-      "savingId": 8,
-      "savingYmd": "2024-12-02T11:30:00.000Z",
-      "amount": 25000,
-      "categoryName": "taxi"
+      "day": 3,
+      "items": [
+        {
+          "memberId": 17,
+          "savingId": 26,
+          "savingYmd": "2024-12-03",
+          "savingTime": "13:01:00",
+          "amount": 10000,
+          "categoryName": "taxi"
+        },
+        {
+          "memberId": 17,
+          "savingId": 39,
+          "savingYmd": "2024-12-03",
+          "savingTime": "13:01:00",
+          "amount": 8300,
+          "categoryName": "dessert"
+        },
+        {
+          "memberId": 17,
+          "savingId": 41,
+          "savingYmd": "2024-12-03",
+          "savingTime": "13:01:00",
+          "amount": 5000,
+          "categoryName": "taxi"
+        }
+      ]
     }
-  ],
-  "totalAmount": 190000
+  ]
 }

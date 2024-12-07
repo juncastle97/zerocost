@@ -9,7 +9,7 @@ import Image from "next/image";
 const cn = classNames.bind(styles);
 
 export default function Listview() {
-  const groupedItems = groupByDate(listData.items);
+  const groupedItems = groupByDate(listData);
 
   return (
     <div className={cn("listWrap")}>
@@ -17,20 +17,21 @@ export default function Listview() {
         <span>이번 달 지킨 돈</span>
         <span>{formatToKoreanCurrency(listData.totalAmount)}원</span>
       </div>
-      {groupedItems.map(([date, items]) => (
-        <div key={date}>
-          <div className={cn("date")}>{date}</div>
-          {items.map((item) => (
+      {groupedItems.map((group, index) => (
+        <div key={group.label} className={cn({ firstGroup: index === 0 })}>
+          <div className={cn("date")}>{group.label}</div>
+          {group.items.map((item) => (
             <Card
               key={item.savingId}
               category={item.categoryName}
               amount={item.amount}
               date={item.savingYmd}
+              time={item.savingTime}
             />
           ))}
         </div>
       ))}
-      {listData.items.length === 0 && (
+      {listData.dailyGroups.length === 0 && (
         <div className={cn("empty")}>
           <Image
             src="/icons/ic-logo.svg"
