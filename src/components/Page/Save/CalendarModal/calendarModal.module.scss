@@ -80,11 +80,14 @@
 }
 
 .plus {
-  @include button2;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
+
+  > div {
+    @include button2;
+  }
 }
 
 .button {
@@ -171,10 +174,13 @@
 }
 
 .total {
-  @include body3;
   display: flex;
   justify-content: space-between;
   margin: 2.4rem 0 1.4rem 0;
+
+  > div {
+    @include button1;
+  }
 }
 
 .cardWrap {
@@ -187,8 +193,8 @@
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .card {
