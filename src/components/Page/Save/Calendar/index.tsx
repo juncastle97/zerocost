@@ -10,12 +10,13 @@ import {
 
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import CalendarModal from "../CalendarModal";
 import CalendarItem from "../CalendarItem";
 import styles from "./calendar.module.scss";
-import calendarData from "../Data/calendarData.json";
+import { getVirtualItemCalendar } from "@/lib/apis/virtualItems";
+import { CalendarData } from "@/types/virtualItems";
 
 const cn = classNames.bind(styles);
 
@@ -25,6 +26,8 @@ export default function Calendar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
+
   const today = new Date();
   const isCurrentMonth =
     format(currentDate, "yyyyMM") === format(today, "yyyyMM");
@@ -34,6 +37,21 @@ export default function Calendar() {
 
   const startDate = addDays(startOfCurrentMonth, -getDay(startOfCurrentMonth));
   const days = Array.from({ length: 35 }, (_, i) => addDays(startDate, i));
+
+  useEffect(() => {
+    const fetchCalendarData = async () => {
+      try {
+        const year = parseInt(format(currentDate, "yyyy"));
+        const month = parseInt(format(currentDate, "M"));
+        const data = await getVirtualItemCalendar(year, month);
+        setCalendarData(data);
+      } catch (error) {
+        console.error("Failed to fetch calendar data:", error);
+      }
+    };
+
+    fetchCalendarData();
+  }, [currentDate]);
 
   const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const handleNextMonth = () => {
@@ -81,7 +99,7 @@ export default function Calendar() {
               day >= startOfCurrentMonth && day <= endOfCurrentMonth;
             const dayOfWeek = getDay(day);
             const dayNumber = parseInt(format(day, "d"));
-            const dayData = calendarData.days.find(
+            const dayData = calendarData?.days.find(
               (item) => item.day === dayNumber
             );
 

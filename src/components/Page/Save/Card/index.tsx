@@ -20,8 +20,10 @@ import {
 } from "@/constants/category";
 import { formatToKoreanCurrency } from "@/constants/formattedAmount";
 import { formatTimeToAmPm } from "@/constants/date";
+import { deleteVirtualItem } from "@/lib/apis/virtualItems";
 
 interface ListCardProps {
+  id: number;
   category: string;
   amount: number;
   date: string;
@@ -30,6 +32,7 @@ interface ListCardProps {
 }
 
 export default function Card({
+  id,
   category,
   amount,
   date,
@@ -84,6 +87,16 @@ export default function Card({
     startXRef.current = null;
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteVirtualItem(id);
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to delete item:", error);
+    }
+  };
+
   return (
     <div className={className}>
       <div
@@ -123,7 +136,9 @@ export default function Card({
           <button className={cn("cardEdit")} onClick={handleEditClick}>
             수정
           </button>
-          <div className={cn("cardDelete")}>삭제</div>
+          <button className={cn("cardDelete")} onClick={handleDelete}>
+            삭제
+          </button>
         </div>
       </div>
 

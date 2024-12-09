@@ -22,7 +22,7 @@ export default function Listview() {
           <div className={cn("date")}>{group.label}</div>
           {group.items.map((item) => (
             <Card
-              key={item.savingId}
+              id={item.savingId}
               category={item.categoryName}
               amount={item.amount}
               date={item.savingYmd}
