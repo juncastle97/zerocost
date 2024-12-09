@@ -1,14 +1,45 @@
 import classNames from "classnames/bind";
 import styles from "./listView.module.scss";
-import listData from "../Data/listData.json";
 import Card from "../Card";
 import { formatToKoreanCurrency } from "@/constants/formattedAmount";
 import { groupByDate } from "@/constants/date";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import { getVirtualItemList } from "@/lib/apis/virtualItems";
 
 const cn = classNames.bind(styles);
 
 export default function Listview() {
+  const [listData, setListData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const currentDate = new Date();
+        const data = await getVirtualItemList(
+          currentDate.getFullYear(),
+          currentDate.getMonth() + 1
+        );
+        setListData(data);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!listData) {
+    return <div>Error loading data</div>;
+  }
+
   const groupedItems = groupByDate(listData);
 
   return (
@@ -22,6 +53,7 @@ export default function Listview() {
           <div className={cn("date")}>{group.label}</div>
           {group.items.map((item) => (
             <Card
+              key={item.savingId}
               id={item.savingId}
               category={item.categoryName}
               amount={item.amount}
@@ -31,7 +63,7 @@ export default function Listview() {
           ))}
         </div>
       ))}
-      {listData.dailyGroups.length === 0 && (
+      {(!listData.dailyGroups || listData.dailyGroups.length === 0) && (
         <div className={cn("empty")}>
           <Image
             src="/icons/ic-logo.svg"
