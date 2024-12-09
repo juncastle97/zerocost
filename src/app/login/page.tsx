@@ -8,10 +8,11 @@ import { loginData, loginState } from "@/lib/atoms/login";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
+import Kakao from "kakao-js-sdk";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./login.module.scss";
 
 const cn = classNames.bind(styles);
@@ -30,7 +31,84 @@ export default function Login() {
       document.cookie = `memberKeyId=${res.memberKeyId}; path=/; max-age=3600; secure; samesite=strict`;
     },
   });
+  const { mutate: postOut } = useMutation({
+    mutationKey: ["postLogout"],
+    mutationFn: () => postItem(),
+    // onSuccess: (res) => {
+    //   setLoginData(res);
+    //   document.cookie = `memberKeyId=${res.memberKeyId}; path=/; max-age=3600; secure; samesite=strict`;
+    // },
+  });
+  useEffect(() => {
+    // 브라우저 환경에서만 실행
+    if (typeof window !== "undefined") {
+      // Kakao 객체가 있는지 확인
+      if (!window.Kakao) {
+        console.error("Kakao SDK가 로드되지 않았습니다.");
+        return;
+      }
 
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+        console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
+      }
+    }
+    Kakao;
+  }, []);
+
+  const kakaoLogin = async () => {
+    if (typeof window !== "undefined" && window.Kakao && window.Kakao.Auth) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+      }
+
+      try {
+        // 1. 카카오 로그인
+        const auth = await new Promise((resolve, reject) => {
+          window.Kakao.Auth.login({
+            success: resolve,
+            fail: reject,
+          });
+        });
+        console.log("Kakao Login Success:", auth);
+
+        // 2. 사용자 정보 요청
+        const userInfo = await new Promise((resolve, reject) => {
+          window.Kakao.API.request({
+            url: "/v2/user/me",
+            success: resolve,
+            fail: reject,
+          });
+        });
+        console.log("Kakao User Info:", userInfo);
+
+        // 3. 서버로 사용자 정보 전송
+        const serverResponse = await fetch(
+          `http://3.39.123.15:8090/api/auth/kakao-login?code=${userInfo.id}`,
+          {
+            method: "GET",
+          }
+        );
+
+        if (!serverResponse.ok) {
+          throw new Error(`HTTP error! status: ${serverResponse.status}`);
+        }
+
+        const data = await serverResponse.json();
+        console.log("Server Response:", data);
+        setLoginData(data);
+        setLogin("user");
+        // window.location.href = "/loginNick"; // 성공 시 리다이렉트
+        // window.location.href = "/"; // 성공 시 리다이렉트
+      } catch (error) {
+        console.error("Error during Kakao login:", error);
+        alert("로그인 중 오류가 발생했습니다.");
+      }
+    } else {
+      console.error("Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.");
+      alert("Kakao SDK를 로드하는 중 오류가 발생했습니다.");
+    }
+  };
   return (
     <>
       <div className={cn("loginWrap")}>
@@ -41,26 +119,20 @@ export default function Login() {
         </div>
 
         <div className={cn("loginBox")}>
-          <div
-            className={cn("loginBtn")}
-            onClick={() => router.push("/loginNick")}
-          >
+          <div onClick={kakaoLogin} className={cn("loginBtn")}>
             <Image src={kakao} alt="kakao login" width={24} height={24} />
-            <Link
-              href={
-                "https://kauth.kakao.com/oauth/authorize?client_id=489a2f33bf9d90c59950291ca077adc9&redirect_uri=http://3.39.123.15:8090/api/auth/kakao-login&response_type=code"
-              }
-            >
-              카카오 시작하기
-            </Link>
+            카카오 시작하기
           </div>
-          <div
+
+          <Link
             className={cn("loginBtn")}
-            onClick={() => router.push("/loginNick")}
+            href={
+              "https://kauth.kakao.com/oauth/authorize?client_id=489a2f33bf9d90c59950291ca077adc9&redirect_uri=http://3.39.123.15:8090/api/auth/kakao-login&response_type=code"
+            }
           >
             <Image src={google} alt="google login" width={24} height={24} />
-            <Link href={""}>구글로 시작하기</Link>
-          </div>
+            구글로 시작하기
+          </Link>
           <div
             className={cn("guest")}
             onClick={() => {
@@ -69,6 +141,7 @@ export default function Login() {
           >
             게스트로 시작하기
           </div>
+          <div onClick={postOut}>로그아웃</div>
         </div>
 
         <div className={cn("agreeWrap")}>
@@ -96,4 +169,7 @@ export default function Login() {
       )}
     </>
   );
+}
+function postItem(variables: void): Promise<unknown> {
+  throw new Error("Function not implemented.");
 }

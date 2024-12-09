@@ -4,21 +4,38 @@ import arrow from "@/../public/icons/arrowOn.svg";
 import profileImg from "@/../public/icons/icon_user.svg";
 import MypageDropBottom from "@/components/commons/Modal/MypageDropBottom";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
+import { getStatus } from "@/lib/apis/mypage";
+import { loginData } from "@/lib/atoms/login";
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
 const cn = classNames.bind(styles);
 export default function Guest({ setLoginUser }) {
-  const [date] = useState<number>(0);
-  const [price] = useState<number>(0);
+  const [date, setDate] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
   const [logout, setLogOut] = useState<boolean>(false);
   const [accountDelete, setAccountDelete] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
+  const [loginDatas] = useAtom<any>(loginData);
 
   const handleGuest = () => {
     setLogin(true);
   };
+
+  const { data: status, isSuccess } = useQuery({
+    queryKey: ["status"],
+    queryFn: getStatus,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setDate(status.daysFromRegistration);
+      setPrice(status.totalAmount);
+    }
+  }, [isSuccess]);
 
   return (
     <>
@@ -26,14 +43,16 @@ export default function Guest({ setLoginUser }) {
         <div className={cn("profileWrap")}>
           <div className={cn("profileInner")}>
             <Image src={profileImg} alt="프로필이미지" width={34} height={34} />
-            <div className={cn("profileName")}>{"Guest"} 님</div>
+            <div className={cn("profileName")}>
+              {loginDatas.memberNickname} 님
+            </div>
           </div>
         </div>
 
         <div className={cn("saveDay")}>
-          제로코스트와 함께한 {date}일 동안
+          제로코스트와 함께한 {date ? date : 0}일 동안
           <br />
-          {price.toLocaleString()}원을 지켰어요
+          {price ? price.toLocaleString() : 0}원을 지켰어요
         </div>
 
         <div className={cn("saveData")} onClick={handleGuest}>

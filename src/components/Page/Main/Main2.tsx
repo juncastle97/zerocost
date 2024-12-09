@@ -17,11 +17,19 @@ export default function Main1() {
   const [, setChoice] = useAtom(mainChoice);
   const [num, setNum] = useState<number[]>([]);
   const numBox = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  console.log(num.join(""));
+  const nowDate = new Date();
+  const date =
+    nowDate.getFullYear() +
+    "-" +
+    (nowDate.getMonth() + 1) +
+    "-" +
+    String(nowDate.getDate()).padStart(2, "0");
+  console.log(nowDate.getDate());
   const handleChoice = () => {
     setChoice((prevChoice) => ({
       ...prevChoice,
-      price: Number(num.join("")),
+      amount: Number(num.join("")),
+      savingYmd: date,
     }));
     setMainOrder(2);
   };

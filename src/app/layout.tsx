@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useState } from "react";
 
-import "@/styles/base/index.scss";
 import Gnb from "@/components/commons/Gnb";
+import "@/styles/base/index.scss";
 
 export default function RootLayout({
   children,
@@ -40,6 +40,18 @@ export default function RootLayout({
               // overflow: "hidden",
             }}
           >
+            <Script
+              src="https://developers.kakao.com/sdk/js/kakao.js"
+              strategy="beforeInteractive"
+              onLoad={() => {
+                if (typeof window !== "undefined" && window.Kakao) {
+                  if (!window.Kakao.isInitialized()) {
+                    window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+                    console.log("Kakao SDK 초기화 완료");
+                  }
+                }
+              }}
+            />
             {!isAdminPage && !isBadgePage && <Gnb />}
             {children}
           </div>

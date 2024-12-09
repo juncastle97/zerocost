@@ -19,7 +19,7 @@ export default function Main1() {
   const handleChoice = (item: string) => {
     setChoice((prevChoice) => ({
       ...prevChoice,
-      item: item,
+      categoryName: "meal",
     }));
     setMainOrder(1);
   };
