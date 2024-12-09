@@ -6,9 +6,11 @@ const cn = classNames.bind(styles);
 
 import { categoryColorMap, categoryNameMap } from "@/constants/category";
 
-import { data } from "./data";
+interface PercentageProps {
+  data: any[];
+}
 
-export default function Percentage() {
+export default function Percentage({ data }: PercentageProps) {
   return (
     <div className={cn("grid")}>
       {data.map((item, index) => (
