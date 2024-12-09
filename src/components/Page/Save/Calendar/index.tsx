@@ -10,7 +10,7 @@ import {
 
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import CalendarModal from "../CalendarModal";
 import CalendarItem from "../CalendarItem";
@@ -38,26 +38,32 @@ export default function Calendar() {
   const startDate = addDays(startOfCurrentMonth, -getDay(startOfCurrentMonth));
   const days = Array.from({ length: 35 }, (_, i) => addDays(startDate, i));
 
-  useEffect(() => {
-    const fetchCalendarData = async () => {
-      try {
-        const year = parseInt(format(currentDate, "yyyy"));
-        const month = parseInt(format(currentDate, "M"));
-        const data = await getVirtualItemCalendar(year, month);
-        setCalendarData(data);
-      } catch (error) {
-        console.error("Failed to fetch calendar data:", error);
-      }
-    };
-
-    fetchCalendarData();
+  const fetchCalendarData = useCallback(async () => {
+    try {
+      const year = parseInt(format(currentDate, "yyyy"));
+      const month = parseInt(format(currentDate, "M"));
+      const data = await getVirtualItemCalendar(year, month);
+      setCalendarData(data);
+    } catch (error) {
+      console.error("Failed to fetch calendar data:", error);
+    }
   }, [currentDate]);
+
+  useEffect(() => {
+    fetchCalendarData();
+  }, [fetchCalendarData]);
 
   const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const handleNextMonth = () => {
     if (!isCurrentMonth) {
       setCurrentDate(addMonths(currentDate, 1));
     }
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedDate(null);
+    fetchCalendarData(); // 모달이 닫힐 때 캘린더 데이터도 새로고침
   };
 
   return (
@@ -136,10 +142,8 @@ export default function Calendar() {
         <CalendarModal
           date={selectedDate}
           day={parseInt(format(selectedDate, "d"))}
-          onClose={() => {
-            setIsModalOpen(false);
-            setSelectedDate(null);
-          }}
+          onClose={handleModalClose}
+          onUpdate={fetchCalendarData}
         />
       )}
     </div>

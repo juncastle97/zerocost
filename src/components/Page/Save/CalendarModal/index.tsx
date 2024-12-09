@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import { useAtom } from "jotai";
 import { selectedCategoryAtom } from "@/lib/atoms/category";
 
@@ -26,6 +26,7 @@ interface CalendarModalProps {
   date: Date;
   day: number;
   onClose: () => void;
+  onUpdate: () => void;
 }
 
 type ModalDayData = Pick<DayData, "items" | "dayTotalAmount">;
@@ -34,6 +35,7 @@ export default function CalendarModal({
   date,
   day,
   onClose,
+  onUpdate,
 }: CalendarModalProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [category, setSelectedCategory] = useAtom(selectedCategoryAtom);
@@ -45,38 +47,37 @@ export default function CalendarModal({
   const [dayData, setDayData] = useState<ModalDayData | null>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const fetchDayData = async () => {
-      try {
-        const year = parseInt(format(date, "yyyy"));
-        const month = parseInt(format(date, "M"));
-        const response = await getVirtualItemCalendar(year, month);
-        console.log("API Response:", response);
+  const fetchDayData = useCallback(async () => {
+    try {
+      const year = parseInt(format(date, "yyyy"));
+      const month = parseInt(format(date, "M"));
+      const response = await getVirtualItemCalendar(year, month);
 
-        if (!response || !response.days) {
-          setDayData({ items: [], dayTotalAmount: 0 });
-          return;
-        }
-
-        const dayData = response.days.find((item) => item.day === day);
-
-        if (!dayData) {
-          setDayData({ items: [], dayTotalAmount: 0 });
-          return;
-        }
-
-        setDayData({
-          items: dayData.items,
-          dayTotalAmount: dayData.dayTotalAmount,
-        });
-      } catch (error) {
-        console.error("Failed to fetch day data:", error);
+      if (!response || !response.days) {
         setDayData({ items: [], dayTotalAmount: 0 });
+        return;
       }
-    };
 
-    fetchDayData();
+      const dayData = response.days.find((item) => item.day === day);
+
+      if (!dayData) {
+        setDayData({ items: [], dayTotalAmount: 0 });
+        return;
+      }
+
+      setDayData({
+        items: dayData.items,
+        dayTotalAmount: dayData.dayTotalAmount,
+      });
+    } catch (error) {
+      console.error("Failed to fetch day data:", error);
+      setDayData({ items: [], dayTotalAmount: 0 });
+    }
   }, [date, day]);
+
+  useEffect(() => {
+    fetchDayData();
+  }, [fetchDayData]);
 
   console.log(dayData);
 
@@ -98,6 +99,7 @@ export default function CalendarModal({
 
     postVirtualItem(savingData)
       .then(() => {
+        onUpdate();
         handleClose();
       })
       .catch((error) => {
@@ -163,6 +165,10 @@ export default function CalendarModal({
                     date={item.savingYmd}
                     time={item.savingTime}
                     className={cn("card")}
+                    onDelete={() => {
+                      fetchDayData();
+                      onUpdate();
+                    }}
                   />
                 ))}
               </div>

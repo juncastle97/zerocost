@@ -29,6 +29,7 @@ interface ListCardProps {
   date: string;
   time: string;
   className?: string;
+  onDelete?: () => void;
 }
 
 export default function Card({
@@ -38,6 +39,7 @@ export default function Card({
   date,
   time,
   className,
+  onDelete,
 }: ListCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEdit] = useAtom(listEditState);
@@ -90,8 +92,7 @@ export default function Card({
   const handleDelete = async () => {
     try {
       await deleteVirtualItem(id);
-
-      window.location.reload();
+      onDelete?.();
     } catch (error) {
       console.error("Failed to delete item:", error);
     }
@@ -110,7 +111,7 @@ export default function Card({
       >
         <div className={cn("cardWrap2")}>
           <div className={cn("timeWrap")}>
-            {isEdit && <CheckBox />}
+            {isEdit && <CheckBox savingId={id} />}
             <div className={cn("time")}>{formatTimeToAmPm(time)}</div>
           </div>
           <div className={cn("cardWrap3")}>
