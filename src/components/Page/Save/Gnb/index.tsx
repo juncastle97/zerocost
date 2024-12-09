@@ -10,6 +10,7 @@ const cn = classNames.bind(styles);
 import { useAtom } from "jotai";
 
 import { listEditState } from "@/lib/atoms/list";
+import { selectedItemsAtom } from "@/lib/atoms/selectedItems";
 
 import DeleteSaveButton from "../DeleteSaveButton";
 
@@ -23,6 +24,18 @@ export default function SaveGnb({
   setIsCalendarView,
 }: SaveGnbProps) {
   const [isEdit, setIsEdit] = useAtom(listEditState);
+  const [, setSelectedCount] = useAtom(selectedItemsAtom);
+
+  const handleCancel = () => {
+    setIsEdit(false);
+    setSelectedCount(0);
+  };
+
+  const handleCalendarClick = () => {
+    setIsCalendarView(true);
+    setIsEdit(false);
+    setSelectedCount(0);
+  };
 
   return (
     <div className={cn("gnbWrap")}>
@@ -33,7 +46,7 @@ export default function SaveGnb({
           width={24}
           height={24}
           className={cn("icon")}
-          onClick={() => setIsCalendarView(true)}
+          onClick={handleCalendarClick}
         />
         <Image
           src={`/icons/ic-list-state-${!isCalendarView ? "on" : "off"}.svg`}
@@ -47,7 +60,7 @@ export default function SaveGnb({
       {isEdit ? (
         <div
           className={cn("cancel", { hidden: isCalendarView })}
-          onClick={() => setIsEdit(false)}
+          onClick={handleCancel}
         >
           취소
         </div>
@@ -61,7 +74,7 @@ export default function SaveGnb({
           onClick={() => setIsEdit(true)}
         />
       )}
-      {isEdit && <DeleteSaveButton />}
+      {isEdit && !isCalendarView && <DeleteSaveButton />}
     </div>
   );
 }

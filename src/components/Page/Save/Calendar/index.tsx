@@ -8,14 +8,17 @@ import {
   subMonths,
 } from "date-fns";
 
-const cn = classNames.bind(styles);
-
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import CalendarModal from "../CalendarModal";
+import CalendarItem from "../CalendarItem";
 import styles from "./calendar.module.scss";
+import { getVirtualItemCalendar } from "@/lib/apis/virtualItems";
+import { CalendarData } from "@/types/virtualItems";
+
+const cn = classNames.bind(styles);
 
 export default function Calendar() {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
@@ -23,6 +26,8 @@ export default function Calendar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
+
   const today = new Date();
   const isCurrentMonth =
     format(currentDate, "yyyyMM") === format(today, "yyyyMM");
@@ -30,14 +35,35 @@ export default function Calendar() {
   const startOfCurrentMonth = startOfMonth(currentDate);
   const endOfCurrentMonth = endOfMonth(currentDate);
 
-  const startDate = addDays(startOfCurrentMonth, -getDay(startOfCurrentMonth)); // 달력 시작일 계산
-  const days = Array.from({ length: 35 }, (_, i) => addDays(startDate, i)); // 35칸 생성
+  const startDate = addDays(startOfCurrentMonth, -getDay(startOfCurrentMonth));
+  const days = Array.from({ length: 35 }, (_, i) => addDays(startDate, i));
+
+  const fetchCalendarData = useCallback(async () => {
+    try {
+      const year = parseInt(format(currentDate, "yyyy"));
+      const month = parseInt(format(currentDate, "M"));
+      const data = await getVirtualItemCalendar(year, month);
+      setCalendarData(data);
+    } catch (error) {
+      console.error("Failed to fetch calendar data:", error);
+    }
+  }, [currentDate]);
+
+  useEffect(() => {
+    fetchCalendarData();
+  }, [fetchCalendarData]);
 
   const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
   const handleNextMonth = () => {
     if (!isCurrentMonth) {
       setCurrentDate(addMonths(currentDate, 1));
     }
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setSelectedDate(null);
+    fetchCalendarData(); // 모달이 닫힐 때 캘린더 데이터도 새로고침
   };
 
   return (
@@ -78,6 +104,11 @@ export default function Calendar() {
             const isCurrentMonth =
               day >= startOfCurrentMonth && day <= endOfCurrentMonth;
             const dayOfWeek = getDay(day);
+            const dayNumber = parseInt(format(day, "d"));
+            const dayData = calendarData?.days.find(
+              (item) => item.day === dayNumber
+            );
+
             return (
               <div
                 key={day.toISOString()}
@@ -94,7 +125,14 @@ export default function Calendar() {
                   }
                 }}
               >
-                {format(day, "d")}
+                {dayData && isCurrentMonth ? (
+                  <CalendarItem
+                    day={dayNumber}
+                    categorySummaries={dayData.categorySummaries}
+                  />
+                ) : (
+                  format(day, "d")
+                )}
               </div>
             );
           })}
@@ -104,10 +142,8 @@ export default function Calendar() {
         <CalendarModal
           date={selectedDate}
           day={parseInt(format(selectedDate, "d"))}
-          onClose={() => {
-            setIsModalOpen(false);
-            setSelectedDate(null);
-          }}
+          onClose={handleModalClose}
+          onUpdate={fetchCalendarData}
         />
       )}
     </div>

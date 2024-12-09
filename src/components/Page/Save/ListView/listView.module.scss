@@ -1,6 +1,21 @@
 .listWrap {
   width: 100%;
-  padding: 0 2.4rem 4rem 2.4rem;
+  height: calc(100vh - 7.2rem); // Gnb 높이만큼 제외
+  display: flex;
+  flex-direction: column;
+  padding: 0 2.4rem 3rem 2.4rem;
+  overflow-y: auto;
+}
+
+.cardWrap {
+  flex: 1;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .saveMoney {
@@ -9,7 +24,13 @@
   display: flex;
   gap: 0.8rem;
   padding: 0.8rem 0;
-  margin: 0.7rem 0 1.7rem;
+  margin: 0.7rem 0 1.7rem 0;
+}
+
+.firstGroup {
+  .date {
+    margin-top: 0;
+  }
 }
 
 .date {
@@ -17,14 +38,18 @@
   color: $orange-400;
   width: 100%;
   background-color: $gray-800;
-  margin-bottom: 2rem;
   padding: 0.2rem 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 0.8rem;
-}
+  margin-bottom: 2rem;
+  margin-top: 5rem;
 
+  & + .date {
+    margin-top: 5rem;
+  }
+}
 
 .empty {
   display: flex;
