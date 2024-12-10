@@ -18,9 +18,13 @@ import styles from "./calendar.module.scss";
 import { getVirtualItemCalendar } from "@/lib/apis/virtualItems";
 import { CalendarData } from "@/types/virtualItems";
 
+interface CalendarProps {
+  selectedCategories: string[];
+}
+
 const cn = classNames.bind(styles);
 
-export default function Calendar() {
+export default function Calendar({ selectedCategories }: CalendarProps) {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -109,6 +113,13 @@ export default function Calendar() {
               (item) => item.day === dayNumber
             );
 
+            // Filter category summaries based on selected categories
+            const filteredSummaries = dayData?.categorySummaries.filter(
+              (summary) =>
+                selectedCategories.length === 0 ||
+                selectedCategories.includes(summary.categoryName)
+            );
+
             return (
               <div
                 key={day.toISOString()}
@@ -125,10 +136,10 @@ export default function Calendar() {
                   }
                 }}
               >
-                {dayData && isCurrentMonth ? (
+                {dayData && isCurrentMonth && filteredSummaries ? (
                   <CalendarItem
                     day={dayNumber}
-                    categorySummaries={dayData.categorySummaries}
+                    categorySummaries={filteredSummaries}
                   />
                 ) : (
                   format(day, "d")

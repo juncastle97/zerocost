@@ -79,8 +79,6 @@ export default function CalendarModal({
     fetchDayData();
   }, [fetchDayData]);
 
-  console.log(dayData);
-
   const handleNextClick = () => {
     setIsEditingAmount(true);
     setIsEditingCategory(false);

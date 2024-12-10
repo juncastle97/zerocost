@@ -12,7 +12,6 @@ const cn = classNames.bind(styles);
 
 import CheckBox from "@/components/commons/CheckBox";
 import { listEditState } from "@/lib/atoms/list";
-
 import EditModal from "../EditModal";
 import {
   categoryActionMap,
@@ -51,8 +50,25 @@ export default function Card({
     setIsEditModalOpen(true);
   };
 
+  const handleDelete = async () => {
+    try {
+      await deleteVirtualItem(id);
+      if (onDelete) {
+        onDelete();
+      }
+    } catch (error) {
+      console.error("Failed to delete virtual item:", error);
+    }
+  };
+
   const handleTouchStart = (e: TouchEvent) => {
     startXRef.current = e.touches[0].clientX;
+    isDraggingRef.current = true;
+  };
+
+  const handleTouchEnd = () => {
+    startXRef.current = null;
+    isDraggingRef.current = false;
   };
 
   const handleMouseDown = (e: MouseEvent) => {
@@ -63,39 +79,17 @@ export default function Card({
   const handleMouseMove = (e: MouseEvent) => {
     if (!isDraggingRef.current || startXRef.current === null) return;
 
-    const diff = startXRef.current - e.clientX;
-    if (Math.abs(diff) > 50) {
-      setIsSwipedLeft(diff > 0);
-      isDraggingRef.current = false;
-      startXRef.current = null;
+    const diffX = startXRef.current - e.clientX;
+    if (diffX > 50) {
+      setIsSwipedLeft(true);
+    } else if (diffX < -50) {
+      setIsSwipedLeft(false);
     }
   };
 
   const handleMouseUp = () => {
+    startXRef.current = null;
     isDraggingRef.current = false;
-    startXRef.current = null;
-  };
-
-  const handleTouchEnd = (e: TouchEvent) => {
-    if (startXRef.current === null) return;
-
-    const touchEndX = e.changedTouches[0].clientX;
-    const diff = startXRef.current - touchEndX;
-
-    if (Math.abs(diff) > 70) {
-      setIsSwipedLeft(diff > 0);
-    }
-
-    startXRef.current = null;
-  };
-
-  const handleDelete = async () => {
-    try {
-      await deleteVirtualItem(id);
-      onDelete?.();
-    } catch (error) {
-      console.error("Failed to delete item:", error);
-    }
   };
 
   return (
@@ -150,6 +144,9 @@ export default function Card({
           money={amount}
           date={date}
           time={time}
+          savingId={id}
+          onUpdate={onDelete}
+          onComplete={() => setIsSwipedLeft(false)}
         />
       )}
     </div>

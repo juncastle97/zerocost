@@ -10,12 +10,16 @@ interface AmountInputProps {
   value: number;
   onChange: (newValue: number) => void;
   inputRef?: React.RefObject<HTMLInputElement>;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
 export default function AmountInput({
   value,
   onChange,
   inputRef,
+  onFocus,
+  onBlur,
 }: AmountInputProps) {
   const [inputValue, setInputValue] = useState(value.toString());
   const [isFocused, setIsFocused] = useState(false);
@@ -33,6 +37,16 @@ export default function AmountInput({
     }
   };
 
+  const handleFocus = () => {
+    setIsFocused(true);
+    onFocus?.();
+  };
+
+  const handleBlur = () => {
+    setIsFocused(false);
+    onBlur?.();
+  };
+
   const displayValue = formatToCurrency(inputValue);
   const inputWidth = `${Math.max(displayValue.length, 1)}ch`;
 
@@ -45,8 +59,8 @@ export default function AmountInput({
       pattern="\d*"
       className={cn("inputStyle", { focused: isFocused })}
       style={{ width: inputWidth }}
-      onFocus={() => setIsFocused(true)}
-      onBlur={() => setIsFocused(false)}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       maxLength={7}
       tabIndex={0}
     />
