@@ -2,7 +2,9 @@ import classNames from "classnames/bind";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { useAtom } from "jotai";
+import { selectedCategoryAtom } from "@/lib/atoms/category";
 
 import styles from "./calendarModal.module.scss";
 
@@ -11,42 +13,103 @@ const cn = classNames.bind(styles);
 import Button from "@/components/commons/Button";
 import CategorySelector from "@/components/Page/Save/CategorySelector";
 import { categoryActionMap, categoryNameMap } from "@/constants/category";
-
+import { formatToKoreanCurrency } from "@/constants/formattedAmount";
+import {
+  getVirtualItemCalendar,
+  postVirtualItem,
+} from "@/lib/apis/virtualItems";
+import { DayData } from "@/types/virtualItems";
 import AmountInput from "../AmountInput";
 import Card from "../Card";
 
 interface CalendarModalProps {
   date: Date;
+  day: number;
   onClose: () => void;
+  onUpdate: () => void;
 }
 
-export default function CalendarModal({ date, onClose }: CalendarModalProps) {
+type ModalDayData = Pick<DayData, "items" | "dayTotalAmount">;
+
+export default function CalendarModal({
+  date,
+  day,
+  onClose,
+  onUpdate,
+}: CalendarModalProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
-  const [category] = useState("coffee");
+  const [category, setSelectedCategory] = useAtom(selectedCategoryAtom);
   const [amount, setAmount] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
   const [isEditingCategory, setIsEditingCategory] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [isEditingAmount, setIsEditingAmount] = useState(false);
+  const [dayData, setDayData] = useState<ModalDayData | null>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
 
-  const isData = true;
+  const fetchDayData = useCallback(async () => {
+    try {
+      const year = parseInt(format(date, "yyyy"));
+      const month = parseInt(format(date, "M"));
+      const response = await getVirtualItemCalendar(year, month);
+
+      if (!response || !response.days) {
+        setDayData({ items: [], dayTotalAmount: 0 });
+        return;
+      }
+
+      const dayData = response.days.find((item) => item.day === day);
+
+      if (!dayData) {
+        setDayData({ items: [], dayTotalAmount: 0 });
+        return;
+      }
+
+      setDayData({
+        items: dayData.items,
+        dayTotalAmount: dayData.dayTotalAmount,
+      });
+    } catch (error) {
+      console.error("Failed to fetch day data:", error);
+      setDayData({ items: [], dayTotalAmount: 0 });
+    }
+  }, [date, day]);
+
+  useEffect(() => {
+    fetchDayData();
+  }, [fetchDayData]);
+
+  console.log(dayData);
 
   const handleNextClick = () => {
-    if (!isEditingAmount) {
-      setIsEditingAmount(true);
-      setIsEditingCategory(false);
-      setIsFocused(false);
-      setTimeout(() => {
-        amountInputRef.current?.focus();
-      }, 0);
-    } else {
-      handleClose();
-    }
+    setIsEditingAmount(true);
+    setIsEditingCategory(false);
+    setIsFocused(false);
+    setTimeout(() => {
+      amountInputRef.current?.focus();
+    }, 0);
+  };
+
+  const handleComplete = () => {
+    const savingData = {
+      savingYmd: format(date, "yyyy-MM-dd"),
+      categoryName: category,
+      amount: amount,
+    };
+
+    postVirtualItem(savingData)
+      .then(() => {
+        onUpdate();
+        handleClose();
+      })
+      .catch((error) => {
+        console.error("Failed to save virtual item:", error);
+      });
   };
 
   const handleClose = () => {
     setIsClosing(true);
+    setSelectedCategory("none");
     setTimeout(() => {
       onClose();
     }, 300);
@@ -54,6 +117,10 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
 
   const handleSaveClick = () => {
     setIsButtonClicked(true);
+  };
+
+  const handleBackClick = () => {
+    setIsButtonClicked(false);
   };
 
   // const handleCategorySelect = (selectedCategory: string) => {
@@ -67,28 +134,42 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
       <div className={cn("modalWrap", { closing: isClosing })}>
         <div className={cn("bar")}></div>
         <div className={cn("timeWrap")}>
-          <Image
-            src={"/icons/ic-left-arrow-white.svg"}
-            alt="뒤로가기"
-            width={30}
-            height={30}
-            className={cn("back")}
-            onClick={handleClose}
-          />
+          {isButtonClicked && (
+            <Image
+              src={"/icons/ic-left-arrow-white.svg"}
+              alt="뒤로가기"
+              width={30}
+              height={30}
+              className={cn("back")}
+              onClick={handleBackClick}
+            />
+          )}
           <div className={cn("time")}>
             {format(date, "M월 d일 (eee)", { locale: ko })}
           </div>
         </div>
         {!isButtonClicked ? (
-          isData ? (
+          dayData?.items.length ? (
             <>
               <div className={cn("total")}>
-                <div>총 N건</div>
-                <div>+ 0000원</div>
+                <div>총 {dayData.items.length}건</div>
+                <div>+ {formatToKoreanCurrency(dayData.dayTotalAmount)}원</div>
               </div>
               <div className={cn("cardWrap")}>
-                {[1, 2, 3].map((item) => (
-                  <Card key={item} category={category} className={cn("card")} />
+                {dayData.items.map((item) => (
+                  <Card
+                    key={item.savingId}
+                    id={item.savingId}
+                    category={item.categoryName}
+                    amount={item.amount}
+                    date={item.savingYmd}
+                    time={item.savingTime}
+                    className={cn("card")}
+                    onDelete={() => {
+                      fetchDayData();
+                      onUpdate();
+                    }}
+                  />
                 ))}
               </div>
             </>
@@ -107,12 +188,14 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
           <>
             <div className={cn("content", { editing: isEditingCategory })}>
               <div className={cn("categoryText")}>
-                <Image
-                  src={`/icons/ic-${category}.svg`}
-                  alt="카테고리 아이콘"
-                  width={34}
-                  height={34}
-                />
+                {category !== "none" && (
+                  <Image
+                    src={`/icons/ic-${category}.svg`}
+                    alt="카테고리 아이콘"
+                    width={34}
+                    height={34}
+                  />
+                )}
                 <p>
                   <span
                     className={cn("underline", { focused: isFocused })}
@@ -138,9 +221,22 @@ export default function CalendarModal({ date, onClose }: CalendarModalProps) {
                 />
                 <span>원 지켰다</span>
               </div>
-              {(isFocused || isEditingAmount) && (
-                <Button className={cn("button")} onClick={handleNextClick}>
-                  {isEditingAmount ? "완료" : "다음"}
+              {(isButtonClicked || isFocused) && !isEditingAmount && (
+                <Button
+                  className={cn("button")}
+                  onClick={handleNextClick}
+                  disabled={category === "none"}
+                >
+                  다음
+                </Button>
+              )}
+              {isEditingAmount && (
+                <Button
+                  className={cn("button")}
+                  onClick={handleComplete}
+                  disabled={category === "none" || amount === 0}
+                >
+                  완료
                 </Button>
               )}
             </div>

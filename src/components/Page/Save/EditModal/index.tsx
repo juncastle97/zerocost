@@ -11,17 +11,22 @@ import { categoryActionMap, categoryNameMap } from "@/constants/category";
 
 import AmountInput from "../AmountInput";
 import CategorySelector from "../CategorySelector";
+import { formatToCustomDate } from "@/constants/date";
 
 interface EditModalProps {
   onClose: () => void;
   category: string;
   money: number;
+  date: string;
+  time: string;
 }
 
 export default function EditModal({
   onClose,
   category,
   money,
+  date,
+  time,
 }: EditModalProps) {
   const [isClosing, setIsClosing] = useState(false);
   const [isEditingCategory, setIsEditingCategory] = useState(false);
@@ -55,7 +60,7 @@ export default function EditModal({
       <div className={cn("modalBack")} onClick={handleClose}></div>
       <div className={cn("modalWrap", { closing: isClosing })}>
         <div className={cn("bar")}></div>
-        <div className={cn("time")}>1월 4일 (월) 오전 08:20</div>
+        <div className={cn("time")}>{formatToCustomDate(date, time)}</div>
         <div className={cn("content", { editing: isEditingCategory })}>
           <div className={cn("categoryText")}>
             <Image

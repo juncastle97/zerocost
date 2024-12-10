@@ -4,20 +4,31 @@ const cn = classNames.bind(styles);
 
 import classNames from "classnames/bind";
 import Image from "next/image";
-import { useState } from "react";
 
 import styles from "./monthHeader.module.scss";
 
-export default function MonthHeader() {
-  const [currentDate, setCurrentDate] = useState(new Date());
+interface MonthHeaderProps {
+  onDateChange: (date: Date) => void;
+  currentDate: Date;
+}
+
+export default function MonthHeader({
+  onDateChange,
+  currentDate,
+}: MonthHeaderProps) {
   const today = new Date();
   const isCurrentMonth =
     format(currentDate, "yyyyMM") === format(today, "yyyyMM");
 
-  const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
+  const handlePrevMonth = () => {
+    const newDate = subMonths(currentDate, 1);
+    onDateChange(newDate);
+  };
+
   const handleNextMonth = () => {
     if (!isCurrentMonth) {
-      setCurrentDate(addMonths(currentDate, 1));
+      const newDate = addMonths(currentDate, 1);
+      onDateChange(newDate);
     }
   };
 

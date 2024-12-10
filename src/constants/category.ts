@@ -14,6 +14,7 @@ export const category = [
   "hair",
   "fandom",
   "travel",
+  "none",
 ];
 
 export const categoryNameMap: { [key: string]: string } = {
@@ -32,6 +33,7 @@ export const categoryNameMap: { [key: string]: string } = {
   hair: "미용",
   fandom: "덕질",
   travel: "여행",
+  none: "이것을",
 };
 
 export const categoryNameReverseMap: { [key: string]: string } = {
@@ -50,6 +52,7 @@ export const categoryNameReverseMap: { [key: string]: string } = {
   hair: "미용",
   fandom: "덕질",
   travel: "여행",
+  none: "이것을",
 };
 
 export const categoryActionMap: { [key: string]: string } = {
@@ -68,6 +71,7 @@ export const categoryActionMap: { [key: string]: string } = {
   hair: "했다치고",
   fandom: "했다치고",
   travel: "갔다치고",
+  none: "샀다치고",
 };
 
 export const categoryColorMap: { [key: string]: string } = {

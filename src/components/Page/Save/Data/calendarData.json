@@ -1,0 +1,169 @@
+{
+  "year": 2024,
+  "month": 12,
+  "days": [
+      {
+          "day": 2,
+          "dayTotalAmount": 19000,
+          "count": 1,
+          "categorySummaries": [
+              {
+                  "categoryName": "meal",
+                  "categoryTotalAmount": 19000
+              }
+          ],
+          "items": [
+              {
+                  "memberId": 9,
+                  "savingId": 24,
+                  "savingYmd": "2024-12-02",
+                  "savingTime": "03:04:00",
+                  "amount": 19000,
+                  "categoryName": "meal"
+              }
+          ]
+      },
+      {
+          "day": 3,
+          "dayTotalAmount": 636230,
+          "count": 13,
+          "categorySummaries": [
+              {
+                  "categoryName": "taxi",
+                  "categoryTotalAmount": 681590
+              },
+              {
+                  "categoryName": "dessert",
+                  "categoryTotalAmount": 33200
+              }
+          ],
+          "items": [
+              {
+                  "memberId": 9,
+                  "savingId": 74,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "09:14:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 37,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "10:37:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 38,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "10:38:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 25,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "13:05:00",
+                  "amount": 8300,
+                  "categoryName": "dessert"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 73,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "17:11:00",
+                  "amount": 8300,
+                  "categoryName": "dessert"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 63,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "17:47:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 67,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "22:51:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 68,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "22:53:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 69,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "22:55:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 70,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "23:03:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 71,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "23:06:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 72,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "23:09:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              },
+              {
+                  "memberId": 9,
+                  "savingId": 76,
+                  "savingYmd": "2024-12-03",
+                  "savingTime": "23:56:00",
+                  "amount": 56330,
+                  "categoryName": "taxi"
+              }
+          ]
+      },
+      {
+          "day": 6,
+          "dayTotalAmount": 8300,
+          "count": 1,
+          "categorySummaries": [
+              {
+                  "categoryName": "dessert",
+                  "categoryTotalAmount": 8300
+              }
+          ],
+          "items": [
+              {
+                  "memberId": 9,
+                  "savingId": 75,
+                  "savingYmd": "2024-12-06",
+                  "savingTime": "09:29:00",
+                  "amount": 8300,
+                  "categoryName": "dessert"
+              }
+          ]
+      }
+  ]
+}

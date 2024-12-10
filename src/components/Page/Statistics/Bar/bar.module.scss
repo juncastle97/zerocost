@@ -4,6 +4,47 @@
   @include body5;
   width: 100%;
   height: 355px;
-  margin: 0 auto;
   color: #000000;
+}
+
+.tooltip {
+  background-color: $gray-700;
+  border: 1px solid $gray-600;
+  border-radius: 0.8rem;
+  padding: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  
+  > div {
+    @include button2;
+    color: $white;
+  }
+}
+
+.wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+
+  > div {
+    @include button2;
+    color: $white;
+  }
+}
+
+.color {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+}
+
+.amount {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text {
+  @include body5;
 }

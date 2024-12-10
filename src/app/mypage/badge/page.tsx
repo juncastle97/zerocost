@@ -19,7 +19,7 @@ export default function Badge() {
   }));
 
   return (
-    <>
+    <div className={cn("container")}>
       <div className={cn("gnb")}>
         <Image
           src="/icons/ic-left-arrow-white.svg"
@@ -36,6 +36,6 @@ export default function Badge() {
           <Card key={index} cardData={item} />
         ))}
       </div>
-    </>
+    </div>
   );
 }

@@ -23,3 +23,14 @@
   margin: 0 auto;
   justify-items: center;
 }
+
+.container {
+  overflow-y: auto;
+  max-height: 100vh;
+  
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
