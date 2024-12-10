@@ -74,9 +74,8 @@ export default function Account({ setLoginUser }) {
           <h2>나의 배지</h2>
 
           <div className={cn("badgeList")}>
-            {badges.slice(0, 3)?.map((item, index) => {
+            {badges?.slice(0, 3)?.map((item, index) => {
               return (
-                // return 추가
                 <div className={cn("badgeItem")} key={index}>
                   <Image
                     src={item.emblemPath}

@@ -6,3 +6,25 @@
   justify-content: space-between;
   align-items: center;
 }
+.bottomGnb {
+  position: fixed;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-radius: 10rem;
+  background: var(--gray-A_20, rgba(93, 93, 93, 0.24));
+
+  /* tabbar_blur */
+  backdrop-filter: blur(12px);
+
+  display: inline-flex;
+  padding: 1rem 1.6rem;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}

@@ -8,7 +8,6 @@ import { loginData, loginState } from "@/lib/atoms/login";
 import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
-import Kakao from "kakao-js-sdk";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -31,14 +30,7 @@ export default function Login() {
       document.cookie = `memberKeyId=${res.memberKeyId}; path=/; max-age=3600; secure; samesite=strict`;
     },
   });
-  const { mutate: postOut } = useMutation({
-    mutationKey: ["postLogout"],
-    mutationFn: () => postItem(),
-    // onSuccess: (res) => {
-    //   setLoginData(res);
-    //   document.cookie = `memberKeyId=${res.memberKeyId}; path=/; max-age=3600; secure; samesite=strict`;
-    // },
-  });
+
   useEffect(() => {
     // 브라우저 환경에서만 실행
     if (typeof window !== "undefined") {
@@ -53,7 +45,6 @@ export default function Login() {
         console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
       }
     }
-    Kakao;
   }, []);
 
   const kakaoLogin = async () => {
@@ -73,7 +64,7 @@ export default function Login() {
         console.log("Kakao Login Success:", auth);
 
         // 2. 사용자 정보 요청
-        const userInfo = await new Promise((resolve, reject) => {
+        const userInfo = await new Promise<any>((resolve, reject) => {
           window.Kakao.API.request({
             url: "/v2/user/me",
             success: resolve,
@@ -84,7 +75,7 @@ export default function Login() {
 
         // 3. 서버로 사용자 정보 전송
         const serverResponse = await fetch(
-          `http://3.39.123.15:8090/api/auth/kakao-login?code=${userInfo.id}`,
+          `http://api-zerocost.site/api/auth/kakao-login?code=${userInfo.id}`,
           {
             method: "GET",
           }
@@ -141,7 +132,7 @@ export default function Login() {
           >
             게스트로 시작하기
           </div>
-          <div onClick={postOut}>로그아웃</div>
+          {/* <div onClick={postOut}>로그아웃</div> */}
         </div>
 
         <div className={cn("agreeWrap")}>
@@ -169,7 +160,4 @@ export default function Login() {
       )}
     </>
   );
-}
-function postItem(variables: void): Promise<unknown> {
-  throw new Error("Function not implemented.");
 }

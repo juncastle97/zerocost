@@ -10,14 +10,13 @@ import Main1 from "@/components/Page/Main";
 
 import End from "@/components/Page/Main/End";
 import Main2 from "@/components/Page/Main/Main2";
-import { countMain, mainChoice } from "@/lib/atoms/main";
+import { countMain } from "@/lib/atoms/main";
 import styles from "./main.module.scss";
 
 const cn = classNames.bind(styles);
 
 export default function Main() {
   const [mainOrder] = useAtom(countMain);
-  const [a] = useAtom(mainChoice);
 
   const renderComponent = (key: number) => {
     switch (key) {
