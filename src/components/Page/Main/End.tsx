@@ -5,7 +5,6 @@ import { countMain, mainChoice } from "@/lib/atoms/main";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import styles from "./Main.module.scss";
 
@@ -14,7 +13,6 @@ const cn = classNames.bind(styles);
 export default function End() {
   const [, setMainOrder] = useAtom(countMain);
   const [choice] = useAtom(mainChoice);
-  const router = useRouter();
 
   const { mutate: postItem } = useMutation({
     mutationKey: ["postItem"],

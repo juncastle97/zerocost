@@ -8,7 +8,6 @@ import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./loginNick.module.scss";
@@ -25,7 +24,6 @@ export default function Login() {
     "닉네임은 언제든 변경할 수 있어요!"
   );
   const [kakaoCode, setKakaoCode] = useState<any>();
-  const router = useRouter();
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);

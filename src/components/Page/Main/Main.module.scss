@@ -39,6 +39,7 @@
   font-weight: 700;
 }
 .back {
+  z-index: 99999999999;
   cursor: pointer;
   display: inline-flex;
   padding: 1rem 1.6rem;
