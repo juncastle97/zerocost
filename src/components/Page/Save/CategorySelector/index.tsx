@@ -8,8 +8,19 @@ import { selectedCategoryAtom } from "@/lib/atoms/category";
 
 const cn = classNames.bind(styles);
 
-export default function CategorySelector() {
+interface CategorySelectorProps {
+  onSelect?: (category: string) => void;
+}
+
+export default function CategorySelector({ onSelect }: CategorySelectorProps) {
   const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    if (onSelect) {
+      onSelect(category);
+    }
+  };
 
   return (
     <div className={cn("container")}>
@@ -23,7 +34,7 @@ export default function CategorySelector() {
               className={cn("iconWrapper", {
                 selected: selectedCategory === item,
               })}
-              onClick={() => setSelectedCategory(item)}
+              onClick={() => handleCategorySelect(item)}
             >
               <div>
                 <Image

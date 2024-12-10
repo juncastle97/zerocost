@@ -5,11 +5,11 @@
   flex-wrap: nowrap;
   overflow-x: auto;
   width: 100%;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-  
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+
   &::-webkit-scrollbar {
-    display: none;  /* Chrome, Safari, Opera */
+    display: none; /* Chrome, Safari, Opera */
   }
 }
 
@@ -24,6 +24,13 @@
   border: 1px solid $white;
   white-space: nowrap;
   flex-shrink: 0;
+
+  &.selected {
+    border-color: $orange-400;
+    > span {
+      color: $orange-400;
+    }
+  }
 }
 
 .label {
