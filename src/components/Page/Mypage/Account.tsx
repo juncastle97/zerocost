@@ -5,18 +5,39 @@ import social from "@/../public/icons/icon_kakaotalk.svg";
 import profileImg from "@/../public/icons/icon_user.svg";
 import EditNick from "@/components/commons/Modal/EditNick";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
+import { getBadges, getStatus } from "@/lib/apis/mypage";
+import { loginData } from "@/lib/atoms/login";
+import { useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
 const cn = classNames.bind(styles);
 export default function Account({ setLoginUser }) {
-  const [date] = useState<number>(0);
-  const [price] = useState<number>(0);
+  const [date, setDate] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
   const [logout, setLogOut] = useState<boolean>(false);
   const [accountDelete, setAccountDelete] = useState<boolean>(false);
   const [editNick, setEditNick] = useState<boolean>(false);
+  const [loginDatas] = useAtom<any>(loginData);
 
+  const { data: status, isSuccess } = useQuery({
+    queryKey: ["status"],
+    queryFn: getStatus,
+  });
+  const { data: badges } = useQuery({
+    queryKey: ["badges"],
+    queryFn: getBadges,
+  });
+
+  useEffect(() => {
+    if (isSuccess) {
+      setDate(status?.daysFromRegistration);
+      setPrice(status?.totalAmount);
+    }
+  }, [isSuccess]);
+  console.log(status, badges);
   return (
     <>
       <div className={cn("myPageWrap")}>
@@ -30,7 +51,9 @@ export default function Account({ setLoginUser }) {
                 height={24}
               />
             </div>
-            <div className={cn("profileName")}>{"asdfsd"} 님</div>
+            <div className={cn("profileName")}>
+              {loginDatas.memberNickname} 님
+            </div>
             <div className={cn("editBtn")} onClick={() => setEditNick(true)}>
               <Image src={editBtn} alt="edit" width={16} height={16} />
             </div>
@@ -42,27 +65,29 @@ export default function Account({ setLoginUser }) {
         </div>
 
         <div className={cn("saveDay")}>
-          제로코스트와 함께한 {date}일 동안
+          제로코스트와 함께한 {date ? date : 0}일 동안
           <br />
-          {price.toLocaleString()}원을 지켰어요
+          {price ? price.toLocaleString() : 0}원을 지켰어요
         </div>
 
         <div className={cn("badge")}>
           <h2>나의 배지</h2>
 
           <div className={cn("badgeList")}>
-            <div className={cn("badgeItem")}>
-              <Image src={profileImg} alt="뱃지" width={40} height={40} />
-              <div>badge</div>
-            </div>
-            <div className={cn("badgeItem")}>
-              <Image src={profileImg} alt="뱃지" width={40} height={40} />
-              <div>badge</div>
-            </div>
-            <div className={cn("badgeItem")}>
-              <Image src={profileImg} alt="뱃지" width={40} height={40} />
-              <div>badge</div>
-            </div>
+            {badges.slice(0, 3)?.map((item, index) => {
+              return (
+                // return 추가
+                <div className={cn("badgeItem")} key={index}>
+                  <Image
+                    src={item.emblemPath}
+                    alt="뱃지"
+                    width={40}
+                    height={40}
+                  />
+                  <div>{item.badgeName}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
 

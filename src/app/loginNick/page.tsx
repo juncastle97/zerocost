@@ -3,9 +3,12 @@ import back from "@/../public/icons/icon_back.svg";
 import deleteBtn from "@/../public/icons/icon_remove.svg";
 import errorImg from "@/../public/icons/image 13.svg";
 import user from "@/../public/icons/user icon.svg";
+import { getKakaoLogin } from "@/lib/apis/login";
+import { useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./loginNick.module.scss";
@@ -21,7 +24,21 @@ export default function Login() {
   const [message, setMessage] = useState<string>(
     "닉네임은 언제든 변경할 수 있어요!"
   );
+  const [kakaoCode, setKakaoCode] = useState<any>();
+  const router = useRouter();
 
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code"); // Kakao에서 전달된 code
+    setKakaoCode(code);
+  }, []);
+
+  const { data: kakaoToken } = useQuery({
+    queryKey: ["kakaoToken", kakaoCode],
+    queryFn: () => getKakaoLogin(kakaoCode),
+    enabled: kakaoCode !== undefined,
+  });
+  console.log(kakaoToken);
   const {
     register,
     handleSubmit,

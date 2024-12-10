@@ -1,7 +1,9 @@
 import classNames from "classnames/bind";
 
-import { countMain } from "@/lib/atoms/main";
+import { postVirtualItem } from "@/lib/apis/virtualItem";
+import { countMain, mainChoice } from "@/lib/atoms/main";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -11,12 +13,19 @@ const cn = classNames.bind(styles);
 
 export default function End() {
   const [, setMainOrder] = useAtom(countMain);
+  const [choice] = useAtom(mainChoice);
   const router = useRouter();
 
+  const { mutate: postItem } = useMutation({
+    mutationKey: ["postItem"],
+    mutationFn: () => postVirtualItem(choice),
+  });
+
   useEffect(() => {
-    setTimeout(() => {
-      router.push("/mypage");
-    }, 5000);
+    postItem();
+    // setTimeout(() => {
+    //   router.push("/mypage");
+    // }, 5000);
   }, []);
 
   return (
