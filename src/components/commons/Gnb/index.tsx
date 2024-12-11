@@ -5,6 +5,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation"; // usePathname 사용
 import { useEffect, useState } from "react";
+import { useAtom } from "jotai";
+import { countMain } from "@/lib/atoms/main";
+import { isModalOpenAtom } from "@/lib/atoms/modal";
 import styles from "./gnb.module.scss";
 
 import pig from "@/../public/icons/ic-logo.svg";
@@ -21,6 +24,8 @@ const cn = classNames.bind(styles);
 export default function Gnb() {
   const [gnbMore] = useState();
   const pathname = usePathname(); // 현재 경로 가져오기
+  const [mainOrder] = useAtom(countMain);
+  const [isModalOpen] = useAtom(isModalOpenAtom);
 
   useEffect(() => {
     const loginState = localStorage.getItem("login");
@@ -48,37 +53,39 @@ export default function Gnb() {
         )}
       </div>
 
-      <div className={cn("bottomGnb")}>
-        {pathname === "/" ? (
-          <Link href={"/"}>
-            <Image src={wonOn} alt={"main"} width={24} height={24} />
-          </Link>
-        ) : (
-          <Link href={"/"}>
-            <Image src={wonOff} alt={"main"} width={24} height={24} />
-          </Link>
-        )}
+      {pathname !== "/mypage" && mainOrder === 0 && !isModalOpen && (
+        <div className={cn("bottomGnb")}>
+          {pathname === "/" ? (
+            <Link href={"/"}>
+              <Image src={wonOn} alt={"main"} width={24} height={24} />
+            </Link>
+          ) : (
+            <Link href={"/"}>
+              <Image src={wonOff} alt={"main"} width={24} height={24} />
+            </Link>
+          )}
 
-        {pathname === "/save" ? (
-          <Link href={"/save"}>
-            <Image src={historyOn} alt={"history"} width={24} height={24} />
-          </Link>
-        ) : (
-          <Link href={"/save"}>
-            <Image src={historyOff} alt={"history"} width={24} height={24} />
-          </Link>
-        )}
+          {pathname === "/save" ? (
+            <Link href={"/save"}>
+              <Image src={historyOn} alt={"history"} width={24} height={24} />
+            </Link>
+          ) : (
+            <Link href={"/save"}>
+              <Image src={historyOff} alt={"history"} width={24} height={24} />
+            </Link>
+          )}
 
-        {pathname === "/statistics" ? (
-          <Link href={"/statistics"}>
-            <Image src={statOn} alt={"stat"} width={24} height={24} />
-          </Link>
-        ) : (
-          <Link href={"/statistics"}>
-            <Image src={statOff} alt={"stat"} width={24} height={24} />
-          </Link>
-        )}
-      </div>
+          {pathname === "/statistics" ? (
+            <Link href={"/statistics"}>
+              <Image src={statOn} alt={"stat"} width={24} height={24} />
+            </Link>
+          ) : (
+            <Link href={"/statistics"}>
+              <Image src={statOff} alt={"stat"} width={24} height={24} />
+            </Link>
+          )}
+        </div>
+      )}
     </>
   );
 }

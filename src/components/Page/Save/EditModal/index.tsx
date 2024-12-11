@@ -11,6 +11,7 @@ import CategorySelector from "../CategorySelector";
 import { formatToCustomDate } from "@/constants/date";
 import { selectedCategoryAtom } from "@/lib/atoms/category";
 import { putVirtualItem } from "@/lib/apis/virtualItems";
+import { isModalOpenAtom } from "@/lib/atoms/modal";
 
 const cn = classNames.bind(styles);
 
@@ -43,11 +44,17 @@ export default function EditModal({
   const [, setIsAmountFocused] = useState(false);
   const [isEditingAmount, setIsEditingAmount] = useState(false);
   const amountInputRef = useRef<HTMLInputElement>(null);
+  const [, setIsModalOpen] = useAtom(isModalOpenAtom);
 
   // 초기 카테고리 설정
   useEffect(() => {
     setSelectedCategory(initialCategory);
   }, [initialCategory, setSelectedCategory]);
+
+  useEffect(() => {
+    setIsModalOpen(true);
+    return () => setIsModalOpen(false);
+  }, [setIsModalOpen]);
 
   const handleClose = () => {
     setIsClosing(true);

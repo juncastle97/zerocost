@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRef, useState, useEffect, useCallback } from "react";
 import { useAtom } from "jotai";
 import { selectedCategoryAtom } from "@/lib/atoms/category";
+import { isModalOpenAtom } from "@/lib/atoms/modal";
 
 import styles from "./calendarModal.module.scss";
 
@@ -39,6 +40,7 @@ export default function CalendarModal({
 }: CalendarModalProps) {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [category, setSelectedCategory] = useAtom(selectedCategoryAtom);
+  const [, setIsModalOpen] = useAtom(isModalOpenAtom);
   const [amount, setAmount] = useState(0);
   const [isClosing, setIsClosing] = useState(false);
   const [isEditingCategory, setIsEditingCategory] = useState(false);
@@ -74,6 +76,11 @@ export default function CalendarModal({
       setDayData({ items: [], dayTotalAmount: 0 });
     }
   }, [date, day]);
+
+  useEffect(() => {
+    setIsModalOpen(true);
+    return () => setIsModalOpen(false);
+  }, [setIsModalOpen]);
 
   useEffect(() => {
     fetchDayData();
