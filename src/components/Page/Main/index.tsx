@@ -59,15 +59,15 @@ export default function Main1() {
     cosmetic: "화장품",
     hair: "미용",
     shopping: "쇼핑",
-    taxi: "택시",
+    taxi: "차비",
     travel: "여행",
-    fandom: "팬덤",
-    game: "게임",
-    meal: "식사",
+    fandom: "덕질",
+    game: "취미",
+    meal: "밥",
     alcohol: "술",
     coffee: "커피",
     drink: "음료",
-    chicken: "치킨",
+    chicken: "야식",
     dessert: "디저트",
     smoke: "담배",
     movie: "영화",
@@ -157,7 +157,7 @@ export default function Main1() {
             case "game":
               return "했다치고";
             case "meal":
-              return "했다치고";
+              return "먹었다치고";
             case "alcohol":
               return "마셨다치고";
             case "coffee":
