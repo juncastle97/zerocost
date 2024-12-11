@@ -4,9 +4,10 @@ import arrow from "@/../public/icons/arrowOn.svg";
 import profileImg from "@/../public/icons/icon_user.svg";
 import MypageDropBottom from "@/components/commons/Modal/MypageDropBottom";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
+import { postLogout } from "@/lib/apis/login";
 import { getStatus } from "@/lib/apis/mypage";
 import { loginData } from "@/lib/atoms/login";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -24,6 +25,11 @@ export default function Guest({ setLoginUser }) {
   const handleGuest = () => {
     setLogin(true);
   };
+
+  const { mutate: logoutBtn } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: postLogout,
+  });
 
   const { data: status, isSuccess } = useQuery({
     queryKey: ["status"],
@@ -85,7 +91,7 @@ export default function Guest({ setLoginUser }) {
           현재 버전<span>1.2.3</span>
         </div>
 
-        {/* <div className={cn("out")}>
+        <div className={cn("out")}>
           <p
             onClick={() => {
               setLogOut(true);
@@ -93,7 +99,7 @@ export default function Guest({ setLoginUser }) {
           >
             로그아웃
           </p>
-        </div> */}
+        </div>
       </div>
       {login && <MypageDropBottom back={() => setLogin(false)} />}
       {logout && (
@@ -103,6 +109,7 @@ export default function Guest({ setLoginUser }) {
           }}
           confirm={() => {
             setLoginUser("");
+            logoutBtn();
           }}
           ver={2}
         >
