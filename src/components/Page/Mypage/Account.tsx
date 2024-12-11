@@ -11,6 +11,7 @@ import { loginData } from "@/lib/atoms/login";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
@@ -94,7 +95,9 @@ export default function Account({ setLoginUser }) {
           </div>
         </div>
 
-        <div className={cn("policyVersion")}>이용약관 및 정책</div>
+        <Link href={"/how"} className={cn("policyVersion")}>
+          이용약관 및 정책
+        </Link>
         <div className={cn("currentVersion")}>
           현재 버전<span>1.2.3</span>
         </div>

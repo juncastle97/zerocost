@@ -10,6 +10,7 @@ import { loginData } from "@/lib/atoms/login";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
@@ -86,7 +87,9 @@ export default function Guest({ setLoginUser }) {
           <p className={cn("guestText")}>연동 후 확인할 수 있어요</p>
         </div>
 
-        <div className={cn("policyVersion")}>이용약관 및 정책</div>
+        <Link href={"/how"} className={cn("policyVersion")}>
+          이용약관 및 정책
+        </Link>
         <div className={cn("currentVersion")}>
           현재 버전<span>1.2.3</span>
         </div>
