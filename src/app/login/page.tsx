@@ -75,7 +75,7 @@ export default function Login() {
 
         // 3. 서버로 사용자 정보 전송
         const serverResponse = await fetch(
-          `http://api-zerocost.site/api/auth/kakao-login?code=${userInfo.id}`,
+          `https://api-zerocost.site/api/auth/kakao-login?code=${userInfo.id}`,
           {
             method: "GET",
           }
@@ -89,8 +89,8 @@ export default function Login() {
         console.log("Server Response:", data);
         setLoginData(data);
         setLogin("user");
-        // window.location.href = "/loginNick"; // 성공 시 리다이렉트
-        // window.location.href = "/"; // 성공 시 리다이렉트
+        window.location.href = "/loginNick"; // 성공 시 리다이렉트
+        window.location.href = "/"; // 성공 시 리다이렉트
       } catch (error) {
         console.error("Error during Kakao login:", error);
         alert("로그인 중 오류가 발생했습니다.");
