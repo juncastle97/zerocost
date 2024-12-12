@@ -136,7 +136,10 @@ export default function CalendarModal({
   return (
     <div>
       <div className={cn("modalBack")} onClick={handleClose}></div>
-      <div className={cn("modalWrap", { closing: isClosing })}>
+      <div
+        className={cn("modalWrap", { closing: isClosing })}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={cn("bar")}></div>
         <div className={cn("timeWrap")}>
           {isButtonClicked && (

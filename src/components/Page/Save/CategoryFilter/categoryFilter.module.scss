@@ -7,6 +7,12 @@
   width: 100%;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  cursor: grab;
+  user-select: none;
+
+  &:active {
+    cursor: grabbing;
+  }
 
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
@@ -24,6 +30,7 @@
   border: 1px solid $white;
   white-space: nowrap;
   flex-shrink: 0;
+  cursor: pointer;
 
   &.selected {
     border-color: $orange-400;

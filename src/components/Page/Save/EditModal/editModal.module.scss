@@ -1,13 +1,13 @@
 .modalBack {
   position: fixed;
   top: 0;
-  left: 50%;
-  transform: translate(-50%, 0);
-  backdrop-filter: blur(3px);
-  z-index: 100;
+  left: 0;
   width: 100%;
-  max-width: 39rem;
   height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+  touch-action: none;
+  overscroll-behavior: contain;
 }
 
 .modalWrap {

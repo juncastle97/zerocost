@@ -108,7 +108,10 @@ export default function EditModal({
   return (
     <div>
       <div className={cn("modalBack")} onClick={handleClose}></div>
-      <div className={cn("modalWrap", { closing: isClosing })}>
+      <div
+        className={cn("modalWrap", { closing: isClosing })}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={cn("bar")}></div>
         <div className={cn("time")}>{formatToCustomDate(date, time)}</div>
         <div className={cn("content", { editing: isEditingCategory })}>

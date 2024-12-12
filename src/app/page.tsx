@@ -12,6 +12,7 @@ import End from "@/components/Page/Main/End";
 import Main2 from "@/components/Page/Main/Main2";
 import { countMain } from "@/lib/atoms/main";
 import styles from "./main.module.scss";
+// import Modal from "@/components/Page/Mypage/Badge/Modal";
 
 const cn = classNames.bind(styles);
 
@@ -32,6 +33,7 @@ export default function Main() {
   return (
     <div className={cn("mainWrap")} id="main">
       {renderComponent(mainOrder)}
+      {/* <Modal onClose={() => {}} /> */}
     </div>
   );
 }

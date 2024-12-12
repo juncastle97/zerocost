@@ -2,6 +2,8 @@
   display: flex;
   width: 100%;
   position: relative;
+  height: 5.2rem;
+  overflow: hidden;
   margin-bottom: 1.6rem;
   transition: all 0.25s ease;
   user-select: none; // 드래그 시 텍스트 선택 방지
