@@ -4,11 +4,13 @@ import arrow from "@/../public/icons/arrowOn.svg";
 import profileImg from "@/../public/icons/icon_user.svg";
 import MypageDropBottom from "@/components/commons/Modal/MypageDropBottom";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
+import { postLogout } from "@/lib/apis/login";
 import { getStatus } from "@/lib/apis/mypage";
 import { loginData } from "@/lib/atoms/login";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
@@ -24,6 +26,11 @@ export default function Guest({ setLoginUser }) {
   const handleGuest = () => {
     setLogin(true);
   };
+
+  const { mutate: logoutBtn } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: postLogout,
+  });
 
   const { data: status, isSuccess } = useQuery({
     queryKey: ["status"],
@@ -80,12 +87,14 @@ export default function Guest({ setLoginUser }) {
           <p className={cn("guestText")}>연동 후 확인할 수 있어요</p>
         </div>
 
-        <div className={cn("policyVersion")}>이용약관 및 정책</div>
+        <Link href={"/how"} className={cn("policyVersion")}>
+          이용약관 및 정책
+        </Link>
         <div className={cn("currentVersion")}>
           현재 버전<span>1.2.3</span>
         </div>
 
-        {/* <div className={cn("out")}>
+        <div className={cn("out")}>
           <p
             onClick={() => {
               setLogOut(true);
@@ -93,7 +102,7 @@ export default function Guest({ setLoginUser }) {
           >
             로그아웃
           </p>
-        </div> */}
+        </div>
       </div>
       {login && <MypageDropBottom back={() => setLogin(false)} />}
       {logout && (
@@ -103,6 +112,7 @@ export default function Guest({ setLoginUser }) {
           }}
           confirm={() => {
             setLoginUser("");
+            logoutBtn();
           }}
           ver={2}
         >

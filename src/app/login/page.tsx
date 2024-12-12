@@ -89,7 +89,7 @@ export default function Login() {
         console.log("Server Response:", data);
         setLoginData(data);
         setLogin("user");
-        window.location.href = "/loginNick"; // 성공 시 리다이렉트
+        // window.location.href = "/loginNick"; // 성공 시 리다이렉트
         window.location.href = "/"; // 성공 시 리다이렉트
       } catch (error) {
         console.error("Error during Kakao login:", error);

@@ -5,11 +5,13 @@ import social from "@/../public/icons/icon_kakaotalk.svg";
 import profileImg from "@/../public/icons/icon_user.svg";
 import EditNick from "@/components/commons/Modal/EditNick";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
+import { postLogout } from "@/lib/apis/login";
 import { getBadges, getStatus } from "@/lib/apis/mypage";
 import { loginData } from "@/lib/atoms/login";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
@@ -30,7 +32,10 @@ export default function Account({ setLoginUser }) {
     queryKey: ["badges"],
     queryFn: getBadges,
   });
-
+  const { mutate: logoutBtn } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: postLogout,
+  });
   useEffect(() => {
     if (isSuccess) {
       setDate(status?.daysFromRegistration);
@@ -90,7 +95,9 @@ export default function Account({ setLoginUser }) {
           </div>
         </div>
 
-        <div className={cn("policyVersion")}>이용약관 및 정책</div>
+        <Link href={"/how"} className={cn("policyVersion")}>
+          이용약관 및 정책
+        </Link>
         <div className={cn("currentVersion")}>
           현재 버전<span>1.2.3</span>
         </div>
@@ -120,6 +127,7 @@ export default function Account({ setLoginUser }) {
           }}
           confirm={() => {
             setLoginUser("");
+            logoutBtn();
           }}
           ver={2}
         >
