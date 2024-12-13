@@ -4,7 +4,9 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 import logo from "@/../public/icons/ic-logo.svg";
 import saveBtn from "@/../public/images/button.svg";
+import { postVirtualItem } from "@/lib/apis/virtualItem";
 import { countMain, mainChoice } from "@/lib/atoms/main";
+import { useMutation } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import { useState } from "react";
@@ -14,7 +16,7 @@ const cn = classNames.bind(styles);
 
 export default function Main1() {
   const [, setMainOrder] = useAtom(countMain);
-  const [, setChoice] = useAtom(mainChoice);
+  const [choice, setChoice] = useAtom(mainChoice);
   const [num, setNum] = useState<number[]>([]);
   const numBox = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
   const nowDate = new Date();
@@ -32,6 +34,7 @@ export default function Main1() {
       savingYmd: date,
     }));
     setMainOrder(2);
+    postItem();
   };
 
   const handleSlideChange = (swiper, index: number) => {
@@ -41,7 +44,10 @@ export default function Main1() {
       return updatedNum;
     });
   };
-
+  const { mutate: postItem } = useMutation({
+    mutationKey: ["postItem"],
+    mutationFn: () => postVirtualItem(choice),
+  });
   return (
     <>
       <h2 className={cn("title")}>

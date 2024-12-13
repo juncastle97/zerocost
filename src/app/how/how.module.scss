@@ -1,0 +1,36 @@
+.wrap {
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 0;
+  z-index: 99;
+  width: 37.6rem;
+  height: 100%;
+  background-color: black;
+}
+.back {
+  display: flex;
+  width: 37.5rem;
+  height: 4.4rem;
+  padding: 0px 2.4rem;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 4rem;
+  & > p {
+    color: var(--orange-400, #ff8533);
+
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+}
+.text {
+  padding: 2.6rem 2.4rem;
+  color: #fff;
+  font-family: "SF Pro";
+  font-size: 1.4rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
