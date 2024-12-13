@@ -1,22 +1,53 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-
-const cn = classNames.bind(styles);
 import classNames from "classnames/bind";
+import { useQuery } from "@tanstack/react-query";
 
 import Card from "@/components/Page/Mypage/Badge/Card";
-
+import { getBadgesList, BadgeItem } from "@/lib/apis/badge";
 import styles from "./badge.module.scss";
-import { data } from "./data";
+
+const cn = classNames.bind(styles);
 
 export default function Badge() {
   const router = useRouter();
 
-  const processedData = data.map((item) => ({
-    ...item,
-    badgeDescription: item.badgeDescription || "상세내용이 없습니다",
-  }));
+  const {
+    data: badges,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["badges"],
+    queryFn: getBadgesList,
+  });
+
+  if (isLoading) {
+    return <div className={cn("container")}>Loading...</div>;
+  }
+
+  if (error) {
+    return <div className={cn("container")}>Error loading badges</div>;
+  }
+
+  const processedData =
+    badges?.map((item) => ({
+      ...item,
+      badgeDescription: item.badgeDescription || "상세내용이 없습니다",
+    })) || [];
+
+  // 배지를 타입별로 그룹화
+  const groupedBadges = processedData.reduce(
+    (acc, badge) => {
+      const type = badge.badgeTypeKr;
+      if (!acc[type]) {
+        acc[type] = [];
+      }
+      acc[type].push(badge);
+      return acc;
+    },
+    {} as Record<string, BadgeItem[]>
+  );
 
   return (
     <div className={cn("container")}>
@@ -31,9 +62,16 @@ export default function Badge() {
         />
         <div>나의 배지</div>
       </div>
-      <div className={cn("cardContainer")}>
-        {processedData.map((item, index) => (
-          <Card key={index} cardData={item} />
+      <div className={cn("content")}>
+        {Object.entries(groupedBadges).map(([type, badges]) => (
+          <div key={type} className={cn("badgeSection")}>
+            <div className={cn("sectionTitle")}>{type}</div>
+            <div className={cn("cardContainer")}>
+              {badges.map((item) => (
+                <Card key={item.badgeId} cardData={item} />
+              ))}
+            </div>
+          </div>
         ))}
       </div>
     </div>

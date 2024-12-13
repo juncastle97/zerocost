@@ -6,23 +6,31 @@
   align-items: center;
   width: 10.8rem;
   height: 11.4rem;
-}
 
-.emblem {
-  width: 8.8rem;
-  height: 8.8rem;
-  border-radius: 100px;
-  border: 1px solid $gray-500;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.4rem;
-  cursor: pointer;
-}
+  .emblem {
+    width: 8.8rem;
+    height: 8.8rem;
+    border-radius: 100px;
+    border: 1px solid $gray-500;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.4rem;
+    cursor: pointer;
 
-.name {
-  @include body4;
+    &.locked {
+      opacity: 0.5;
+    }
+  }
+
+  .name {
+    @include body4;
+
+    &.locked {
+      color: #666;
+    }
+  }
 }
 
 .modal {

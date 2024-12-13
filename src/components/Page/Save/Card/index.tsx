@@ -4,7 +4,7 @@ import "swiper/css/pagination";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
-import { useState, useRef, TouchEvent, MouseEvent } from "react";
+import { useState, useRef, TouchEvent, MouseEvent, useEffect } from "react";
 
 import styles from "./card.module.scss";
 
@@ -45,6 +45,51 @@ export default function Card({
   const [isSwipedLeft, setIsSwipedLeft] = useState(false);
   const startXRef = useRef<number | null>(null);
   const isDraggingRef = useRef(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const options = { passive: false };
+
+    const touchStartHandler = (e: TouchEvent) => {
+      e.stopPropagation();
+      startXRef.current = e.touches[0].clientX;
+      isDraggingRef.current = true;
+    };
+
+    const touchMoveHandler = (e: TouchEvent) => {
+      e.stopPropagation();
+      e.preventDefault();
+      if (!isDraggingRef.current || startXRef.current === null) return;
+
+      const currentX = e.touches[0].clientX;
+      const diffX = startXRef.current - currentX;
+
+      if (diffX > 50) {
+        setIsSwipedLeft(true);
+      } else if (diffX < -50) {
+        setIsSwipedLeft(false);
+      }
+    };
+
+    const touchEndHandler = (e: TouchEvent) => {
+      e.stopPropagation();
+      startXRef.current = null;
+      isDraggingRef.current = false;
+    };
+
+    card.addEventListener("touchstart", touchStartHandler as any, options);
+    card.addEventListener("touchmove", touchMoveHandler as any, options);
+    card.addEventListener("touchend", touchEndHandler as any, options);
+
+    return () => {
+      card.removeEventListener("touchstart", touchStartHandler as any);
+      card.removeEventListener("touchmove", touchMoveHandler as any);
+      card.removeEventListener("touchend", touchEndHandler as any);
+    };
+  }, []);
 
   const handleEditClick = () => {
     setIsEditModalOpen(true);
@@ -61,22 +106,14 @@ export default function Card({
     }
   };
 
-  const handleTouchStart = (e: TouchEvent) => {
-    startXRef.current = e.touches[0].clientX;
-    isDraggingRef.current = true;
-  };
-
-  const handleTouchEnd = () => {
-    startXRef.current = null;
-    isDraggingRef.current = false;
-  };
-
   const handleMouseDown = (e: MouseEvent) => {
+    e.stopPropagation();
     startXRef.current = e.clientX;
     isDraggingRef.current = true;
   };
 
   const handleMouseMove = (e: MouseEvent) => {
+    e.stopPropagation();
     if (!isDraggingRef.current || startXRef.current === null) return;
 
     const diffX = startXRef.current - e.clientX;
@@ -87,7 +124,8 @@ export default function Card({
     }
   };
 
-  const handleMouseUp = () => {
+  const handleMouseUp = (e: MouseEvent) => {
+    e.stopPropagation();
     startXRef.current = null;
     isDraggingRef.current = false;
   };
@@ -95,9 +133,8 @@ export default function Card({
   return (
     <div className={className}>
       <div
+        ref={cardRef}
         className={cn("cardWrap", { swiped: isSwipedLeft })}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

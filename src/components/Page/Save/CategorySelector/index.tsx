@@ -36,14 +36,12 @@ export default function CategorySelector({ onSelect }: CategorySelectorProps) {
               })}
               onClick={() => handleCategorySelect(item)}
             >
-              <div>
-                <Image
-                  src={`/icons/ic-${item}.svg`}
-                  alt={`${categoryNameMap[item]} 아이콘`}
-                  width={40}
-                  height={40}
-                />
-              </div>
+              <Image
+                src={`/icons/ic-${item}.svg`}
+                alt={`${categoryNameMap[item]} 아이콘`}
+                width={34}
+                height={34}
+              />
               <span className={cn("label")}>{categoryNameMap[item]}</span>
             </button>
           ))}
