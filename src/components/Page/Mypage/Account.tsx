@@ -1,3 +1,5 @@
+"use client";
+
 import classNames from "classnames/bind";
 
 import editBtn from "@/../public/icons/ic-edit-state-on.svg";
@@ -12,7 +14,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
