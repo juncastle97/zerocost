@@ -12,11 +12,13 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
 const cn = classNames.bind(styles);
 export default function Account({ setLoginUser }) {
+  const router = useRouter();
   const [date, setDate] = useState<number>(0);
   const [price, setPrice] = useState<number>(0);
   const [logout, setLogOut] = useState<boolean>(false);
@@ -75,7 +77,11 @@ export default function Account({ setLoginUser }) {
           {price ? price.toLocaleString() : 0}원을 지켰어요
         </div>
 
-        <div className={cn("badge")}>
+        <div
+          className={cn("badge")}
+          onClick={() => router.push("/mypage/badge")}
+          style={{ cursor: "pointer" }}
+        >
           <h2>나의 배지</h2>
 
           <div className={cn("badgeList")}>
