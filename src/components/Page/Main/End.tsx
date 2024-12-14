@@ -12,16 +12,16 @@ export default function End() {
   const [, setMainOrder] = useAtom(countMain);
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   router.push("/mypage");
-    // }, 5000);
-  }, []);
+    const timer = setTimeout(() => {
+      setMainOrder(0);
+    }, 4000);
+
+    return () => clearTimeout(timer);
+  }, [setMainOrder]);
 
   return (
     <>
       <h2 className={cn("title")}>
-        {/* <Image src={saveAnimate} alt="로고" width={236} height={236} /> */}
-
         <DotLottieReact
           src="https://lottie.host/1f74818f-a5bf-4aba-8ae1-4f8a06eceaf4/bFs9Yo5W25.lottie"
           loop
@@ -30,9 +30,6 @@ export default function End() {
       </h2>
 
       <h2 className={cn("subTitle")}>내가 해냄!</h2>
-      <div className={cn("back")} onClick={() => setMainOrder(0)}>
-        {"<- "}뒤로가기
-      </div>
     </>
   );
 }
