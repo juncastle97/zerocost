@@ -96,10 +96,16 @@ export default function Main1() {
   return (
     <>
       {/* 활성화된 슬라이드에 따른 제목 */}
-      <h2 className={cn("title")}>{nameMap[currentCategory] || "커피"}</h2>
+      <h2 className={cn("title")}>{nameMap[currentCategory] || "이것을"}</h2>
 
-      <div className="swiper-button-prev">
-        <Image src={arrowOn} alt="화살표" width={32} height={17} />
+      <div className="swiper-button-next">
+        <Image
+          src={arrowOn}
+          alt="위로 가기"
+          width={32}
+          height={17}
+          onClick={(e) => e.stopPropagation()}
+        />
       </div>
       <Swiper
         id="mainSlide"
@@ -110,8 +116,8 @@ export default function Main1() {
           clickable: true,
         }}
         navigation={{
-          prevEl: ".swiper-button-prev",
-          nextEl: ".swiper-button-next",
+          nextEl: ".swiper-button-prev", // prev와 next를 서로 바꿈
+          prevEl: ".swiper-button-next", // prev와 next를 서로 바꿈
         }}
         modules={[Navigation, Pagination]}
         loop={true}
@@ -119,23 +125,37 @@ export default function Main1() {
         onSlideChange={handleSlideChange}
       >
         {mainItemBox?.categoryNames?.map((item, index) => {
-          const img = imageMap[item] || ""; // 매핑 객체에서 이미지 가져오기
+          const img = imageMap[item] || "";
+          const isActive = index === activeSlideIndex;
+
           return (
             <SwiperSlide key={index}>
-              <Image
-                src={img} // 매핑된 이미지 사용
-                alt="메인 슬라이드 이미지"
-                width={300}
-                height={300}
-                onClick={() => handleChoice(item)}
-              />
+              <div className={cn("imageWrapper", { active: isActive })}>
+                <Image
+                  src={img}
+                  alt="메인 슬라이드 이미지"
+                  width={300}
+                  height={300}
+                  onClick={() => isActive && handleChoice(item)}
+                  style={{
+                    cursor: isActive ? "pointer" : "default",
+                    opacity: isActive ? 1 : 0.5,
+                  }}
+                />
+              </div>
             </SwiperSlide>
           );
         })}
       </Swiper>
 
-      <div className="swiper-button-next">
-        <Image src={arrowOn} alt="화살표" width={32} height={17} />
+      <div className="swiper-button-prev">
+        <Image
+          src={arrowOn}
+          alt="아래로 가기"
+          width={32}
+          height={17}
+          onClick={(e) => e.stopPropagation()}
+        />
       </div>
 
       {/* 활성화된 슬라이드에 따른 부제목 */}
@@ -173,7 +193,7 @@ export default function Main1() {
             case "movie":
               return "봤다치고";
             default:
-              return "마셨다치고";
+              return "샀다치고";
           }
         })()}
       </h2>

@@ -231,7 +231,7 @@ export default function CalendarModal({
               </div>
               {(isButtonClicked || isFocused) && !isEditingAmount && (
                 <Button
-                  className={cn("button")}
+                  className={cn("button2")}
                   onClick={handleNextClick}
                   disabled={category === "none"}
                 >
@@ -240,7 +240,7 @@ export default function CalendarModal({
               )}
               {isEditingAmount && (
                 <Button
-                  className={cn("button")}
+                  className={cn("button2")}
                   onClick={handleComplete}
                   disabled={category === "none" || amount === 0}
                 >

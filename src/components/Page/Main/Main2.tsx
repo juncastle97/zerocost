@@ -28,12 +28,12 @@ export default function Main1() {
     String(nowDate.getDate()).padStart(2, "0");
   console.log(nowDate.getDate());
   const handleChoice = () => {
+    const amount = Number(num.join(""));
     setChoice((prevChoice) => ({
       ...prevChoice,
-      amount: Number(num.join("")),
+      amount,
       savingYmd: date,
     }));
-    setMainOrder(2);
     postItem();
   };
 
@@ -47,6 +47,12 @@ export default function Main1() {
   const { mutate: postItem } = useMutation({
     mutationKey: ["postItem"],
     mutationFn: () => postVirtualItem(choice),
+    onSuccess: () => {
+      setMainOrder(2);
+    },
+    onError: (error) => {
+      console.error("저장 실패:", error);
+    },
   });
   return (
     <>

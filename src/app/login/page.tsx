@@ -16,6 +16,30 @@ import styles from "./login.module.scss";
 
 const cn = classNames.bind(styles);
 
+// interface KakaoAuthResponse {
+//   access_token: string;
+//   token_type: string;
+//   refresh_token: string;
+//   expires_in: number;
+//   scope: string;
+//   refresh_token_expires_in: number;
+// }
+
+interface KakaoUserResponse {
+  id: number;
+  connected_at: string;
+  properties?: {
+    nickname?: string;
+    profile_image?: string;
+    thumbnail_image?: string;
+  };
+  kakao_account?: {
+    profile_nickname?: string;
+    profile_image?: string;
+    email?: string;
+  };
+}
+
 export default function Login() {
   const [modal, setModal] = useState(false);
   const [, setLogin] = useAtom(loginState);
@@ -32,74 +56,89 @@ export default function Login() {
   });
 
   useEffect(() => {
-    // 브라우저 환경에서만 실행
     if (typeof window !== "undefined") {
-      // Kakao 객체가 있는지 확인
-      if (!window.Kakao) {
-        console.error("Kakao SDK가 로드되지 않았습니다.");
-        return;
-      }
-
-      if (!window.Kakao.isInitialized()) {
-        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
-        console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
-      }
+      const initializeKakao = () => {
+        if (!window.Kakao) {
+          console.error("Kakao SDK가 로드되지 않았습니다.");
+          return;
+        }
+        // SDK 중복 초기화 방지
+        if (!window.Kakao.isInitialized()) {
+          window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+          console.log("Kakao SDK 초기화 완료");
+        }
+      };
+      initializeKakao();
     }
   }, []);
 
   const kakaoLogin = async () => {
-    if (typeof window !== "undefined" && window.Kakao && window.Kakao.Auth) {
-      if (!window.Kakao.isInitialized()) {
-        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
-      }
+    if (typeof window === "undefined" || !window.Kakao?.Auth) {
+      alert("카카오 로그인을 사용할 수 없습니다.");
+      return;
+    }
 
-      try {
-        // 1. 카카오 로그인
-        const auth = await new Promise((resolve, reject) => {
-          window.Kakao.Auth.login({
-            success: resolve,
-            fail: reject,
-          });
-        });
-        console.log("Kakao Login Success:", auth);
+    try {
+      // 기존 쿠키 제거
+      document.cookie =
+        "memberKeyId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      document.cookie =
+        "loginType=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 
-        // 2. 사용자 정보 요청
-        const userInfo = await new Promise<any>((resolve, reject) => {
+      // const auth = await new Promise<KakaoAuthResponse>((resolve, reject) => {
+      //   window.Kakao.Auth.login({
+      //     success: resolve,
+      //     fail: (error) =>
+      //       reject(new Error(error?.message || "카카오 로그인 실패")),
+      //   });
+      // });
+
+      const userInfo = await new Promise<KakaoUserResponse>(
+        (resolve, reject) => {
           window.Kakao.API.request({
             url: "/v2/user/me",
             success: resolve,
-            fail: reject,
+            fail: (error) =>
+              reject(new Error(error?.message || "사용자 정보 요청 실패")),
           });
-        });
-        console.log("Kakao User Info:", userInfo);
-
-        // 3. 서버로 사용자 정보 전송
-        const serverResponse = await fetch(
-          `https://api-zerocost.site/api/auth/kakao-login?code=${userInfo.id}`,
-          {
-            method: "GET",
-          }
-        );
-
-        if (!serverResponse.ok) {
-          throw new Error(`HTTP error! status: ${serverResponse.status}`);
         }
+      );
 
-        const data = await serverResponse.json();
-        console.log("Server Response:", data);
-        setLoginData(data);
-        setLogin("user");
-        // window.location.href = "/loginNick"; // 성공 시 리다이렉트
-        window.location.href = "/"; // 성공 시 리다이렉트
-      } catch (error) {
-        console.error("Error during Kakao login:", error);
-        alert("로그인 중 오류가 발생했습니다.");
+      const serverResponse = await fetch(
+        `https://api-zerocost.site/api/auth/kakao-login?code=${userInfo.id}`,
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!serverResponse.ok) {
+        const errorData = await serverResponse.json().catch(() => ({}));
+        throw new Error(
+          errorData.message || `서버 오류: ${serverResponse.status}`
+        );
       }
-    } else {
-      console.error("Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.");
-      alert("Kakao SDK를 로드하는 중 오류가 발생했습니다.");
+
+      const data = await serverResponse.json();
+      setLoginData(data);
+      setLogin("user");
+      router.push("/"); // Next.js router 사용
+    } catch (error) {
+      console.error("로그인 오류:", error);
+      alert(
+        error instanceof Error
+          ? error.message
+          : "로그인 중 오류가 발생했습니다."
+      );
     }
   };
+
   return (
     <>
       <div className={cn("loginWrap")}>
