@@ -58,10 +58,23 @@
   top: 0.6rem;
 }
 
+.back {
+  position: fixed;
+  left: 2.4rem;
+  cursor: pointer;
+}
+
+.timeWrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+  margin-top: 1.9rem;
+}
+
 .time {
   @include body3;
   text-align: center;
-  margin-top: 1.9rem;
 }
 
 .content {
