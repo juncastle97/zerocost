@@ -113,7 +113,19 @@ export default function EditModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className={cn("bar")}></div>
-        <div className={cn("time")}>{formatToCustomDate(date, time)}</div>
+        <div className={cn("timeWrap")}>
+          {isEditingCategory && (
+            <Image
+              src={"/icons/ic-left-arrow-white.svg"}
+              alt="뒤로가기"
+              width={30}
+              height={30}
+              className={cn("back")}
+              onClick={handleClose}
+            />
+          )}
+          <div className={cn("time")}>{formatToCustomDate(date, time)}</div>
+        </div>
         <div className={cn("content", { editing: isEditingCategory })}>
           <div className={cn("categoryText")}>
             <Image
