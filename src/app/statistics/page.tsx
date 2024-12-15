@@ -96,7 +96,7 @@ export default function Statistics() {
             <Percentage data={statisticsData} />
           </div>
         </div>
-        <div className={cn("chartWrap")}>
+        <div className={cn("chartWrap2")}>
           <p className={cn("title")}>시간별 절약</p>
           <div className={cn("timeWrap")}>
             <Line data={hourlyData} />
