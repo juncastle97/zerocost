@@ -160,7 +160,7 @@ export default function Account({ setLoginUser }) {
             setAccountDelete(false);
           }}
           confirm={() => {
-            withdrawal;
+            withdrawal();
             router.push("/login");
           }}
           ver={2}

@@ -1,6 +1,4 @@
-import { getMemberId } from "../utils/memberId";
 import { instance } from "./axios";
-const memberId = getMemberId();
 
 export const loginGuest = async () => {
   try {

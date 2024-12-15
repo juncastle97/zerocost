@@ -1,8 +1,8 @@
 import { getMemberId } from "../utils/memberId";
 import { instance } from "./axios";
-const memberId = getMemberId;
 
 export const postVirtualItem = async (postItem: any) => {
+  const memberId = getMemberId();
   try {
     const res = await instance.post(
       `/api/virtual-items?memberId=${memberId}`,
