@@ -1,16 +1,11 @@
 @import "@/styles/mixins";
 
 .header {
-  position: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.4rem;
-  margin-bottom: 2rem;
   z-index: 100;
-  top: 0.3rem;
-  left: 50%;
-  transform: translateX(-50%);
 
   button {
     width: 2.4rem;
