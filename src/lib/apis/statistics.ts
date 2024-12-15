@@ -1,9 +1,12 @@
 import { instance } from "./axios";
+import { getMemberId } from "../utils/memberId";
+
+const memberId = getMemberId();
 
 export const getStatisticsCategory = async (year: number, month: number) => {
   try {
     const response = await instance.get(
-      `/api/statistics/category/${year}/${month}`
+      `/api/statistics/category/${year}/${month}?memberId=${memberId}`
     );
     return response.data;
   } catch (error) {
@@ -15,7 +18,7 @@ export const getStatisticsCategory = async (year: number, month: number) => {
 export const getStatisticsHourly = async (year: number, month: number) => {
   try {
     const response = await instance.get(
-      `/api/statistics/hourly/${year}/${month}`
+      `/api/statistics/hourly/${year}/${month}?memberId=${memberId}`
     );
     return response.data;
   } catch (error) {
@@ -30,7 +33,7 @@ export const getStatisticsMonthlyTotal = async (
 ) => {
   try {
     const response = await instance.get(
-      `/api/statistics/monthly-total/${year}/${month}`
+      `/api/statistics/monthly-total/${year}/${month}?memberId=${memberId}`
     );
     return response.data;
   } catch (error) {
