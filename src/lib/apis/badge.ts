@@ -1,4 +1,5 @@
 import { instance } from "./axios";
+import { getMemberId } from "../utils/memberId";
 
 export interface BadgeItem {
   badgeId: number;
@@ -18,8 +19,13 @@ export interface BadgeItem {
 }
 
 export const getBadgesList = async () => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
-    const response = await instance.get<BadgeItem[]>("/api/badges/list");
+    const response = await instance.get<BadgeItem[]>(
+      `/api/badges/list?memberId=${memberId}`
+    );
     return response.data;
   } catch (error) {
     console.error("get badge list 요청 실패:", error);
@@ -28,8 +34,13 @@ export const getBadgesList = async () => {
 };
 
 export const getBadges = async (badgeId: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
-    const response = await instance.get(`/api/badges/${badgeId}`);
+    const response = await instance.get(
+      `/api/badges/${badgeId}?memberId=${memberId}`
+    );
     return response.data;
   } catch (error) {
     console.error("get badge 요청 실패:", error);
