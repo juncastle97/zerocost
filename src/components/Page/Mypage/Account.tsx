@@ -7,7 +7,7 @@ import social from "@/../public/icons/icon_kakaotalk.svg";
 import profileImg from "@/../public/icons/icon_user.svg";
 import EditNick from "@/components/commons/Modal/EditNick";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
-import { postLogout } from "@/lib/apis/login";
+import { postLogout, postWithdrawal } from "@/lib/apis/login";
 import { getBadges, getStatus } from "@/lib/apis/mypage";
 import { loginData } from "@/lib/atoms/login";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -32,13 +32,19 @@ export default function Account({ setLoginUser }) {
     queryKey: ["status"],
     queryFn: getStatus,
   });
+
   const { data: badges } = useQuery({
     queryKey: ["badges"],
     queryFn: getBadges,
   });
+  console.log(badges);
   const { mutate: logoutBtn } = useMutation({
     mutationKey: ["logout"],
     mutationFn: postLogout,
+  });
+  const { mutate: withdrawal } = useMutation({
+    mutationKey: ["logout"],
+    mutationFn: () => postWithdrawal(loginDatas.memberId),
   });
   useEffect(() => {
     if (isSuccess) {
@@ -46,7 +52,7 @@ export default function Account({ setLoginUser }) {
       setPrice(status?.totalAmount);
     }
   }, [isSuccess]);
-  console.log(status, badges);
+  console.log(loginDatas);
   return (
     <>
       <div className={cn("myPageWrap")}>
@@ -87,19 +93,22 @@ export default function Account({ setLoginUser }) {
           <h2>나의 배지</h2>
 
           <div className={cn("badgeList")}>
-            {badges?.slice(0, 3)?.map((item, index) => {
-              return (
-                <div className={cn("badgeItem")} key={index}>
-                  <Image
-                    src={item.emblemPath}
-                    alt="뱃지"
-                    width={40}
-                    height={40}
-                  />
-                  <div>{item.badgeName}</div>
-                </div>
-              );
-            })}
+            {badges
+              ?.filter((item) => item.acquireYN === "Y")
+              ?.slice(0, 3)
+              ?.map((item, index) => {
+                return (
+                  <div className={cn("badgeItem")} key={index}>
+                    <Image
+                      src={item.emblemPath}
+                      alt="뱃지"
+                      width={40}
+                      height={40}
+                    />
+                    <div>{item.badgeName}</div>
+                  </div>
+                );
+              })}
           </div>
         </div>
 
@@ -135,7 +144,10 @@ export default function Account({ setLoginUser }) {
           }}
           confirm={() => {
             setLoginUser("");
+            window.localStorage.removeItem("login");
+            window.localStorage.removeItem("loginData");
             logoutBtn();
+            router.push("/login");
           }}
           ver={2}
         >
@@ -148,7 +160,8 @@ export default function Account({ setLoginUser }) {
             setAccountDelete(false);
           }}
           confirm={() => {
-            console.log("Account deleted");
+            withdrawal;
+            router.push("/login");
           }}
           ver={2}
         >

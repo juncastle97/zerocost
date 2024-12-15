@@ -50,6 +50,9 @@
   align-items: flex-start;
   gap: 1.4rem;
   align-self: stretch;
+  & > div:last-child {
+    opacity: 0;
+  }
 }
 .btn {
   display: flex;

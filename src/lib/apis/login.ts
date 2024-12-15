@@ -1,4 +1,6 @@
+import { getMemberId } from "../utils/memberId";
 import { instance } from "./axios";
+const memberId = getMemberId();
 
 export const loginGuest = async () => {
   try {
@@ -11,6 +13,14 @@ export const loginGuest = async () => {
 export const postLogout = async () => {
   try {
     const res = await instance.post("/api/auth/logout", {});
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+export const postWithdrawal = async (id: any) => {
+  try {
+    const res = await instance.post(`/api/withdrawal?memberId=${id}`);
     return res.data;
   } catch (err) {
     console.log(err);
