@@ -21,3 +21,15 @@ export const getBadges = async () => {
     console.log(error);
   }
 };
+
+export const putNick = async (nick: string) => {
+  const memberId = getMemberId();
+  try {
+    const res = await instance.put(`/api/members/${memberId}/nickname`, null, {
+      params: { memberNickname: nick },
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

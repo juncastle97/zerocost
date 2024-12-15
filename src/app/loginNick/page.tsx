@@ -3,11 +3,14 @@ import back from "@/../public/icons/icon_back.svg";
 import deleteBtn from "@/../public/icons/icon_remove.svg";
 import errorImg from "@/../public/icons/image 13.svg";
 import user from "@/../public/icons/user icon.svg";
-import { getKakaoLogin } from "@/lib/apis/login";
-import { useQuery } from "@tanstack/react-query";
+import { putNick } from "@/lib/apis/mypage";
+import { loginData } from "@/lib/atoms/login";
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styles from "./loginNick.module.scss";
@@ -19,24 +22,18 @@ interface IFormInput {
 }
 
 export default function Login() {
-  const [nickName, setNickName] = useState<string>("야식을좋아했던정비공");
+  const [nickName, setNickName] = useState<string>("");
   const [message, setMessage] = useState<string>(
     "닉네임은 언제든 변경할 수 있어요!"
   );
+  const [loginDatas, setLoginDatas] = useAtom<any>(loginData);
   const [kakaoCode, setKakaoCode] = useState<any>();
+  const router = useRouter();
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code"); // Kakao에서 전달된 code
-    setKakaoCode(code);
-  }, []);
+    setNickName(loginDatas.memberNickname);
+  }, [loginDatas]);
 
-  const { data: kakaoToken } = useQuery({
-    queryKey: ["kakaoToken", kakaoCode],
-    queryFn: () => getKakaoLogin(kakaoCode),
-    enabled: kakaoCode !== undefined,
-  });
-  console.log(kakaoToken);
   const {
     register,
     handleSubmit,
@@ -46,7 +43,8 @@ export default function Login() {
   } = useForm<IFormInput>();
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+    changeNick();
+    router.push("/");
   };
 
   const validateNickName = (value: string) => {
@@ -91,7 +89,14 @@ export default function Login() {
       clearTimeout(debounce);
     };
   }, [nickName]);
+  const { mutate: changeNick } = useMutation({
+    mutationKey: ["changeNick"],
 
+    mutationFn: () => putNick(nickName),
+    onSuccess: (res) => {
+      setLoginDatas(res);
+    },
+  });
   return (
     <div className={cn("loginWrap")}>
       <Link href={"/login"} className={cn("back")}>
@@ -110,7 +115,7 @@ export default function Login() {
             <input
               id="nick"
               type="text"
-              value={nickName}
+              value={nickName || ""}
               {...register("nickName", {
                 onChange: handleNickNameChange,
               })}
@@ -131,7 +136,7 @@ export default function Login() {
 
           <label htmlFor="nick" className={errors.nickName && cn("nickError")}>
             {errors.nickName?.message || message}
-            <p>{nickName.length}/16</p>
+            <p>{nickName?.length}/16</p>
           </label>
 
           <button
