@@ -1,8 +1,6 @@
 import { instance } from "./axios";
 import { getMemberId } from "../utils/memberId";
 
-const memberId = getMemberId();
-
 interface VirtualItem {
   savingYmd: string;
   categoryName: string;
@@ -10,6 +8,9 @@ interface VirtualItem {
 }
 
 export const postVirtualItem = async (data: VirtualItem) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.post(
       `/api/virtual-items?memberId=${memberId}`,
@@ -23,6 +24,9 @@ export const postVirtualItem = async (data: VirtualItem) => {
 };
 
 export const getVirtualItemList = async (year: number, month: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.get(
       `/api/virtual-items/list/${year}/${month}?memberId=${memberId}`
@@ -35,6 +39,9 @@ export const getVirtualItemList = async (year: number, month: number) => {
 };
 
 export const getVirtualItemCalendar = async (year: number, month: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.get(
       `/api/virtual-items/calendar/${year}/${month}?memberId=${memberId}`
@@ -47,6 +54,9 @@ export const getVirtualItemCalendar = async (year: number, month: number) => {
 };
 
 export const getVirtualItem = async (savingId: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.get(
       `/api/virtual-items/${savingId}?memberId=${memberId}`
@@ -59,6 +69,9 @@ export const getVirtualItem = async (savingId: number) => {
 };
 
 export const putVirtualItem = async (savingId: number, data: VirtualItem) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.put(
       `/api/virtual-items/${savingId}?memberId=${memberId}`,
@@ -72,6 +85,9 @@ export const putVirtualItem = async (savingId: number, data: VirtualItem) => {
 };
 
 export const deleteVirtualItem = async (savingId: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     await instance.delete(
       `/api/virtual-items/${savingId}?memberId=${memberId}`
@@ -83,6 +99,9 @@ export const deleteVirtualItem = async (savingId: number) => {
 };
 
 export const patchVirtualItem = async (savingId: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.patch(
       `/api/virtual-items/${savingId}?memberId=${memberId}`

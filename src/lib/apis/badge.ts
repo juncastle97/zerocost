@@ -1,8 +1,6 @@
 import { instance } from "./axios";
 import { getMemberId } from "../utils/memberId";
 
-const memberId = getMemberId();
-
 export interface BadgeItem {
   badgeId: number;
   badgeName: string;
@@ -21,6 +19,9 @@ export interface BadgeItem {
 }
 
 export const getBadgesList = async () => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.get<BadgeItem[]>(
       `/api/badges/list?memberId=${memberId}`
@@ -33,6 +34,9 @@ export const getBadgesList = async () => {
 };
 
 export const getBadges = async (badgeId: number) => {
+  const memberId = getMemberId();
+  if (!memberId) throw new Error("Member ID not found");
+
   try {
     const response = await instance.get(
       `/api/badges/${badgeId}?memberId=${memberId}`
