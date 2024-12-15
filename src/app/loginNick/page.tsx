@@ -27,7 +27,6 @@ export default function Login() {
     "닉네임은 언제든 변경할 수 있어요!"
   );
   const [loginDatas, setLoginDatas] = useAtom<any>(loginData);
-  const [kakaoCode, setKakaoCode] = useState<any>();
   const router = useRouter();
 
   useEffect(() => {
@@ -42,7 +41,7 @@ export default function Login() {
     clearErrors,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = () => {
     changeNick();
     router.push("/");
   };

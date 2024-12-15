@@ -45,7 +45,7 @@ export default function EditNick({ back }: YesNoModalProps) {
     clearErrors,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = () => {
     changeNick();
     back();
   };

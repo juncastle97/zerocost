@@ -95,7 +95,7 @@ export default function Account({ setLoginUser }) {
 
       try {
         // 카카오 로그아웃
-        await new Promise((resolve, reject) => {
+        await new Promise((resolve) => {
           window.Kakao.Auth.logout(() => {
             console.log("Kakao Logout Success");
             resolve(null);
