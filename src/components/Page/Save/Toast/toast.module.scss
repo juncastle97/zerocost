@@ -1,11 +1,42 @@
 .container {
-  width: 32.8rem;
-  height: 4.8rem;
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  width: calc(100% - 3.2rem);
+  max-width: 32.8rem;
   padding: 1.2rem 2.4rem;
   border-radius: 0.8rem;
   background-color: $gray-a-20;
+  font-size: 14px;
+  z-index: 1000;
+  animation: slideUp 0.3s ease-out;
   border: 1px solid $gray-700;
+
+  > div {
+    @include body4;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+.text {
+  color: $white;
+}
+
+.back {
+  color: $orange-400;
+  cursor: pointer;
 }
