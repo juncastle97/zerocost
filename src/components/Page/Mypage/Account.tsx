@@ -123,7 +123,54 @@ export default function Account({ setLoginUser }) {
       alert("Kakao SDK를 로드하는 중 오류가 발생했습니다.");
     }
   };
+  const kakaoWithdrawal = async (memberId) => {
+    if (typeof window !== "undefined" && window.Kakao && window.Kakao.Auth) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+      }
 
+      try {
+        // 서버로 회원 탈퇴 요청
+        const serverResponse = await fetch(
+          `https://api-zerocost.site/api/auth/kakao-withdrawal`,
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ memberId }),
+          }
+        );
+
+        if (!serverResponse.ok) {
+          throw new Error(`HTTP error! status: ${serverResponse.status}`);
+        }
+
+        const data = await serverResponse.json();
+        console.log("Withdrawal Success:", data);
+
+        // 클라이언트 상태 초기화
+        document.cookie =
+          "memberKeyId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "loginType=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        setLoginUser("");
+        logoutBtn();
+        router.push("/login"); // Next.js router 사용
+      } catch (error) {
+        console.error("Error during Kakao withdrawal:", error);
+        alert("회원 탈퇴 중 오류가 발생했습니다.");
+      }
+    } else {
+      console.error("Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.");
+      alert("Kakao SDK를 로드하는 중 오류가 발생했습니다.");
+    }
+  };
   return (
     <>
       <div className={cn("myPageWrap")}>
@@ -191,13 +238,13 @@ export default function Account({ setLoginUser }) {
         </div>
 
         <div className={cn("out")}>
-          {/* <p
+          <p
             onClick={() => {
               setAccountDelete(true);
             }}
           >
             회원 탈퇴
-          </p> */}
+          </p>
           <p
             onClick={() => {
               setLogOut(true);
@@ -230,7 +277,9 @@ export default function Account({ setLoginUser }) {
           }}
           confirm={() => {
             withdrawal();
-            router.push("/login");
+            window.localStorage.removeItem("login");
+            window.localStorage.removeItem("loginData");
+            kakaoWithdrawal(loginDatas.memberId);
           }}
           ver={2}
         >
