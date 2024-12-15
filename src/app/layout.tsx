@@ -22,11 +22,37 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>샀다치고 가계부!</title>
+        <link rel="icon" href={`/icons/ic-logo.svg`} />
         <Script
           src="https://cdn.swygbro.com/public/widget/swyg-widget.js"
           strategy="beforeInteractive"
           defer
         />
+        <link rel="manifest" href="/manifest.json" />
+        {/* 기본 메타 정보 */}
+        <meta name="title" content="샀다치고 가계부!" />
+        <meta name="description" content="샀다치고 가계부!" />
+        <meta name="theme-color" content="#ffc211" />
+        <meta name="background-color" content="#ffffff" />
+        {/* Open Graph 메타 태그 (소셜 미디어 최적화) */}
+        <meta property="og:title" content="샀다치고 가계부!" />
+        <meta property="og:description" content="샀다치고 가계부!" />
+        <meta property="og:image" content="/icons/ic-logo.svg" />
+        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:type" content="website" />
+        {/* Twitter 카드 메타 태그 (Twitter에서의 미리보기 최적화) */}
+        <meta name="twitter:title" content="샀다치고 가계부!" />
+        <meta name="twitter:description" content="샀다치고 가계부!" />
+        <meta name="twitter:image" content="/icons/ic-logo.svg" />
+        <meta name="twitter:card" content="summary_large_image" />
+        {/* 애플 관련 메타 태그 */}
+        <meta name="apple-mobile-web-app-title" content="샀다치고 가계부!" />
+        <meta
+          name="apple-mobile-web-app-status-bar-style"
+          content="black-translucent"
+        />
+        <link rel="apple-touch-icon" href="/icons/ic-logo.svg" />
       </head>
       <body>
         <QueryClientProvider client={queryClient}>

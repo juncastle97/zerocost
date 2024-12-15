@@ -9,10 +9,11 @@
   "start_url": "./",
   "icons": [
     {
-      "src": "./icons/symbol.svg",
-      "sizes": "72x72 96x96 128x128 144x144 152x152 192x192 384x384 512x512",
+      "src": "./images/logo.png?ver=2",
+      "sizes": "384x384",
       "type": "image/svg+xml",
       "purpose": "maskable any"
     }
-  ]
+  ],
+  "form_factor": "desktop"
 }
