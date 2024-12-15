@@ -37,7 +37,7 @@ export default function Account({ setLoginUser }) {
     queryKey: ["badges"],
     queryFn: getBadges,
   });
-  console.log(badges);
+
   const { mutate: logoutBtn } = useMutation({
     mutationKey: ["logout"],
     mutationFn: postLogout,
@@ -52,7 +52,78 @@ export default function Account({ setLoginUser }) {
       setPrice(status?.totalAmount);
     }
   }, [isSuccess]);
-  console.log(loginDatas);
+  useEffect(() => {
+    // 브라우저 환경 확인
+    if (typeof window === "undefined") return;
+
+    // Kakao SDK가 이미 로드된 경우 초기화
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+      console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
+      return;
+    }
+
+    // Kakao SDK 동적 로드
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.min.js";
+    script.async = true;
+
+    script.onload = () => {
+      // 로드 완료 후 초기화
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+        console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
+      }
+    };
+
+    script.onerror = () => {
+      console.error("Kakao SDK를 로드하는 데 실패했습니다.");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      // script 태그를 제거 (필요 시 cleanup)
+      document.body.removeChild(script);
+    };
+  }, []);
+  const kakaoLogout = async () => {
+    if (typeof window !== "undefined" && window.Kakao && window.Kakao.Auth) {
+      if (!window.Kakao.isInitialized()) {
+        window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+      }
+
+      try {
+        // 카카오 로그아웃
+        await new Promise((resolve) => {
+          window.Kakao.Auth.logout(() => {
+            console.log("Kakao Logout Success");
+            resolve(null);
+          });
+        });
+
+        // 클라이언트 상태 초기화
+        document.cookie =
+          "memberKeyId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "loginType=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        // 로그인 상태 초기화
+        setLoginUser("");
+        logoutBtn();
+        router.push("/login"); // Next.js router 사용
+      } catch (error) {
+        console.error("Error during Kakao logout:", error);
+        alert("로그아웃 중 오류가 발생했습니다.");
+      }
+    } else {
+      console.error("Kakao SDK가 로드되지 않았거나 초기화되지 않았습니다.");
+      alert("Kakao SDK를 로드하는 중 오류가 발생했습니다.");
+    }
+  };
+
   return (
     <>
       <div className={cn("myPageWrap")}>
@@ -120,13 +191,13 @@ export default function Account({ setLoginUser }) {
         </div>
 
         <div className={cn("out")}>
-          <p
+          {/* <p
             onClick={() => {
               setAccountDelete(true);
             }}
           >
             회원 탈퇴
-          </p>
+          </p> */}
           <p
             onClick={() => {
               setLogOut(true);
@@ -143,11 +214,9 @@ export default function Account({ setLoginUser }) {
             setLogOut(false);
           }}
           confirm={() => {
-            setLoginUser("");
             window.localStorage.removeItem("login");
             window.localStorage.removeItem("loginData");
-            logoutBtn();
-            router.push("/login");
+            kakaoLogout();
           }}
           ver={2}
         >

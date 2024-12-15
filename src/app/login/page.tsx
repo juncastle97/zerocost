@@ -4,8 +4,9 @@ import google from "@/../public/icons/icon_google.svg";
 import kakao from "@/../public/icons/icon_kakaotalk.svg";
 import YesNoModal from "@/components/commons/Modal/YesNoModal";
 import { loginGuest } from "@/lib/apis/login";
+import { getBadges } from "@/lib/apis/mypage";
 import { loginData, loginState } from "@/lib/atoms/login";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -20,8 +21,14 @@ export default function Login() {
   const [modal, setModal] = useState(false);
   const [, setLogin] = useAtom(loginState);
   const [, setLoginData] = useAtom(loginData);
+  const [first, setFirst] = useState<boolean>(false);
   const router = useRouter();
 
+  const { data: badges } = useQuery({
+    queryKey: ["badges"],
+    queryFn: getBadges,
+    enabled: !!first,
+  });
   const { mutate: postGuest } = useMutation({
     mutationKey: ["postGuest"],
     mutationFn: loginGuest,
@@ -121,7 +128,19 @@ export default function Login() {
         console.log("Server Response:", data);
         setLoginData(data);
         setLogin("user");
-        router.push("/"); // Next.js router 사용
+        setFirst(true);
+        if (badges[0]?.rgstDt) {
+          // 현재 시간과 badges[0].rgstDt를 밀리초 단위로 변환
+          const currentTime = new Date().getTime(); // 현재 시간(밀리초)
+          const badgeTime = new Date(badges[0].rgstDt).getTime(); // badges[0].rgstDt(밀리초)
+          console.log(currentTime, badgeTime);
+          // 두 시간의 차이를 계산
+          if (Math.abs(currentTime - badgeTime) <= 10000) {
+            router.push("/loginNick");
+          } else {
+            router.push("/"); // Next.js router 사용
+          }
+        }
       } catch (error) {
         console.error("Error during Kakao login:", error);
         alert("로그인 중 오류가 발생했습니다.");

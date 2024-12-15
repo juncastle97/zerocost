@@ -1,7 +1,9 @@
 "use client";
 import deleteBtn from "@/../public/icons/icon_remove.svg";
 import errorImg from "@/../public/icons/image 13.svg";
+import { putNick } from "@/lib/apis/mypage";
 import { loginData } from "@/lib/atoms/login";
+import { useMutation } from "@tanstack/react-query";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -21,9 +23,9 @@ interface IFormInput {
 }
 
 export default function EditNick({ back }: YesNoModalProps) {
-  const [nickName, setNickName] = useState<string>("야식을좋아했던정비공");
+  const [nickName, setNickName] = useState<string>("");
   const [message, setMessage] = useState<string>("닉네임 변경");
-  const [loginDatas] = useAtom<any>(loginData);
+  const [loginDatas, setLoginDatas] = useAtom<any>(loginData);
   const ref = useRef(null);
   const handleClickOutside = () => {
     back();
@@ -43,8 +45,9 @@ export default function EditNick({ back }: YesNoModalProps) {
     clearErrors,
   } = useForm<IFormInput>();
 
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<IFormInput> = () => {
+    changeNick();
+    back();
   };
 
   const validateNickName = (value: string) => {
@@ -61,7 +64,14 @@ export default function EditNick({ back }: YesNoModalProps) {
   const handleNickRemove = () => {
     setNickName("");
   };
+  const { mutate: changeNick } = useMutation({
+    mutationKey: ["changeNick"],
 
+    mutationFn: () => putNick(nickName),
+    onSuccess: (res) => {
+      setLoginDatas(res);
+    },
+  });
   const handleNickNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNickName(value);
