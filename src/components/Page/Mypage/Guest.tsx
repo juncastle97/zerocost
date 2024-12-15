@@ -11,6 +11,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./mypage.module.scss";
 
@@ -22,6 +23,8 @@ export default function Guest({ setLoginUser }) {
   const [accountDelete, setAccountDelete] = useState<boolean>(false);
   const [login, setLogin] = useState<boolean>(false);
   const [loginDatas] = useAtom<any>(loginData);
+
+  const router = useRouter();
 
   const handleGuest = () => {
     setLogin(true);
@@ -112,7 +115,10 @@ export default function Guest({ setLoginUser }) {
           }}
           confirm={() => {
             setLoginUser("");
+            window.localStorage.removeItem("login");
+            window.localStorage.removeItem("loginData");
             logoutBtn();
+            router.push("/login");
           }}
           ver={2}
         >

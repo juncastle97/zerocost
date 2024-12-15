@@ -5,6 +5,7 @@ import { loginData, loginState } from "@/lib/atoms/login";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { useOnClickOutside } from "usehooks-ts";
 import styles from "./MypageDropBottom.module.scss";
@@ -19,26 +20,46 @@ interface YesNoModalProps {
 export default function MypageDropBottom({ back }: YesNoModalProps) {
   const [, setLogin] = useAtom(loginState);
   const [, setLoginData] = useAtom(loginData);
+  const router = useRouter();
   const ref = useRef(null);
   const handleClickOutside = () => {
     back();
   };
   useEffect(() => {
-    // 브라우저 환경에서만 실행
-    if (typeof window !== "undefined") {
-      // Kakao 객체가 있는지 확인
-      if (!window.Kakao) {
-        console.error("Kakao SDK가 로드되지 않았습니다.");
-        return;
-      }
+    // 브라우저 환경 확인
+    if (typeof window === "undefined") return;
 
+    // Kakao SDK가 이미 로드된 경우 초기화
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+      console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
+      return;
+    }
+
+    // Kakao SDK 동적 로드
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.min.js";
+    script.async = true;
+
+    script.onload = () => {
+      // 로드 완료 후 초기화
       if (!window.Kakao.isInitialized()) {
         window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
         console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
       }
-    }
-  }, []);
+    };
 
+    script.onerror = () => {
+      console.error("Kakao SDK를 로드하는 데 실패했습니다.");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      // script 태그를 제거 (필요 시 cleanup)
+      document.body.removeChild(script);
+    };
+  }, []);
   const kakaoLogin = async () => {
     if (typeof window !== "undefined" && window.Kakao && window.Kakao.Auth) {
       if (!window.Kakao.isInitialized()) {
@@ -46,6 +67,14 @@ export default function MypageDropBottom({ back }: YesNoModalProps) {
       }
 
       try {
+        // 기존 쿠키 제거
+        document.cookie =
+          "memberKeyId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "memberId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "loginType=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
         // 1. 카카오 로그인
         const auth = await new Promise((resolve, reject) => {
           window.Kakao.Auth.login({
@@ -70,6 +99,11 @@ export default function MypageDropBottom({ back }: YesNoModalProps) {
           `https://api-zerocost.site/api/auth/kakao-login?code=${userInfo.id}`,
           {
             method: "GET",
+            credentials: "include",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
           }
         );
 
@@ -81,8 +115,7 @@ export default function MypageDropBottom({ back }: YesNoModalProps) {
         console.log("Server Response:", data);
         setLoginData(data);
         setLogin("user");
-        // window.location.href = "/loginNick"; // 성공 시 리다이렉트
-        window.location.href = "/"; // 성공 시 리다이렉트
+        router.push("/"); // Next.js router 사용
       } catch (error) {
         console.error("Error during Kakao login:", error);
         alert("로그인 중 오류가 발생했습니다.");

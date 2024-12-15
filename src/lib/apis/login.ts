@@ -16,6 +16,14 @@ export const postLogout = async () => {
     console.log(err);
   }
 };
+export const postWithdrawal = async (id: any) => {
+  try {
+    const res = await instance.post(`/api/withdrawal?memberId=${id}`);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
 
 export const getKakaoLogin = async (KakaoLogin: string) => {
   try {

@@ -32,21 +32,40 @@ export default function Login() {
   });
 
   useEffect(() => {
-    // 브라우저 환경에서만 실행
-    if (typeof window !== "undefined") {
-      // Kakao 객체가 있는지 확인
-      if (!window.Kakao) {
-        console.error("Kakao SDK가 로드되지 않았습니다.");
-        return;
-      }
+    // 브라우저 환경 확인
+    if (typeof window === "undefined") return;
 
+    // Kakao SDK가 이미 로드된 경우 초기화
+    if (window.Kakao && !window.Kakao.isInitialized()) {
+      window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
+      console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
+      return;
+    }
+
+    // Kakao SDK 동적 로드
+    const script = document.createElement("script");
+    script.src = "https://developers.kakao.com/sdk/js/kakao.min.js";
+    script.async = true;
+
+    script.onload = () => {
+      // 로드 완료 후 초기화
       if (!window.Kakao.isInitialized()) {
         window.Kakao.init("c99ee35d6b865e87ea702e6d6530e391");
         console.log("Kakao SDK Initialized:", window.Kakao.isInitialized());
       }
-    }
-  }, []);
+    };
 
+    script.onerror = () => {
+      console.error("Kakao SDK를 로드하는 데 실패했습니다.");
+    };
+
+    document.body.appendChild(script);
+
+    return () => {
+      // script 태그를 제거 (필요 시 cleanup)
+      document.body.removeChild(script);
+    };
+  }, []);
   const kakaoLogin = async () => {
     if (typeof window !== "undefined" && window.Kakao && window.Kakao.Auth) {
       if (!window.Kakao.isInitialized()) {
@@ -127,12 +146,7 @@ export default function Login() {
             카카오 시작하기
           </div>
 
-          <Link
-            className={cn("loginBtn")}
-            href={
-              "https://kauth.kakao.com/oauth/authorize?client_id=489a2f33bf9d90c59950291ca077adc9&redirect_uri=http://3.39.123.15:8090/api/auth/kakao-login&response_type=code"
-            }
-          >
+          <Link className={cn("loginBtn")} href={"/login"}>
             <Image src={google} alt="google login" width={24} height={24} />
             구글로 시작하기
           </Link>

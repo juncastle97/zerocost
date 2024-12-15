@@ -1,7 +1,9 @@
 "use client";
 import deleteBtn from "@/../public/icons/icon_remove.svg";
 import errorImg from "@/../public/icons/image 13.svg";
+import { loginData } from "@/lib/atoms/login";
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -21,10 +23,15 @@ interface IFormInput {
 export default function EditNick({ back }: YesNoModalProps) {
   const [nickName, setNickName] = useState<string>("야식을좋아했던정비공");
   const [message, setMessage] = useState<string>("닉네임 변경");
+  const [loginDatas] = useAtom<any>(loginData);
   const ref = useRef(null);
   const handleClickOutside = () => {
     back();
   };
+
+  useEffect(() => {
+    setNickName(loginDatas.memberNickname);
+  }, [loginDatas.memberNickname]);
 
   useOnClickOutside(ref, handleClickOutside);
 
