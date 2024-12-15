@@ -1,16 +1,10 @@
-import {
-  addDays,
-  addMonths,
-  endOfMonth,
-  format,
-  getDay,
-  startOfMonth,
-  subMonths,
-} from "date-fns";
+import { addDays, endOfMonth, format, getDay, startOfMonth } from "date-fns";
 
 import classNames from "classnames/bind";
-import Image from "next/image";
+
 import { useState, useEffect, useCallback } from "react";
+import { useAtom } from "jotai";
+import { currentDateAtom } from "@/lib/atoms/date";
 
 import CalendarModal from "../CalendarModal";
 import CalendarItem from "../CalendarItem";
@@ -26,15 +20,11 @@ const cn = classNames.bind(styles);
 
 export default function Calendar({ selectedCategories }: CalendarProps) {
   const week = ["일", "월", "화", "수", "목", "금", "토"];
+  const [currentDate] = useAtom(currentDateAtom);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-  const [currentDate, setCurrentDate] = useState(new Date());
   const [calendarData, setCalendarData] = useState<CalendarData | null>(null);
-
-  const today = new Date();
-  const isCurrentMonth =
-    format(currentDate, "yyyyMM") === format(today, "yyyyMM");
 
   const startOfCurrentMonth = startOfMonth(currentDate);
   const endOfCurrentMonth = endOfMonth(currentDate);
@@ -57,45 +47,15 @@ export default function Calendar({ selectedCategories }: CalendarProps) {
     fetchCalendarData();
   }, [fetchCalendarData]);
 
-  const handlePrevMonth = () => setCurrentDate(subMonths(currentDate, 1));
-  const handleNextMonth = () => {
-    if (!isCurrentMonth) {
-      setCurrentDate(addMonths(currentDate, 1));
-    }
-  };
-
   const handleModalClose = () => {
     setIsModalOpen(false);
     setSelectedDate(null);
-    fetchCalendarData(); // 모달이 닫힐 때 캘린더 데이터도 새로고침
+    fetchCalendarData();
   };
 
   return (
     <div className={cn("container")}>
       <div className={cn("calendar")}>
-        <div className={cn("header")}>
-          <button onClick={handlePrevMonth}>
-            <Image
-              src={"/icons/ic-left-arrow-400.svg"}
-              alt="화살표"
-              width={24}
-              height={24}
-            />
-          </button>
-          <p>{format(currentDate, "M월")}</p>
-          <button onClick={handleNextMonth}>
-            <Image
-              src={
-                isCurrentMonth
-                  ? "/icons/ic-right-arrow-600.svg"
-                  : "/icons/ic-right-arrow-400.svg"
-              }
-              alt="화살표"
-              width={24}
-              height={24}
-            />
-          </button>
-        </div>
         <div className={cn("weekdays")}>
           {week.map((day) => (
             <div key={day} className={cn("weekday")}>
@@ -113,7 +73,6 @@ export default function Calendar({ selectedCategories }: CalendarProps) {
               (item) => item.day === dayNumber
             );
 
-            // Filter category summaries based on selected categories
             const filteredSummaries = dayData?.categorySummaries.filter(
               (summary) =>
                 selectedCategories.length === 0 ||

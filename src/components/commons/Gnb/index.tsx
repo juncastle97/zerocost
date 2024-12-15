@@ -3,12 +3,15 @@
 import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // usePathname 사용
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import { useAtom } from "jotai";
 import { countMain } from "@/lib/atoms/main";
 import { isModalOpenAtom } from "@/lib/atoms/modal";
+import { currentDateAtom } from "@/lib/atoms/date";
+import { isCalendarViewAtom } from "@/lib/atoms/view";
 import styles from "./gnb.module.scss";
+import MonthHeader from "@/components/commons/MonthHeader";
 
 import pig from "@/../public/icons/ic-logo.svg";
 import wonOff from "@/../public/icons/ic-won-state-off.svg";
@@ -22,10 +25,11 @@ import statOn from "@/../public/icons/statsOn.svg";
 const cn = classNames.bind(styles);
 
 export default function Gnb() {
-  const [gnbMore] = useState();
-  const pathname = usePathname(); // 현재 경로 가져오기
+  const pathname = usePathname();
   const [mainOrder] = useAtom(countMain);
   const [isModalOpen] = useAtom(isModalOpenAtom);
+  const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
+  const [isCalendarView] = useAtom(isCalendarViewAtom);
 
   useEffect(() => {
     const loginState = localStorage.getItem("login");
@@ -33,9 +37,22 @@ export default function Gnb() {
       (loginState === "false" || loginState === null) &&
       pathname !== "/login"
     ) {
-      window.location.href = "/login"; // 로그인 상태 확인 후 리다이렉트
+      window.location.href = "/login";
     }
-  }, []);
+  }, [pathname]);
+
+  useEffect(() => {
+    // 통계 페이지나 저장 페이지의 캘린더 뷰로 이동할 때 현재 날짜로 업데이트
+    if (
+      pathname === "/statistics" ||
+      (pathname === "/save" && isCalendarView)
+    ) {
+      setCurrentDate(new Date());
+    }
+  }, [pathname, isCalendarView]);
+
+  const showMonthHeader =
+    pathname === "/statistics" || (pathname === "/save" && isCalendarView);
 
   return (
     <>
@@ -43,9 +60,13 @@ export default function Gnb() {
         <Link href={"/"}>
           <Image src={pig} alt={"로고"} width={40} height={40} />
         </Link>
-        <div>{gnbMore}</div>
 
-        {/* 현재 경로가 "/mypage"가 아니면 렌더링 */}
+        {showMonthHeader && (
+          <MonthHeader
+            currentDate={currentDate}
+            onDateChange={setCurrentDate}
+          />
+        )}
         {pathname !== "/mypage" && (
           <Link href={"/mypage"}>
             <Image src={user} alt={"메뉴"} width={30} height={30} />
