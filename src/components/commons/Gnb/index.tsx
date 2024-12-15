@@ -4,7 +4,7 @@ import classNames from "classnames/bind";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom } from "jotai";
 import { countMain } from "@/lib/atoms/main";
 import { isModalOpenAtom } from "@/lib/atoms/modal";
@@ -32,6 +32,7 @@ export default function Gnb() {
   const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
   const [isCalendarView] = useAtom(isCalendarViewAtom);
   const [isEdting] = useAtom(listEditState);
+  const [prevPathname, setPrevPathname] = useState(pathname);
 
   useEffect(() => {
     const loginState = localStorage.getItem("login");
@@ -44,14 +45,16 @@ export default function Gnb() {
   }, [pathname]);
 
   useEffect(() => {
-    // 통계 페이지나 저장 페이지의 캘린더 뷰로 이동할 때 현재 날짜로 업데이트
+    // 페이지가 변경될 때만 현재 달로 업데이트
     if (
-      pathname === "/statistics" ||
-      (pathname === "/save" && isCalendarView)
+      prevPathname !== pathname &&
+      (pathname === "/statistics" || (pathname === "/save" && isCalendarView))
     ) {
       setCurrentDate(new Date());
+      window.location.reload();
     }
-  }, [pathname, isCalendarView]);
+    setPrevPathname(pathname);
+  }, [pathname, prevPathname, isCalendarView]);
 
   const showMonthHeader =
     pathname === "/statistics" || (pathname === "/save" && isCalendarView);
