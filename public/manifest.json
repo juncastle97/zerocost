@@ -1,7 +1,7 @@
 {
-  "name": "샀다치고 가계부!",
-  "short_name": "샀다치고",
-  "description": "샀다치고 가계부!",
+  "name": "제로코스트",
+  "short_name": "제로코스트",
+  "description": "제로코스트와 함께 쉽고 재밌게 소비의 가치를 지켜보세요!",
   "theme_color": "#ffc211",
   "background_color": "#ffffff",
   "display": "standalone",
@@ -9,7 +9,7 @@
   "start_url": "./",
   "icons": [
     {
-      "src": "./images/logo.png?ver=2",
+      "src": "./images/favicon.ico?ver=2",
       "sizes": "384x384",
       "type": "image/svg+xml",
       "purpose": "maskable any"

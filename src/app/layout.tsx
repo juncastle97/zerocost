@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>제로코스트</title>
-        <link rel="icon" href={`/favicon.ico`} />
+        <link rel="icon" href={`/images/favicon.ico`} />
         <Script
           src="https://cdn.swygbro.com/public/widget/swyg-widget.js"
           strategy="beforeInteractive"
