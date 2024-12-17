@@ -12,21 +12,26 @@ export default function Toast() {
   const [toast, setToast] = useAtom(toastAtom);
 
   useEffect(() => {
+    let timer: NodeJS.Timeout;
+
     if (toast.isVisible) {
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         setToast({ isVisible: false, count: 0 });
       }, 5000);
-
-      return () => clearTimeout(timer);
     }
-  }, [toast.isVisible, setToast]);
+
+    return () => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+    };
+  }, [toast.isVisible]);
 
   if (!toast.isVisible) return null;
 
   return (
     <div className={cn("container")}>
       <div className={cn("text")}>{toast.count}개의 항목이 삭제되었습니다.</div>
-      {/* <div className={cn("back")}>되돌리기</div> */}
     </div>
   );
 }

@@ -20,7 +20,7 @@ const Line = ({ data: timeData }: LineProps) => {
   const [data, setData] = useState([
     {
       id: "time",
-      data: Array.from({ length: 25 }, (_, i) => ({
+      data: Array.from({ length: 24 }, (_, i) => ({
         x: i.toString(),
         y: 0,
       })),
@@ -28,29 +28,29 @@ const Line = ({ data: timeData }: LineProps) => {
   ]);
 
   useEffect(() => {
+    // 24시간 기본 데이터 초기화
     const baseData = Array.from({ length: 24 }, (_, i) => ({
       x: i.toString(),
       y: 0,
     }));
 
-    // API 데이터로 해당하는 시간의 count 값을 업데이트
+    // 시간대별 데이터 누적
     timeData.forEach((item) => {
-      if (item.hour % 2 === 0) {
-        // 짝수 시간대는 그대로 표시
-        baseData[item.hour] = {
-          x: item.hour.toString(),
-          y: item.count,
-        };
-      } else {
-        // 홀수 시간대는 이전 시간대의 값에 더함
-        const prevHour = item.hour - 1;
-        if (prevHour >= 0) {
-          baseData[prevHour].y += item.count;
+      if (item.hour >= 0 && item.hour < 24) {
+        if (item.hour % 2 === 0) {
+          // 짝수 시간대
+          baseData[item.hour].y = item.count;
+        } else {
+          // 홀수 시간대의 데이터를 이전 짝수 시간대에 누적
+          const prevHour = Math.floor(item.hour / 2) * 2;
+          if (prevHour >= 0 && prevHour < 24) {
+            baseData[prevHour].y += item.count;
+          }
         }
       }
     });
 
-    // x축에 짝수 시간대만 표시되도록 필터링
+    // 짝수 시간대만 필터링
     const filteredData = baseData.filter((_, index) => index % 2 === 0);
 
     setData([

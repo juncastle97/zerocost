@@ -23,11 +23,11 @@ export default function DeleteSaveButton({ onDelete }: DeleteSaveButtonProps) {
 
   const handleDeleteClick = async () => {
     try {
+      // 토스트 메시지 먼저 표시
+      setToast({ isVisible: true, count: selectedCount });
+
       // 모든 선택된 아이템 삭제
       await Promise.all(selectedIds.map((id) => deleteVirtualItem(id)));
-
-      // 토스트 메시지 표시
-      setToast({ isVisible: true, count: selectedCount });
 
       // 상태 초기화
       setIsEdit(false);
@@ -38,6 +38,9 @@ export default function DeleteSaveButton({ onDelete }: DeleteSaveButtonProps) {
       onDelete?.();
     } catch (error) {
       console.error("Failed to delete items:", error);
+      // 에러 발생 시 토스트 메시지 업데이트
+      setToast({ isVisible: true, count: 0 });
+      // 상태 초기화하지 않고 유지
     }
   };
 
