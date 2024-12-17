@@ -7,6 +7,7 @@ import Script from "next/script";
 import { useState } from "react";
 
 import Gnb from "@/components/commons/Gnb";
+import Toast from "@/components/Page/Save/Toast";
 import "@/styles/base/index.scss";
 
 export default function RootLayout({
@@ -89,6 +90,7 @@ export default function RootLayout({
             />
             {!isAdminPage && !isBadgePage && <Gnb />}
             {children}
+            <Toast />
           </div>
           <div id="portal-root"></div>
           <ReactQueryDevtools initialIsOpen={false} />

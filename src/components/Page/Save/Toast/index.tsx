@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtom } from "jotai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toastAtom } from "@/lib/atoms/toast";
 import classNames from "classnames/bind";
 import styles from "./toast.module.scss";
@@ -10,13 +10,19 @@ const cn = classNames.bind(styles);
 
 export default function Toast() {
   const [toast, setToast] = useAtom(toastAtom);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
 
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
-    if (toast.isVisible) {
+    if (isMounted && toast.isVisible) {
       timer = setTimeout(() => {
-        setToast({ isVisible: false, count: 0 });
+        setToast((prev) => ({ ...prev, isVisible: false }));
       }, 5000);
     }
 
@@ -25,9 +31,9 @@ export default function Toast() {
         clearTimeout(timer);
       }
     };
-  }, [toast.isVisible]);
+  }, [toast.isVisible, isMounted, setToast]);
 
-  if (!toast.isVisible) return null;
+  if (!isMounted || !toast.isVisible) return null;
 
   return (
     <div className={cn("container")}>
