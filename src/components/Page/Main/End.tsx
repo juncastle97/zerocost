@@ -14,7 +14,7 @@ export default function End() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setMainOrder(0);
-    }, 4000);
+    }, 2000);
 
     return () => clearTimeout(timer);
   }, [setMainOrder]);
