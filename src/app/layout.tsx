@@ -23,6 +23,17 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Google Tag Manager */}
+        <Script id="google-tag-manager" strategy="afterInteractive">
+          {`
+            (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+            })(window,document,'script','dataLayer','GTM-KHC7QML4');
+          `}
+        </Script>
+        {/* End Google Tag Manager */}
         <title>제로코스트</title>
         <link rel="icon" href={`/images/favicon.ico`} />
         <Script
@@ -46,7 +57,7 @@ export default function RootLayout({
           content="제로코스트와 함께 쉽고 재밌게 소비의 가치를 지켜보세요!"
         />
         <meta property="og:image" content="/images/ogImage.png" />
-        <meta property="og:url" content="https://yourdomain.com" />
+        <meta property="og:url" content="https://zerocost-eta.vercel.app/" />
         <meta property="og:type" content="website" />
         {/* Twitter 카드 메타 태그 (Twitter에서의 미리보기 최적화) */}
         <meta name="twitter:title" content="제로코스트" />
@@ -65,6 +76,16 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/favicon.ico" />
       </head>
       <body>
+        {/* Google Tag Manager (noscript) */}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `
+              <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KHC7QML4"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+            `,
+          }}
+        />
+        {/* End Google Tag Manager (noscript) */}
         <QueryClientProvider client={queryClient}>
           <div
             style={{
