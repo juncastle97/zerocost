@@ -31,12 +31,13 @@ export default function SaveGnb({
     setSelectedCount(0);
   };
 
-  const handleCalendarClick = () => {
+  const handleCalendarClick = (event: React.MouseEvent) => {
+    console.log("달력 아이콘 클릭됨");
+    event.preventDefault(); // 새로고침 방지
     setIsCalendarView(true);
     setIsEdit(false);
     setSelectedCount(0);
   };
-
   return (
     <div className={cn("gnbWrap")}>
       <div className={cn("iconWrap")}>

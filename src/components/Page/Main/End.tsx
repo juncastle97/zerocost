@@ -20,7 +20,7 @@ export default function End() {
   }, [setMainOrder]);
 
   return (
-    <>
+    <div className={cn("mainWrap")}>
       <h2 className={cn("title")}>
         <DotLottieReact
           src="https://lottie.host/1f74818f-a5bf-4aba-8ae1-4f8a06eceaf4/bFs9Yo5W25.lottie"
@@ -30,6 +30,6 @@ export default function End() {
       </h2>
 
       <h2 className={cn("subTitle")}>내가 해냄!</h2>
-    </>
+    </div>
   );
 }

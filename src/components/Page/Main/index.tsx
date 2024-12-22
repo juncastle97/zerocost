@@ -94,7 +94,7 @@ export default function Main1() {
   const currentCategory = mainItemBox?.categoryNames?.[activeSlideIndex] || "";
 
   return (
-    <>
+    <div className={cn("mainWrap")}>
       {/* 활성화된 슬라이드에 따른 제목 */}
       <h2 className={cn("title")}>{nameMap[currentCategory] || "이것을"}</h2>
 
@@ -197,6 +197,6 @@ export default function Main1() {
           }
         })()}
       </h2>
-    </>
+    </div>
   );
 }
