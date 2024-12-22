@@ -1,11 +1,11 @@
 "use client";
+import { useQuery } from "@tanstack/react-query";
+import classNames from "classnames/bind";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import classNames from "classnames/bind";
-import { useQuery } from "@tanstack/react-query";
 
 import Card from "@/components/Page/Mypage/Badge/Card";
-import { getBadgesList, BadgeItem } from "@/lib/apis/badge";
+import { BadgeItem, getBadgesList } from "@/lib/apis/badge";
 import styles from "./badge.module.scss";
 
 const cn = classNames.bind(styles);

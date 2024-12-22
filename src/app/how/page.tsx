@@ -1,7 +1,6 @@
 "use client";
 import classNames from "classnames/bind";
 import { useRouter } from "next/navigation";
-import React from "react";
 import styles from "./how.module.scss";
 
 const cn = classNames.bind(styles);
