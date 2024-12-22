@@ -23,7 +23,7 @@ export default function Toast() {
     if (isMounted && toast.isVisible) {
       timer = setTimeout(() => {
         setToast((prev) => ({ ...prev, isVisible: false }));
-      }, 5000);
+      }, 3000);
     }
 
     return () => {
@@ -37,7 +37,11 @@ export default function Toast() {
 
   return (
     <div className={cn("container")}>
-      <div className={cn("text")}>{toast.count}개의 항목이 삭제되었습니다.</div>
+      <div className={cn("text")}>
+        {toast.type === "multiple"
+          ? `${toast.count}개의 항목이 삭제되었습니다.`
+          : "기록이 삭제되었어요"}
+      </div>
     </div>
   );
 }

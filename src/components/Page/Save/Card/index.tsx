@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useState, useRef, TouchEvent, MouseEvent, useEffect } from "react";
 
 import styles from "./card.module.scss";
+import { toastAtom } from "@/lib/atoms/toast";
 
 const cn = classNames.bind(styles);
 
@@ -42,6 +43,7 @@ export default function Card({
 }: ListCardProps) {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isEdit] = useAtom(listEditState);
+  const [, setToast] = useAtom(toastAtom);
   const [isSwipedLeft, setIsSwipedLeft] = useState(false);
   const startXRef = useRef<number | null>(null);
   const isDraggingRef = useRef(false);
@@ -98,6 +100,7 @@ export default function Card({
   const handleDelete = async () => {
     try {
       await deleteVirtualItem(id);
+      setToast({ isVisible: true, type: "single" });
       if (onDelete) {
         onDelete();
       }
