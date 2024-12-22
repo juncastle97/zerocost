@@ -48,9 +48,17 @@ export default function DeleteSaveButton({ onDelete }: DeleteSaveButtonProps) {
   return (
     <Portal>
       <div className={cn("selected")}>{selectedCount}개 선택</div>
-      <button className={cn("delete")} onClick={handleDeleteClick}>
+      <button
+        className={cn("delete")}
+        onClick={handleDeleteClick}
+        disabled={selectedCount === 0}
+      >
         <Image
-          src="/icons/ic-delete-state-on.svg"
+          src={
+            selectedCount === 0
+              ? "/icons/ic-delete-state-off.svg"
+              : "/icons/ic-delete-state-on.svg"
+          }
           alt="삭제 아이콘"
           width={24}
           height={24}
