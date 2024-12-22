@@ -22,8 +22,8 @@ export default function RootLayout({
   const pathname = usePathname();
   const isAdminPage = pathname?.startsWith("/admin");
   const isBadgePage = pathname?.startsWith("/mypage/badge");
-  const [splash, setSplashAtom] = useAtom(splashAtom);
-  const [splashOn, setSplash] = useState(false);
+  const [, setSplashAtom] = useAtom(splashAtom);
+  const [, setSplash] = useState(false);
   const spl = localStorage.getItem("splash");
 
   useEffect(() => {

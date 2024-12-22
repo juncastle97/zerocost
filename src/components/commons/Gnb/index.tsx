@@ -2,8 +2,7 @@
 
 import MonthHeader from "@/components/commons/MonthHeader";
 import { currentDateAtom } from "@/lib/atoms/date";
-import { countMain, pathAtom } from "@/lib/atoms/main";
-import { isModalOpenAtom } from "@/lib/atoms/modal";
+import { pathAtom } from "@/lib/atoms/main";
 import { isCalendarViewAtom } from "@/lib/atoms/view";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
@@ -20,8 +19,8 @@ const cn = classNames.bind(styles);
 
 export default function Gnb() {
   const pathname = usePathname();
-  const [mainOrder] = useAtom(countMain);
-  const [isModalOpen] = useAtom(isModalOpenAtom);
+  // const [mainOrder] = useAtom(countMain);
+  // const [isModalOpen] = useAtom(isModalOpenAtom);
   const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
   const [isCalendarView] = useAtom(isCalendarViewAtom);
   const [nowPath] = useAtom(pathAtom);

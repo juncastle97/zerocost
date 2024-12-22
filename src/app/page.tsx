@@ -27,7 +27,7 @@ import Image from "next/image";
 
 const cn = classNames.bind(styles);
 
-export default function Main({ isModalOpen, isEdting }: any) {
+export default function Main() {
   const [mainOrder] = useAtom(countMain); // 현재 상태 가져오기
   const [nowPath, setNowPath] = useAtom(pathAtom);
   const swiperRef = useRef<any>(null); // Swiper 참조
