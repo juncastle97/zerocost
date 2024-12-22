@@ -62,7 +62,7 @@ export default function Main1() {
     },
   });
   return (
-    <>
+    <div className={cn("mainWrap")}>
       <h2 className={cn("title")}>
         <Image src={logo} alt="로고" width={158} />
       </h2>
@@ -134,6 +134,6 @@ export default function Main1() {
       <div className={cn("back")} onClick={() => setMainOrder(0)}>
         {"<- "}뒤로가기
       </div>
-    </>
+    </div>
   );
 }

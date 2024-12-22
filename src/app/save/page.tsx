@@ -1,8 +1,8 @@
 "use client";
 
+import { isCalendarViewAtom } from "@/lib/atoms/view";
 import classNames from "classnames/bind";
 import { useAtom } from "jotai";
-import { isCalendarViewAtom } from "@/lib/atoms/view";
 
 import styles from "./save.module.scss";
 

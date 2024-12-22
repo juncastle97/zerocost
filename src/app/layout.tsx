@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { useState } from "react";
 
-import Gnb from "@/components/commons/Gnb";
 import Toast from "@/components/Page/Save/Toast";
+import Gnb from "@/components/commons/Gnb";
+import Splash from "@/components/commons/Splash"; // 추가된 Splash 컴포넌트
 import "@/styles/base/index.scss";
 
 export default function RootLayout({
@@ -106,6 +107,8 @@ export default function RootLayout({
             {!isAdminPage && !isBadgePage && <Gnb />}
             {children}
             <Toast />
+            <Splash />
+            {/* Splash 컴포넌트 */}
           </div>
           <div id="portal-root"></div>
           <ReactQueryDevtools initialIsOpen={false} />

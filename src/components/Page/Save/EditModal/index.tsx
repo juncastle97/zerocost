@@ -1,17 +1,18 @@
 import classNames from "classnames/bind";
-import styles from "./editModal.module.scss";
-import Image from "next/image";
-import { useRef, useState, useEffect } from "react";
 import { useAtom } from "jotai";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
+import styles from "./editModal.module.scss";
 
 import Button from "@/components/commons/Button";
+import Portal from "@/components/commons/Modal/potal";
 import { categoryActionMap, categoryNameMap } from "@/constants/category";
+import { formatToCustomDate } from "@/constants/date";
+import { putVirtualItem } from "@/lib/apis/virtualItems";
+import { selectedCategoryAtom } from "@/lib/atoms/category";
+import { isModalOpenAtom } from "@/lib/atoms/modal";
 import AmountInput from "../AmountInput";
 import CategorySelector from "../CategorySelector";
-import { formatToCustomDate } from "@/constants/date";
-import { selectedCategoryAtom } from "@/lib/atoms/category";
-import { putVirtualItem } from "@/lib/apis/virtualItems";
-import { isModalOpenAtom } from "@/lib/atoms/modal";
 
 const cn = classNames.bind(styles);
 
@@ -106,7 +107,7 @@ export default function EditModal({
   };
 
   return (
-    <div>
+    <Portal>
       <div className={cn("modalBack")} onClick={handleClose}></div>
       <div
         className={cn("modalWrap", { closing: isClosing })}
@@ -185,6 +186,6 @@ export default function EditModal({
           <CategorySelector onSelect={handleCategorySelect} />
         </div>
       </div>
-    </div>
+    </Portal>
   );
 }

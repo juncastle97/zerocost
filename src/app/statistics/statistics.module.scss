@@ -3,12 +3,13 @@
   overflow-y: auto;
   max-height: 100vh;
   padding-bottom: 4rem;
-  
+  margin-top: 4rem;
+
   &::-webkit-scrollbar {
     display: none;
   }
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
 .total {

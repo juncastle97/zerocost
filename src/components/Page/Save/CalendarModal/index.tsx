@@ -1,18 +1,19 @@
+import { selectedCategoryAtom } from "@/lib/atoms/category";
+import { isModalOpenAtom } from "@/lib/atoms/modal";
 import classNames from "classnames/bind";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
-import Image from "next/image";
-import { useRef, useState, useEffect, useCallback } from "react";
 import { useAtom } from "jotai";
-import { selectedCategoryAtom } from "@/lib/atoms/category";
-import { isModalOpenAtom } from "@/lib/atoms/modal";
+import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import styles from "./calendarModal.module.scss";
 
 const cn = classNames.bind(styles);
 
-import Button from "@/components/commons/Button";
 import CategorySelector from "@/components/Page/Save/CategorySelector";
+import Button from "@/components/commons/Button";
+import Portal from "@/components/commons/Modal/potal";
 import { categoryActionMap, categoryNameMap } from "@/constants/category";
 import { formatToKoreanCurrency } from "@/constants/formattedAmount";
 import {
@@ -134,7 +135,7 @@ export default function CalendarModal({
   // };
 
   return (
-    <div>
+    <Portal>
       <div className={cn("modalBack")} onClick={handleClose}></div>
       <div
         className={cn("modalWrap", { closing: isClosing })}
@@ -269,6 +270,6 @@ export default function CalendarModal({
           </Button>
         )}
       </div>
-    </div>
+    </Portal>
   );
 }

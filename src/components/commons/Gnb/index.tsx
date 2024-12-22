@@ -1,37 +1,29 @@
 "use client";
 
+import MonthHeader from "@/components/commons/MonthHeader";
+import { currentDateAtom } from "@/lib/atoms/date";
+import { pathAtom } from "@/lib/atoms/main";
+import { isCalendarViewAtom } from "@/lib/atoms/view";
 import classNames from "classnames/bind";
+import { useAtom } from "jotai";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAtom } from "jotai";
-import { countMain } from "@/lib/atoms/main";
-import { isModalOpenAtom } from "@/lib/atoms/modal";
-import { currentDateAtom } from "@/lib/atoms/date";
-import { isCalendarViewAtom } from "@/lib/atoms/view";
-import { listEditState } from "@/lib/atoms/list";
 import styles from "./gnb.module.scss";
-import MonthHeader from "@/components/commons/MonthHeader";
 
 import pig from "@/../public/icons/ic-logo.svg";
-import wonOff from "@/../public/icons/ic-won-state-off.svg";
-import wonOn from "@/../public/icons/ic-won-state-on.svg";
-import historyOff from "@/../public/icons/icon_historyOff.svg";
-import historyOn from "@/../public/icons/icon_historyOn.svg";
 import user from "@/../public/icons/icon_user.svg";
-import statOff from "@/../public/icons/statsOff.svg";
-import statOn from "@/../public/icons/statsOn.svg";
 
 const cn = classNames.bind(styles);
 
 export default function Gnb() {
   const pathname = usePathname();
-  const [mainOrder] = useAtom(countMain);
-  const [isModalOpen] = useAtom(isModalOpenAtom);
+  // const [mainOrder] = useAtom(countMain);
+  // const [isModalOpen] = useAtom(isModalOpenAtom);
   const [currentDate, setCurrentDate] = useAtom(currentDateAtom);
   const [isCalendarView] = useAtom(isCalendarViewAtom);
-  const [isEdting] = useAtom(listEditState);
+  const [nowPath] = useAtom(pathAtom);
   const [prevPathname, setPrevPathname] = useState(pathname);
 
   useEffect(() => {
@@ -46,18 +38,14 @@ export default function Gnb() {
 
   useEffect(() => {
     // 페이지가 변경될 때만 현재 달로 업데이트
-    if (
-      prevPathname !== pathname &&
-      (pathname === "/statistics" || (pathname === "/save" && isCalendarView))
-    ) {
+    if (nowPath === 2 || (nowPath === 1 && isCalendarView)) {
       setCurrentDate(new Date());
-      window.location.reload();
+      // window.location.reload();
     }
     setPrevPathname(pathname);
   }, [pathname, prevPathname, isCalendarView]);
 
-  const showMonthHeader =
-    pathname === "/statistics" || (pathname === "/save" && isCalendarView);
+  const showMonthHeader = nowPath === 2 || (nowPath === 1 && isCalendarView);
 
   return (
     <>
@@ -79,7 +67,7 @@ export default function Gnb() {
         )}
       </div>
 
-      {pathname !== "/mypage" &&
+      {/* {pathname !== "/mypage" &&
         mainOrder === 0 &&
         !isModalOpen &&
         !isEdting && (
@@ -110,16 +98,16 @@ export default function Gnb() {
             )}
 
             {pathname === "/statistics" ? (
-              <Link href={"/statistics"}>
+              <Link href={"#statistics"}>
                 <Image src={statOn} alt={"stat"} width={24} height={24} />
               </Link>
             ) : (
-              <Link href={"/statistics"}>
+              <Link href={"#statistics"}>
                 <Image src={statOff} alt={"stat"} width={24} height={24} />
               </Link>
             )}
           </div>
-        )}
+        )} */}
     </>
   );
 }

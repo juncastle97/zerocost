@@ -1,13 +1,14 @@
 import classNames from "classnames/bind";
-import Image from "next/image";
 import { useAtom } from "jotai";
+import Image from "next/image";
 
-import styles from "./deleteSaveButton.module.scss";
-import { listEditState } from "@/lib/atoms/list";
-import { selectedItemsAtom } from "@/lib/atoms/selectedItems";
-import { selectedIdsAtom } from "@/lib/atoms/selectedIds";
-import { toastAtom } from "@/lib/atoms/toast";
+import Portal from "@/components/commons/Modal/potal";
 import { deleteVirtualItem } from "@/lib/apis/virtualItems";
+import { listEditState } from "@/lib/atoms/list";
+import { selectedIdsAtom } from "@/lib/atoms/selectedIds";
+import { selectedItemsAtom } from "@/lib/atoms/selectedItems";
+import { toastAtom } from "@/lib/atoms/toast";
+import styles from "./deleteSaveButton.module.scss";
 
 const cn = classNames.bind(styles);
 
@@ -45,7 +46,7 @@ export default function DeleteSaveButton({ onDelete }: DeleteSaveButtonProps) {
   };
 
   return (
-    <>
+    <Portal>
       <div className={cn("selected")}>{selectedCount}개 선택</div>
       <button className={cn("delete")} onClick={handleDeleteClick}>
         <Image
@@ -55,6 +56,13 @@ export default function DeleteSaveButton({ onDelete }: DeleteSaveButtonProps) {
           height={24}
         />
       </button>
-    </>
+      <style>
+        {`
+          #bottomGnb {
+            display: none;
+          }
+        `}
+      </style>
+    </Portal>
   );
 }
