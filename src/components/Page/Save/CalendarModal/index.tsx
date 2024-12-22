@@ -1,7 +1,7 @@
 import { selectedCategoryAtom } from "@/lib/atoms/category";
 import { isModalOpenAtom } from "@/lib/atoms/modal";
 import classNames from "classnames/bind";
-import { format } from "date-fns";
+import { format, isAfter, startOfDay } from "date-fns";
 import { ko } from "date-fns/locale";
 import { useAtom } from "jotai";
 import Image from "next/image";
@@ -49,6 +49,8 @@ export default function CalendarModal({
   const [isEditingAmount, setIsEditingAmount] = useState(false);
   const [dayData, setDayData] = useState<ModalDayData | null>(null);
   const amountInputRef = useRef<HTMLInputElement>(null);
+
+  const isFutureDate = isAfter(startOfDay(date), startOfDay(new Date()));
 
   const fetchDayData = useCallback(async () => {
     try {
@@ -257,7 +259,11 @@ export default function CalendarModal({
           </>
         )}
         {!isButtonClicked && (
-          <Button className={cn("button")} onClick={handleSaveClick}>
+          <Button
+            className={cn("button")}
+            onClick={handleSaveClick}
+            disabled={isFutureDate}
+          >
             <div className={cn("plus")}>
               <Image
                 src="/icons/ic-plus.svg"
