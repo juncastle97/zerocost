@@ -72,6 +72,8 @@ export default function Calendar({ selectedCategories }: CalendarProps) {
             const dayData = calendarData?.days.find(
               (item) => item.day === dayNumber
             );
+            const isToday =
+              format(day, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
 
             const filteredSummaries = dayData?.categorySummaries.filter(
               (summary) =>
@@ -87,6 +89,7 @@ export default function Calendar({ selectedCategories }: CalendarProps) {
                   other: !isCurrentMonth,
                   sunday: dayOfWeek === 0,
                   saturday: dayOfWeek === 6,
+                  today: isToday,
                 })}
                 onClick={() => {
                   if (isCurrentMonth) {

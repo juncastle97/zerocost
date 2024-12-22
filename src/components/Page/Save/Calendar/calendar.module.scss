@@ -94,5 +94,9 @@
         color: rgba($blue-300, 0.4);
       }
     }
+
+    &.today {
+      color: $orange-300 !important;
+    }
   }
 }
