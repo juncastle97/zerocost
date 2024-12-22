@@ -4,11 +4,14 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { usePathname } from "next/navigation";
 import Script from "next/script";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import Gnb from "@/components/commons/Gnb";
 import Toast from "@/components/Page/Save/Toast";
+import Gnb from "@/components/commons/Gnb";
+import Splash from "@/components/commons/Splash"; // 추가된 Splash 컴포넌트
+import { splashAtom } from "@/lib/atoms/main";
 import "@/styles/base/index.scss";
+import { useAtom } from "jotai";
 
 export default function RootLayout({
   children,
@@ -19,6 +22,20 @@ export default function RootLayout({
   const pathname = usePathname();
   const isAdminPage = pathname?.startsWith("/admin");
   const isBadgePage = pathname?.startsWith("/mypage/badge");
+  const [splash, setSplashAtom] = useAtom(splashAtom);
+  const [splashOn, setSplash] = useState(false);
+  const spl = localStorage.getItem("splash");
+
+  useEffect(() => {
+    setSplashAtom(true);
+  }, []);
+  useEffect(() => {
+    if (!spl) {
+      setSplash(true);
+    } else {
+      setSplash(false);
+    }
+  }, [spl]);
 
   return (
     <html lang="en">
@@ -106,6 +123,8 @@ export default function RootLayout({
             {!isAdminPage && !isBadgePage && <Gnb />}
             {children}
             <Toast />
+            <Splash />
+            {/* Splash 컴포넌트 */}
           </div>
           <div id="portal-root"></div>
           <ReactQueryDevtools initialIsOpen={false} />

@@ -1,0 +1,39 @@
+.splashWrap {
+  position: fixed !important;
+  z-index: 9999999999999999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 39rem;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black; // 배경을 검정색으로 설정
+}
+
+.splash {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 3s ease-out forwards;
+
+  & > p {
+    color: var(--orange-400, #ff8533); // 오렌지색 텍스트
+    text-align: center;
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 20px; // 로고와 텍스트 간의 간격을 조정
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
