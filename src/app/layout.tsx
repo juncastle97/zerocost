@@ -87,7 +87,7 @@ export default function RootLayout({
               width: "100%",
               maxWidth: isAdminPage ? "none" : "39rem",
               height: "100vh",
-              backgroundColor: isAdminPage ? "white" : "black",
+              backgroundColor: isAdminPage ? "white" : "#1D1B1A",
               margin: "0 auto",
               overflow: "hidden",
             }}
