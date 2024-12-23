@@ -85,7 +85,7 @@ export default function RootLayout({
           <div
             style={{
               width: "100%",
-              maxWidth: isAdminPage ? "none" : "39rem",
+              // maxWidth: isAdminPage ? "none" : "39rem",
               height: "100vh",
               backgroundColor: isAdminPage ? "white" : "#1D1B1A",
               margin: "0 auto",

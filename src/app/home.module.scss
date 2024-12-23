@@ -1,5 +1,5 @@
 .mainWrap {
-  width: 100%;
+  width: 39rem;
   min-height: 100vh;
   height: 100%;
   display: flex;
@@ -7,6 +7,8 @@
   align-items: center;
   margin-top: -4.4rem;
   justify-content: center;
+  background-color: black;
+  margin: 0 auto;
 }
 .bottomGnb {
   position: fixed;
