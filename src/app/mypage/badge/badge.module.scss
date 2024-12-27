@@ -26,8 +26,11 @@
 }
 
 .container {
+  width: 39rem;
   overflow-y: auto;
   max-height: 100vh;
+  background-color: black;
+  margin: 0 auto;
 
   &::-webkit-scrollbar {
     display: none;
