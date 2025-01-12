@@ -70,4 +70,5 @@
 
 </br>
 
-## 🖥️ 주요 기능
+## 🖥️ 시연 영상
+https://github.com/user-attachments/assets/63903a6a-2917-4df1-b67d-13320e32e0bc
